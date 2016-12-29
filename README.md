@@ -58,4 +58,4 @@ Begin Again 再次出发
     - Special 程序员篇
 2. [VIM.png](http://sheet.shiar.nl/vi)
 
-![vi/vim cheat sheet](https://github.com/wikinee/BeginAgain/blob/master/Vim/VIM.png)
+![vi/vim cheat sheet](https://github.com/wikinee/note/blob/master/Vim/VIM.png)
