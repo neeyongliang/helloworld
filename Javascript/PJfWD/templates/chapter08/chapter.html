@@ -1,0 +1,20 @@
+{% extends "chapter08/base.html" %}
+{% block chapter_no %}08{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <h3>BOM</h3>
+    <ul style="font-size:18px;">本章内容
+        <li>理解window对象--BOM的核心</li>
+        <li>控制窗口,框架和弹出的窗口</li>
+        <li>利用location对象中的页面信息</li>
+        <li>使用navigator对象了解浏览器</li>
+    </ul>
+    <p>ECMAScript是JavaScript的和谐,但是如果要在Web中使用JavaScript,那么BOM(浏览器对象模型才是真正的核心.)</p>
+    <p>多年来,缺少事实上的规范导致 BOM 既有意思又有问题,因为浏览器提供商会按照各自的想法随意去扩展它。于是,浏览器之间共有的对象就成为了事实上的标准。这些对象在浏览器中得以
+存在,很大程度上是由于它们提供了与浏览器的互操作性。W3C 为了把浏览器中 JavaScript 最基本的部分标准化,已经将 BOM 的主要方面纳入了 HTML5 的规范中。</p>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

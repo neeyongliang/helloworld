@@ -1,0 +1,21 @@
+{% extends "chapter09/base.html" %}
+{% block chapter_no %}09{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>本章内容</h3>
+        <ul style="font-size: 18px;">
+            <li>使用能力检测</li>
+            <li>用户代理检测的历史</li>
+            <li>选择检测方式</li>
+        </ul>
+        <p>检测 Web 客户端的手段很多,而且各有利弊。但最重要的还是要知道,不到万不得已,就不要使
+用客户端检测。只要能找到更通用的方法,就应该优先采用更通用的方法。一言以蔽之,先设计最通用
+的方案,然后再使用特定于浏览器的技术增强该方案。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

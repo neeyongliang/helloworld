@@ -1,0 +1,292 @@
+{% extends "chapter14/base.html" %}
+{% block chapter_no %}14{% endblock %}
+{% block exercise_no %}02{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+  <div class="right">
+    <div id="0">
+        <h3>文本框脚本</h3>
+        <p>在 HTML 中,有两种方式来表现文本框:一种是使用 <\input> 元素的单行文本框,另一种是使用<\textarea> 的多行文本框,不能在 HTML 中给 <\textarea> 指定最大字符数。</p>
+        <pre><code>
+            <\input type="text" size="25" maxlength="50" value="initial value">
+            //最多显示25个, 最长接收50个
+
+            <\textarea rows="25" cols="5">initial value<\/textarea>
+
+            var textbox = document.forms[0].elements["textbox1"];
+            textbox.value; //查询
+
+            textbox.value = "Some new value";
+        </code></pre>
+        <p>对 value 属性所作的修改,不一定会反映在 DOM 中。不要使用 setAttribute() 设置 <\input> 元素的 value 特性,也不要去修改 <\textarea>元素的第一个子节点。</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>2.1 选择文本</h4>
+        <p>上述两种文本框都支持 select() 方法,这个方法用于选择文本框中的所有文本。</p>
+        <p>A. 选择（select）事件</p>
+        <p>与 select() 方法对应的,是一个 select 事件。在选择了文本框中的文本时,就会触发 select事件。另外,在调用 select() 方法时也会触发 select 事件。</p>
+        <p><span class="ext">SelectEventExample01.htm</span></p>
+        <pre><code>
+            var textbox = document.form[0].elements["textbox1"];
+            EventUtil.addHandler(textbox, "select", function(event) {
+                var alert("Text selected" + textbox.value);
+            })
+        </code></pre>
+        <p>B. 取得选择的文本</p>
+        <p>HTML5通过一些扩展方案解决了这个问题，以便更加顺利的选择文本。增加了两个属性：selectionStar和selectionEnd.IE8之前,不支持document.selection对象,其中保存着用户在整个文档范围内选择的文本信息;也就是说,无法确定用户选择的是页面中哪个部位的文本。可以假定是用户选择了文本框中的文本,而触发了该事件。要取得选择的文本,首先必须创建一个范围,然后再将文本从其中提取出来.</p>
+        <pre><code>
+            function getSelectedText(textbox) {
+                return textbox.value.substring(textbox.selectionStart, textbox.selectionEnd);
+            }
+
+            function getSelectedText(textbox) {
+                if (typeof textbox.selectionStart == "number" ) {
+                    return textbox.value.substring(textbox.selectionStart, textbox.selectionEnd);
+                } else if (document.selection) {
+                    return document.selection.createRange().text;
+                }
+            }
+        </code></pre>
+        <p><span class="epd">注意</span>:注意,调用 document.selection时,不需要考虑 textbox 参数。</p>
+        <p>C. 选择部分文本</p>
+        <p>现在除 select() 方法之外,所有文本框都有一个 setSelectionRange()
+方法。这个方法接收两个参数:要选择的第一个字符的索引和要选择的最后一个字符之后的字符的索引(类似于 substring() 方法的两个参数).跨浏览器方案:</p>
+        <p><span class="ext">TextboxPartialSelectionExample01.htm</span></p>
+        <pre><code>
+            function selectText(textbox, startIndex, stopIndex) {
+                if (textbox.setSelectionRange) {
+                    textbox.setSelectionRange(startIndex, stopIndex);
+                } else if (textbox.createTextRange) {
+                    //IE8以及之前
+                    //创建范围
+                    var range = textbox.createTextRange();
+
+                    //将范围折叠到文本框开始位置
+                    range.collapse(true);
+
+                    //设置开始与结束
+                    range.moveStart("character", startIndex);
+                    range.moveEnd("character", stopIndex - startIndex);
+                    range.select();
+                }
+                textbox.focus();
+            }
+
+            selectText(textbox, 0, textbox.value.length); //"Hello world!"
+            selectText(textbox, 0, 3); //"Hel"
+            selectText(textbox, 4, 7); //"o w"
+        </code></pre>
+        <p>这个 selectText() 函数接收三个参数:要操作的文本框、要选择文本中第一个字符的索引和要选
+择文本中最后一个字符之后的索引。首先,函数测试了文本框是否包含 setSelectionRange() 方法。
+如果有,则使用该方法。否则,检测文本框是否支持 createTextRange() 方法。如果支持,则通过创
+建范围来实现选择。最后一步,就是为文本框设置焦点,以便用户看到文本框中选择的文本。</p>
+        <p>选择部分文本的技术在实现高级文本输入框时很有用,例如提供自动完成建议的文本框就可以使用
+这种技术。</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>2.2 过滤输入</h4>
+        <p>由于文本框在默认情况下没有提供多少验证数据的手段,因此必须使用JavaScript 来完成此类过滤输入的操作。综合运用事件和 DOM 手段,就可以将普通的文本框转换成能
+够理解用户输入数据的功能型控件。</p>
+        <p>A. 屏蔽字段</p>
+        <p><span class="ext">TextboxInputFilteringExample01.htm</span></p>
+        <pre><code>
+            // 屏蔽按键
+            EventUtil.addHandler(textbox, "keypress" , function(event) {
+                event = EventUtil.getEvent(event);
+                EventUtil.preventDefault(event);
+            });
+
+            //屏蔽非数字
+            EventUtil.addHandler(textbox, "keypress", function(event) {
+                event = EventUtil.getEvent(event);
+                var target = EventUtil.getTarget(event);
+                var charCode = EventUtil.getCharCode(event);
+
+                if(!/\d/.text(String.fromCharCode(charCode)) && charCode > 9 && !event.ctrlKey) {
+                    EventUtil.preventDefault(event);
+                }
+            });
+        </code></pre>
+        <p>B. 操作剪贴板</p>
+        <p>HTML5规定了6个剪贴板事件.</p>
+        <ul>
+            <li>beforecopy: 在发生复制操作前触发</li>
+            <li>copy: 在发生复制时触发</li>
+            <li>beforecut: 在发生剪切操作前触发</li>
+            <li>cut: 在发生剪切时触发</li>
+            <li>beforepaste: 在发生粘贴操作前触发</li>
+            <li>paste: 在发生粘贴操作时触发.</li>
+        </ul>
+        <p><span class="ext">TextboxClipboardExample01.htm</span></p>
+        <pre><code>
+            EventUtil.addHandler(text, "paste", function(event) {
+                event = EventUtil.getEvent(event);
+                var text = EvenUtil.getClipboardText(event);
+
+                if (!/^d*$/.test(text)) {
+                    EventUtil.preventDefault(event);
+                }
+            })
+        </code></pre>
+        <br>
+    </div>
+    <div id="3">
+        <h4>2.3 自动切换焦点</h4>
+        <p><span class="ext">TextboxTabForwardExample01.htm</span></p>
+        <pre><code>
+        <\input type="text" name="tel1" id="txtTel1" maxlength="3">
+        <\input type="text" name="tel2" id="txtTel2" maxlength="3">
+        <\input type="text" name="tel3" id="txtTel3" maxlength="4">
+
+            (function() {
+                function tabForward(event) {
+                    event = EventUtil.getEvent(event);
+                    var target = EventUtil.getTarget(event);
+
+                    if (target.value.length == target.maxLength) {
+                        var form = target.form;
+
+                        for (var i=0, len=form.elements.length; i < len; i++) {
+                            if (form.elements[i] == target) {
+                                if (form.elements[i+1]) {
+                                    form.element[i+1].focus();
+                                }
+                                return
+                            }
+                        }
+                    }
+                }
+
+                var textbox1 = document.getElementById("txtTel1");
+                var textbox2 = document.getElementById("txtTel2");
+                var textbox3 = document.getElementById("txtTel3");
+
+                EventUtil.addHandler(textbox1, "keyup", tabForward);
+                EventUtil.addHandler(textbox2, "keyup", tabForward);
+                EventUtil.addHandler(textbox3, "keyup", tabForward);
+            })();
+        </code></pre>
+        <br>
+    </div>
+    <div id="4">
+        <h4>2.4 HTML5约束验证API</h4>
+        <p>就是要在 HTML 标记中为特定的字段指定一些约束,然后浏览器才会自动执行表单验证。</p>
+        <p>A. 必填字段</p>
+        <pre><code>
+            //HTML方法
+            <\input type="text" name="username" required>
+
+            //JS方法
+            var isUsernameRequired = document.form[0].elements["username"].required;
+
+            //检测浏览器是否支持required属性
+            var isRequiredSupported = "required" in document.createElement("input");
+        </code></pre>
+        <p>B. 其他输入类型</p>
+        <p>HTML5为type属性又增加了几个类型.其中,email和url是最受欢迎的.旧版浏览器会将不支持的类型自动设置成text类型,可以用下面的方法检测是否支持新标准.</p>
+        <p><span class="ext"></span></p>
+        <pre><code>
+            <\input type="email" name="email">
+            <\input type="url" name="homepage">
+
+            //JS中创建一个input,然后设置type属性,最后检测
+            var input = document.createElement("input");
+            input.type = "email";
+
+            var isEmailSupported = (input.type == "email");
+        </code></pre>
+        <p><span class="epd">注意</span>:如果不给 <input> 元素设置 required 属性,那么空文本框也会验证通过。另一方面,
+设置特定的输入类型并不能阻止用户输入无效的值,只是应用某些默认的验证而已。</p>
+        <p>C. 数值范围</p>
+        <p>除了email和url,HTML5还定义了其他几个输入元素.例如number,range,datetime,datetime-local,date,month,week和time.</p>
+        <p>对于这些数值元素可以设置最大值max,最小值min,以及步长step.还有两个方法:setUp()和setDown()都可以接收一个参数或空参数.默认变化1</p>
+        <pre><code>
+            <\input type="number" min="0" max="100" name="count">
+            input.setUp(); //加1
+            input.setDown(10); // 减10
+        </code></pre>
+        <p>D. 输入模式</p>
+        <p>HTML5中为文本字段新增了pattern属性.这个属性的值是一个正则表达式,用于匹配文本框中的值.模式的开头和末尾不用加^和$符号(假定已经有了)。这两个符号表示输入的值必须从头到尾都与模式匹配。</p>
+        <pre><code>
+            //HTML方法
+            <\input type="text" pattern="\d+" name="count">
+
+            //JS方法
+            var pattern = document.form[0].elements["count"].pattern;
+
+            //检测浏览器支持
+            var isPatternSupported = "pattern" in document.createElement("input");
+        </code></pre>
+        <p>E. 检测有效性</p>
+        <p>使用 checkValidity() 方法可以检测表单中的某个字段是否有效。与 checkValidity() 方法简单地告诉你字段是否有效相比, validity 属性则会告诉你为什么字
+段有效或无效。这个对象中包含一系列属性,每个属性会返回一个布尔值。</p>
+        <ul>
+            <li>customError: 如果设置了 setCustomValidity() ,则为 true ,否则返回 false 。</li>
+            <li>patternMismatch :如果值与指定的 pattern 属性不匹配,返回 true 。</li>
+            <li>rangeOverflow :如果值比 max 值大,返回 true 。</li>
+            <li>rangeUnderflow :如果值比 min 值小,返回 true 。</li>
+            <li>stepMisMatch :如果 min 和 max 之间的步长值不合理,返回 true 。</li>
+            <li>tooLong :如果值的长度超过了 maxlength 属性指定的长度,返回 true 。有的浏览器(如 Firefox 4)会自动约束字符数量,因此这个值可能永远都返回 false 。</li>
+            <li>typeMismatch :如果值不是 "mail" 或 "url" 要求的格式,返回 true 。</li>
+            <li>valid :如果这里的其他属性都是 false ,返回 true 。 checkValidity() 也要求相同的值。</li>
+            <li>valueMissing :如果标注为 required 的字段中没有值,返回 true 。</li>
+        </ul>
+        <pre><code>
+            //检测单条表单
+            if (document.form[0].elements[0].checkValidity()) {
+                //字段有效, 继续
+            } else {
+                //字段无效
+            }
+
+            //检测整个表单
+            if (document.form[0].checkValidity()) {
+                //表单有效, 继续
+            } else {
+                //表单无效
+            }
+
+            // validity
+            if (input.validity && !input.validity.valid) {
+                if (input.validity.valueMissing) {
+                    alert ("Please specify a value.");
+                } else if (input.validity.typeMismatch) {
+                    alert("Please enter an email address");
+                } else {
+                    alert("value is invalid");
+                }
+            }
+        </code></pre>
+
+        <p>F. 禁用验证</p>
+        <p>form表单的novalide属性可以不对表单进行验证，如果一个表单中有多个提交按钮,为了指定点击某个提交按钮不必验证表单,可以在相应的按钮上添加 formnovalidate 属性。</p>
+        <pre><code>
+            //HTML方法
+            <\form method="post" action="signup.php" novalidate>
+                <\!-- 这里插入表单元素 -->
+            <\/form>
+
+            //JS方法
+            document.form[0].noValidate = true; //禁用验证
+
+            //多个提交
+            //HTML方法
+            <\form method="post" action="foo.php">
+                <\!-- 插入表单元素 -->
+                <\input type="submit" value="Regular Submit">
+                <\input type="submit" formnovalidate name="btnNoValidate" value="Non-validating Submit">
+            <\/form>
+
+            //JS方法
+            document.form[0].elements["btnNoValidate"].formNoValidate = true;
+        </code></pre>
+     <br>
+    </div>
+  </div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

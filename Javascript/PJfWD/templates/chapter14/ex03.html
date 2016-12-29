@@ -1,0 +1,154 @@
+{% extends "chapter14/base.html" %}
+{% block chapter_no %}14{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>选择框脚本</h3>
+        <p>选择框是通过 <\select> 和 <\option> 元素创建的。为了方便与这个控件交互,除了所有表单字段共
+有的属性和方法外, HTMLSelectElement 类型还提供了下列属性和方法。</p>
+        <ul>
+            <li>add(newOption, relOption): 在相关选项relOption之前加入newOption</li>
+            <li>multiple: 控件中所有option元素的HTMLCollection</li>
+            <li>remove(index): 移除给定位置选项</li>
+            <li>selectedIndex: 基于0选项的索引,空选返回-1,多选返回第一个.</li>
+            <li>size: 选择框中的可见行数; 等价于HTML中的size特性.</li>
+            <li>index: 当前选项在options集合中的索引.</li>
+            <li>label: 当前选项的标签;等价于HTML的label特性.</li>
+            <li>selected: 布尔值,表示是否被选中.</li>
+            <li>text: 选项的文本</li>
+            <li>value: 选项的值;等价于HTML中的value特性.</li>
+        </ul>
+        <pre><code>
+            <\select name="location" id="selLocation">
+                <\option value="Sunnyvale, CA">Sunnyvale<\/option>
+                <\option value="Los Angeles, CA">Los Angeles<\/option>
+                <\option value="">Mountain View<\/option>
+                <\option value="">China<\/option>
+                <\option>Australia<\/option>
+            <\/select>
+        </code></pre>
+        <p>如果选第一项,选择框的值是"Sunnyvale, CA";选China,文本框的值是空;选最好一项,选择框的值就是Australia.其中大部分属性的目的,都是为了方便对选项数据的访问。虽然也可以使用常规的 DOM 功能来访问这些信息,但效率是比较低的.</p>
+        <pre><code>
+            var selectbox = document.forms[0].elements["location"];
+
+            //DOM方法(不推荐)
+            var text =selectbox.options[0].firstChild.nodeValue;
+            var value = selectbox.options[0].getAttribute("value");
+
+            //属性方法(推荐)
+            var text = selectbox.options[0].text
+            var value = selectbox.options[0].value;
+        </code></pre>
+        <p>在操作选项时,我们建议最好是使用特定于选项的属性,因为所有浏览器都支持这些属性。不推荐使用标准 DOM 技术
+修改 <option> 元素的文本或者值。</p>
+        <p><span class="epd">注意</span>:选择框的 change 事件与其他表单字段的 change 事件触发的条件不一样。其他表单字段的 change 事件是在值被修改且焦点离开当前字段时触发,而选择框的change 事件只要选中了选项就会触发。</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>3.1 选择选项</h4>
+        <p>对于只允许选择一项的选择框,访问选中的项最简单的方式,就是使用选择框的selectedIndex属性:</p>
+        <p><span class="ext">SelectboxExample01.htm</span></p>
+        <pre><code>
+            var selectedIndex = selectbox.selectedIndex;
+            var selectedOption = selectbox.options[selectedIndex];
+            alert("SelectOption Index: " + selectedIndex + "\nSelected text: "+selectedOption.text + "\nSelect value: "+selectOption.value);
+        </code></pre>
+        <p>selectedIndex 会导致取消以前的所有选项并选择指定的那一项,而读取 selectedIndex 则只会返回选中项中第一项的索引值。另一种选择选项的方式,就是取得对某一项的引用,然后将其 selected 属性设置为 true 。需要注意的是,将 selected 属性设置为 false 对单选选择框没有影响。</p>
+        <p><span class="ext">SelecboxExample03.htm</span></p>
+        <pre><code>
+            function getSelectedOptions(selectbox) {
+                var result = new Array();
+                var option = null;
+
+                for (var i=0, len=selectbox.options.length; i < len; i++) {
+                    option = selectbox.options[i];
+                    if (option.selected) {
+                        result.push(option);
+                    }
+                }
+                return result;
+            }
+
+            var selectbox = document.getElementById("selLocation");
+            var selectedOptions = getSelectedOptions(selectbox);
+            var message = "";
+
+            for (var i=0, len=selectedOptions.length; i < len; i++) {
+                message += "Selected index: " + selectedOptions[i].index +
+                "\nSelected text: " + selecteOptions[i].text +
+                "\nSelected value: " + selectedOptions[i].value + "\n\n"
+            }
+
+            alert(message);
+        </code></pre>
+        <p>在这个例子中,首先从一个选择框中取得了选中项。然后,使用 for 循环构建了一条消息,包
+含所有选中项的信息:每一项的索引、文本和值。这种技术适用于单选和多选选择框。</p>
+    </div>
+    <div id="2">
+        <h4>3.2 添加选项</h4>
+        <p>添加选项的方式有很多,第一种方式就是使用如下所示的 DOM 方法。</p>
+        <p><span class="ext">SelectboxExample04.htm</span></p>
+        <pre><code>
+            //option
+            var newOption = document.createElement("option");
+
+            //option->text
+            newOption.appendChild(document.createTextNode("Option text"));
+
+            //option(value,)->text
+            newOption.setAttribute("value", "Option value");
+
+            //select->option(value,)->text
+            selectbox.appendChild(newOption);
+        </code></pre>
+        <p>方式二是使用Option构造函数,接受两个参数:文本(text)和值(value);第二个参数可选.</p>
+        <pre><code>
+            var newOption = new Option("Option text", "Option value");
+            selectbox.appendChild(newOption); //在IE8及之前版本中有问题.
+        </code></pre>
+        <p>方式三是使用选择框的add()方法.接收两个参数:要添加的新选项和将位于新选项之后的选项.如果想在列表最后一个地方添加,第二个参数设为null.在IE中第二个参数可选,但是兼容DOM浏览器第二个参数必选.</p>
+        <p><span class="ext">SelectboxExample04.htm</span></p>
+        <pre><code>
+            var newOption = new Option("Option text", "Option value");
+            selectbox.add(newOption, undefined); //最佳方案
+        </code></pre>
+        <p>在 IE 和兼容 DOM 的浏览器中,上面的代码都可以正常使用。如果你想将新选项添加到其他位置(不
+是最后一个),就应该使用标准的 DOM 技术和 insertBefore() 方法。</p>
+    </div>
+    <div id="3">
+        <h4>3.3 移除选项</h4>
+        <p>有下列三种方法:</p>
+        <ul>
+            <li>使用DOM的removeChild()方法.</li>
+            <li>使用选择框的remove()方法</li>
+            <li>将相应的选项设置为null.(这是DOM出现之前的浏览器遗留机制.)</li>
+        </ul>
+        <pre><code>
+            //DOM方法
+            selectbox.removeChild(selectbox.option[0]);
+
+            //remove()方法
+            selectbox.remove(0);
+
+            //遗留方法
+            selectbox.options[0] = null;
+
+            //移除多项
+            function clearSelectbox(selectbox) {
+                for (var i=0, len=selectbox.options.length; i < len; i++) {
+                    selectbox.remove(i);
+                }
+            }
+        </code></pre>
+    </div>
+    <div id="4">
+        <h4>3.4 移动和重拍选项</h4>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

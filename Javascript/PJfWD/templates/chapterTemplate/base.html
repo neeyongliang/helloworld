@@ -1,0 +1,33 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link REL="SHORTCUT ICON" HREF="{% static 'images/favicon.ico' %}">
+  <link href="/static/css/mycss.css" rel="stylesheet" type="text/css">
+  <script src="/static/js/basic/jquery-2.1.4.js"></script>
+  <script src="/static/js/basic/bootstrap.min.js"></script>
+  <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Ch{% block chapter_no %}{% endblock %}ex{% block exercise_no %}{% endblock %}</title>
+</head>
+<body>
+    <noscript><h2>本页面需要浏览器支持(启用)JavaScript。</h2></noscript>
+    {% block mycss %}{% endblock %}
+<div id="main" style="margin-left: 40px;">
+  <div id="top">
+    <h3>Chapter </h3>
+    <!-- <p>you can check exercise by url like 'localhost:port/ch{\d2}/ex{\d2}'</p> -->
+  </div>
+  <div style="float:left;width:170px;">
+    {% block left %}
+      {% include 'chapter1X/left.html' %}
+    {% endblock %}
+  </div>
+  <div style="float:left;">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+  {% block myjs %}{% endblock %}
+</body>
+</html>

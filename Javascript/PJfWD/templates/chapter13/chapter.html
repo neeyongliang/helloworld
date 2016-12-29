@@ -1,0 +1,22 @@
+{% extends "chapter13/base.html" %}
+{% block chapter_no %}13{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>本章内容</h3>
+        <ul style="font-size: 18px;">
+            <li>理解事件流</li>
+            <li>使用事件处理程序</li>
+            <li>不同的事件类型</li>
+        </ul>
+        <p>JavaScript 与 HTML 之间的交互是通过事件实现的。事件,就是文档或浏览器窗口中发生的一些特定的交互瞬间。可以使用侦听器(或处理程序)来预订事件,以便事件发生时执行相应的代
+码。这种在传统软件工程中被称为观察员模式的模型,支持页面的行为(JavaScript 代码)与页面的外观(HTML 和 CSS 代码)之间的松散耦合。</p>
+        <p>随着 DOM3 级的出现,增强后的 DOM 事件 API 变得更加繁琐。使用事件有时相对简单,
+有时则非常复杂,难易程度会因你的需求而不同。不过,有关事件的一些核心概念是一定要理解的。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

@@ -1,0 +1,2 @@
+// dose the platform provide pow function?
+#cmakedefine HAVE_POW

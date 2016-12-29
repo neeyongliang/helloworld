@@ -1,0 +1,99 @@
+{% extends "chapter17/base.html" %}
+{% block chapter_no %}17{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>调试技术</h3>
+        <p>在不那么容易找到 JavaScript 调试程序的年代,开发人员不得不发挥自己的创造力,通过各种方法来调试自己的代码。结果,就出现了以这样或那样的方式置入代码,而输出调试信息的做法。如今,已经有了很多更好的调试工具,因此我们也不再建议在调试中使用 alert() 了。</p>
+    </div>
+    <div id="1">
+        <h4>3.1 将消息记录到控制台</h4>
+        <p>IE8、Firefox、Opera、Chrome 和 Safari 都有 JavaScript 控制台,可以用来查看 JavaScript 错误。在这些 浏览器中, 都可以通过代码向控制台输出消息 。对 IE8、Firefox、Chrome 和 Safari 来说,则可以通过 console 对象向 JavaScript 控制台中写入消息,这个对象具有下列方法。</p>
+        <ul>
+            <li>error(message) :将错误消息记录到控制台</li>
+            <li>info(message) :将信息性消息记录到控制台</li>
+            <li>log(message) :将一般消息记录到控制台</li>
+            <li>warn(message) :将警告消息记录到控制台</li>
+        </ul>
+        <pre><code>
+            function sum(num1, num2) {
+                console.log("Entering sum(), arguments are" + num1 + "," + num2);
+
+                console.log("Before calculation");
+                var result = num1 + num2;
+                console.log("After calculation");
+
+                console.log("Exiting sum()");
+                return result;
+            }
+        </code></pre>
+        <p>如果系统设置恰当,可以在调用 LiveConnect 时就立即显示 Java 控制台。在 Firefox 中,通过“Tools”(工具)菜单可以打开 Java 控制台;在 Opera 中,要打开 Java 控制台,可以选择菜单“Tools”(工具)及“Advanced”(高级)。Safari 没有内置对 Java控制台的支持,必须单独运行。</p>
+        <p>不存在一种跨浏览器向 JavaScript 控制台写入消息的机制,下面的函数倒可以作为统一的接口。</p>
+        <p><span class="ext">ConsoleLoggingExample01.htm</span></p>
+        <pre><code>
+            function log(message) {
+                if (typeof console == "object") {
+                    console.log(message);
+                } else if (typeof opera == "object") {
+                    opera.postError(message);
+                } else if (typeof java == "object" && typeof java.lang == "object") {
+                    java.lang.System.out.println(message);
+                }
+            }
+        </code></pre>
+    </div>
+    <div id="2">
+        <h4>3.2 将消息记录到当前页面</h4>
+        <p>另一种输出调试消息的方式,就是在页面中开辟一小块区域,用以显示消息。这个区域通常是一个元素,而该元素可以总是出现再页面中,但仅用于调试目的;也可以是一个根据需要动态创建的元素.</p>
+        <p>重写log()函数:</p>
+        <p><span class="ext">PageLoggingExample01.htm</span></p>
+        <pre><code>
+            function log(message) {
+                var console = document.getElementById("debuginfo");
+                if (console === null) {
+                    console = document.createElement("div");
+                    console.id = "debuginfo";
+                    console.style.background = "#dedede";
+                    console.style.border = "1px solid silver";
+                    console.style.padding = "5px";
+                    console.style.width = "400px";
+                    console.style.position = "absolute";
+                    console.style.right = "0px";
+                    console.style.top = "0px";
+                    document.body.appendChild(console);
+                }
+                console.innerHTML += "<\p>" + message + "<\/p>"
+             }
+        </code></pre>
+        <p>与把错误消息记录到控制台相似,<span class="dsp">把错误消息输出到页面的代码也要在发布前删除</span>.</p>
+    </div>
+    <div id="3">
+        <h4>3.3 抛出错误</h4>
+        <p>对于大型应用程序来说,自定义的错误通常都使用 assert() 函数抛出。这个函数接受两个参数,一个是求值结果应该为 true 的条件,另一个是条件为 false 时要抛出的错误。</p>
+        <p><span class="ext">AssertExample01.htm</span></p>
+        <pre><code>
+        //Assert 模板
+            function assert (condition, message) {
+                if (!condition) {
+                    throw new Error (message);
+                }
+            }
+
+        //assert()用法
+        function divide(num1, num2) {
+            assert(typeof num1 == "number" && typeof num2 == "number", "divide(): Both argument must be numbers.");
+            return num1/num2;
+        }
+        </code></pre>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

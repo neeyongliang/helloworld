@@ -1,0 +1,109 @@
+{% extends "chapter13/base.html" %}
+{% block chapter_no %}13{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>事件对象</h3>
+        <p>在触发 DOM 上的某个事件时,会产生一个事件对象 event ,这个对象中包含着所有与事件有关的
+信息。包括导致事件的元素、事件的类型以及其他与特定事件相关的信息。</p>
+    </div>
+    <div id="1">
+        <h4>3.1 DOM中的事件对象</h4>
+        <p>兼容 DOM 的浏览器会将一个 event 对象传入到事件处理程序中。无论指定事件处理程序时使用什
+么方法(DOM0 级或 DOM2 级),都会传入 event 对象。</p>
+        <p>在通过 HTML 特性指定事件处理程序时,变量 event 中保存着 event 对象。</p>
+        <p><span class="ext">DOMEventObjectExample03.htm</span></p>
+        <pre><code>
+            var btn = document.getElementById("myBtn");
+            var handler = function(event) {
+                switch(event.type) {
+                    case "click":
+                        alert("Clicked");
+                        break;
+                    case "mouseover":
+                        event.target.style.backgroundColor = "red";
+                        break;
+                    case "mouseout":
+                        event.target.style.backgroundColor = "";
+                        break;
+                }
+            };
+
+            btn.onclick = handler;
+            btn.mouseover = handler;
+            btn.mouseout = handler;
+        </code></pre>
+        <p>这里通过检测 event.type属性,让函数能够确定发生了什么事件,并执行相应的操作。要阻止特定事件的默认行为,可以使用 preventDefault() 方法。
+            另外, stopPropagation() 方法用于立即停止事件在 DOM 层次中的传播,即取消进一步的事件捕获或冒泡。</p>
+        <p><span class="ext">DOMEventObjectExample04.htm</span></p>
+        <pre><code>
+            var link = document.getElementById("myLink");
+            link.onclick = function(event) {
+                event.preventDefault();
+            };
+
+            //-----------------------------------------------
+            var btn = document.getElementById("myBtn");
+            btn.onclick = function(event) {
+                alert("Clicked");
+                event.stopPropagation();
+            };
+
+            document.body.onclick = function(event) {
+                alert("Body clicked");
+            };
+        </code></pre>
+    </div>
+    <div id="2">
+        <h4>3.2 IE中的事件对象</h4>
+    </div>
+    <div id="3">
+        <h4>3.3 跨浏览器的事件对象</h4>
+        <p>虽然 DOM 和 IE 中的 event 对象不同,但基于它们之间的相似性依旧可以拿出跨浏览器的方案来。
+IE 中 event 对象的全部信息和方法 DOM 对象中都有,只不过实现方式不一样。</p>
+        <p><span class="ext">EventUitl.js</span></p>
+        <pre><code>
+            var EventUtil = {
+                addHandler: function(element, type, handler) {
+                    //省略代码
+                },
+
+                getEvent: function(event) {
+                    return event? event : window.event;
+                },
+
+                getTarget: function(event) {
+                    return event.target || event.srcElement;
+                };
+
+                preventDefault: function(event) {
+                    if (event.preventDefault) {
+                        event.preventDefault();
+                    } else {
+                        event.returnValue = false;
+                    }
+                },
+
+                removeHandler: function(element, type, handler) {
+                    //省略代码
+                },
+
+                stopPropagation: function(event) {
+                    if (event.stopPropagation) {
+                        event.stopPropagation();
+                    } else {
+                        event.cancelBubble = true;
+                    }
+                }
+            };
+        </code></pre>
+        <p>别忘了由于 IE 不支持事件捕获,因此这个方法在跨浏览器的情况下,也只能用来阻止事件冒泡。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

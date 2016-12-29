@@ -1,0 +1,127 @@
+{% extends "chapter13/base.html" %}
+{% block chapter_no %}13{% endblock %}
+{% block exercise_no %}04{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+  <div id="0">
+    <h3>类型事件</h3>
+    <p>Web浏览器中可能发生的事件有很多类型.</p>
+    <ul>
+      <li>UI(User Interface,用户界面)事件,当用户与页面上的元素交互时触发;</li>
+      <li>焦点事件,当元素获得或失去焦点时触发;</li>
+      <li>鼠标事件,当用户通过鼠标在页面上执行操作时触发;</li>
+      <li>滚轮事件,当使用鼠标滚轮(或类似设备)时触发;</li>
+      <li>文本事件,当在文档中输入文本时触发;</li>
+      <li>键盘事件,当用户通过键盘在页面上执行操作时触发;</li>
+      <li>合成事件,当为 IME(Input Method Editor,输入法编辑器)输入字符时触发;</li>
+      <li>变动(mutation)事件,当底层 DOM 结构发生变化时触发。</li>
+      <li><del>变动名称事件,当元素或属性名变动时触发</del>。此类事件已经被废弃,没有任何浏览器实现它们,因此本章不做介绍。</li>
+    </ul>
+  </div>
+    <br>
+  <div id="1">
+    <h4>4.1 UI事件</h4>
+    <p>现有UI事件有:DOMActive, load, unload, abort, error, select, resize, scroll.如下代码可以确定浏览器是否支持DOM3级事件.</p>
+    <pre><code>
+        var isSupported = document.implementation.hasFeature("UIEvent", "3.0");
+    </code></pre>
+    <ul>
+        <li>A. load事件</li>
+        <p>lod指的是加载完成后的状态.有两种定义onload的方式:一是增加onload属性,二是使用js代码(推荐)</p>
+        <p><span class="ext">LoadEventExample05.htm</span></p>
+        <pre><code>
+            EventUtil.addHandler(window, "load", function(event) {
+                var image = document.createElement("img");
+                EventUtil.addHandler(image, "load", function(event) {
+                    event = EventUtil.getEvent(event);
+                    alert(EventUtil.getTarget(event).src);
+                });
+                document.body.appendChild(image);
+                image.src = "simle.gif";
+            });
+            //新图像元素不一定要从添加到文档后才开始下载,只要设置了 src 属性就会开始下载
+        </code></pre>
+        <li>B. unload事件</li>
+        <li>C. resize事件</li>
+        <p>浏览器窗口最小化或最大化时也会触发 resize 事件。</p>
+        <li>D. scroll事件</li>
+        <p><span class="ext">ScrollEventExample01.htm</span></p>
+        <pre><code>
+            EventUtil.addHandler(window, "scroll", function(event) {
+                if (document.compatMode == "CSS1Compat") {
+                    alert(document.documentElement.scrollTop);
+                } else {
+                    alert(document.body.scrollTop);
+                }
+            });
+        </code></pre>
+    </ul>
+    <p><span class="ext"></span></p>
+    <pre><code></code></pre>
+  </div>
+  <div id="2">
+    <h4>4.2 焦点事件</h4>
+    <p>焦点事件会在页面元素获得或失去焦点时触发。利用这些事件并与 document.hasFocus() 方法及
+document.activeElement 属性配合,可以知晓用户在页面上的行踪。</p>
+    <li>
+        <li>blur :在元素失去焦点时触发。这个事件不会冒泡;所有浏览器都支持它。</li>
+        <li>DOMFocusIn :在元素获得焦点时触发。</li>
+        <li>DOMFocusOut :在元素失去焦点时触发。</li>
+        <li>focus :在元素获得焦点时触发。</li>
+        <li>focusin :在元素获得焦点时触发。</li>
+        <li>focusout :在元素失去焦点时触发。</li>
+    </li>
+  </div>
+  <div id="3">
+    <h4>4.3 鼠标事件</h4>
+  </div>
+  <div id="4">
+    <h4>4.4 键盘与文本事件</h4>
+    <ul>
+        <li>keydown :当用户按下键盘上的任意键时触发,而且如果按住不放的话,会重复触发此事件。</li>
+        <li>keypress :当用户按下键盘上的字符键时触发,而且如果按住不放的话,会重复触发此事件。</li>
+        <li>keyup :当用户释放键盘上的键时触发。</li>
+    </ul>
+  </div>
+  <div id="5">
+    <h4>4.5 复合事件</h4>
+  </div>
+  <div id="6">
+    <h4>4.6 变动事件</h4>
+    <ul>
+        <li>删除节点</li>
+        <p>removeChild() 或 replaceChild() 从 DOM 中删除节点时,首先会触发 DOMNodeRemoved
+事件。</p>
+        <li>插入节点</li>
+        <p>appendChild() 、 replaceChild() 或 insertBefore() 向 DOM 中插入节点时,首先会
+触发 DOMNodeInserted 事件。</p>
+    </ul>
+  </div>
+  <div id="7">
+    <h4>HTML5 事件</h4>
+    <p>contextmenu 事件</p>
+    <p>beforeunload 事件</p>
+    <p>DOMContentLoaded 事件</p>
+    <p>readystatechange 事件</p>
+    <p>pageshow 和 pagehide 事件</p>
+    <p>hashchange 事件</p>
+  </div>
+  <div id="8">
+    <h4>4.8 设备事件</h4>
+    <p>orientationchange 事件</p>
+    <p>MozOrientation 事件</p>
+    <p>deviceorientation 事件</p>
+    <p>devicemotion 事件</p>
+  </div>
+  <div id="9">
+      <h4>触摸与手势事件</h4>
+      <p>触摸事件</p>
+      <p>手势事件</p>
+  </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

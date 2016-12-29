@@ -1,0 +1,173 @@
+{% extends "chapter16/base.html" %}
+{% block chapter_no %}16{% endblock %}
+{% block exercise_no %}02{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>原生拖放</h3>
+        <p>说到拖放,最有意思的恐怕就是能够在框架间、窗口间,甚至在应用间拖放网页元素了。浏览器对
+拖放的支持为实现这些功能提供了便利。</p>
+    </div>
+    <div id="1">
+        <h4>2.1 拖放事件</h4>
+        <p>通过拖放事件,可以控制拖放相关的各个方面。其中最关键的地方在于确定哪里发生了拖放事件,
+有些事件是在被拖动的元素上触发的,而有些事件是在放置目标上触发的。拖动某元素时,将依次触发
+下列事件:</p>
+        <p>dragStart->drag->dragEnd</p>
+        <p>按下鼠标键并开始移动鼠标时,会在被拖放的元素上触发 dragstart 事件。此时光标变成“不能放”
+符号(圆环中有一条反斜线),表示不能把元素放到自己上面。拖动开始时,可以通过 ondragstart
+事件处理程序来运行 JavaScript 代码。</p>
+<p>触发 dragstart 事件后,随即会触发 drag 事件,而且在元素被拖动期间会持续触发该事件。这个事件与 mousemove 事件相似,在鼠标移动过程中, mousemove 事件也会持续发生。当拖动停止时(无论是把元素放到了有效的放置目标,还是放到了无效的放置目标上),会触发 dragend 事件。当某个元素被拖动到一个有效的放置目标上时,下列事件会依次发生:</p>
+        <p>dragenter->dragover->dragleave或者drop</p>
+        <br>
+     </div>
+    <div id="2">
+        <h4>2.2 自定义放置目标</h4>
+        <p>在拖动元素经过某些无效放置目标时,可以看到一种特殊的光标(圆环中有一条反斜线),表示不能放置。虽然所有元素都支持放置目标事件,但这些元素默认是不允许放置的。如果拖动元素经过不允许放置的元素,无论用户如何操作,都不会发生 drop 事件。</p>
+        <p><span class="ext"></span></p>
+        <pre><code>
+            var droptarget = document.getElementById("droptarget");
+
+            EventUtil.addHandler(droptarget, "dropover", function(event) {
+                EventUtil.preventDefault(event);
+            });
+
+            EventUtil.addHandler(droptarget, "dropenter", function(event) {
+                EventUtil.preventDefault(event);
+            });
+
+            //在 Firefox 3.5+中,放置事件的默认行为是打开被放到放置目标上的 URL。
+            EventUtil.addHandler(droptarget, "drop", function(event){
+                EventUtil.preventDefault(event);
+            });
+        </code></pre>
+        <div><img src="/static/images/fishork.jpg"></div>
+        <div id="droptarget" style="width: 200px;height: 200px;background-color: yellow;">DIV ID: droptarget</div>
+        <br>
+    </div>
+    <div id="3">
+        <h4>2.3 dataTransfer对象</h4>
+        <p>dataTransfer 对象,它是事件对象的一个属性,用于从被拖动元素向放置目标传递字符串格式的数据。
+因为它是事件对象的属性,所以只能在拖放事件的事件处理程序中访问 dataTransfer 对象。</p>
+        <p>dataTransfer 对象有两个主要方法: getData() 和 setData() 。setData() 方法的第一个参数,也是 getData() 方法唯一的一个参数,是一个字符串,表示保存的数据类型,取值为 "text" 或 "URL"</p>
+        <pre><code>
+            //设置和接受文本数据
+            event.dataTransfer.setData("text", "some text");
+            var text = event.dataTransfer.getData("text");
+
+            //设置和接受URL
+            event.dataTransfer.setData("URL", "http://www.wrox.com/");
+            var url = event.dataTransfer.getData("URL");
+        </code></pre>
+        <p>IE 只定义了 "text" 和 "URL" 两种有效的数据类型,而 HTML5 则对此加以扩展,允许指定各种 MIME
+类型。不过,保存在 dataTransfer 对象中的数据只能在 drop事件处理程序中读取。如果在 ondrop 处理程序中没有读到数据,那就是 dataTransfer 对象已经被销毁,数据也丢失了。</p>
+        <p>为了更好地在跨浏览器的情况下从 dataTransfer 对象取得数据,最好在取得 URL 数据时检测两个值,而在取得文本数据时使用"Text" 。</p>
+        <p><span class="ext">DataTranseferExample01.htm</span></p>
+        <pre><code>
+            var dataTransfer = event.dataTransfer;
+
+            //读取URL
+            var url = dataTransfer.getData("url") || dataTransfer.getData("text/uri-list");
+
+            //读取文本
+            var text = dataTransfer.getData("Text");
+        </code></pre>
+        <p><span class="epd">注意</span>:一定要把短数据类型放在前面,因为 IE 10 及之前的版本仍然不支持扩展的 MIME 类型名,
+而它们在遇到无法识别的数据类型时,会抛出错误。</p>
+        <br>
+    </div>
+    <div id="4">
+        <h4>2.4 dropEffect与effectAllowed</h4>
+        <p>dataTransfer的对象有两个属性: dropEffect和effectAllowed.其中dropEffect属性可以知道被拖动元素能够执行哪种放置行为.有如下可能值:</p>
+        <ul>
+            <li>none</li>
+            <p class="grey">不能把拖动的元素放在这里.这是除文本框之外所有元素的默认值.</p>
+            <li>move</li>
+            <p class="grey">应该把拖动的元素移动到放置位置.</p>
+            <li>copy</li>
+            <p class="grey">应该把拖动的元素复制到放置位置</p>
+            <li>link</li>
+            <p class="grey">表示放置目标会打开拖动元素(但拖动的元素必须是一个链接,有 URL)。</p>
+        </ul>
+        <p>总之,浏览器只能帮你改变光标的样式,而其他的都要靠你自己来实现。要使用 dropEffect属性,必须在 ondragenter 事件处理程序中针对放置目标来设置它。</p>
+        <p>dropEffect 属性只有搭配 effectAllowed 属性才有用。 effectAllowed 属性表示允许拖动元素的哪种 dropEffect , effectAllowed 属性可能的值如下:</p>
+        <ul>
+            <li>uninitialized</li>
+            <p class="grey">没有给被拖动的元素设置任何放置行为。</p>
+            <li>none</li>
+            <p class="grey">被拖动的元素不能有任何行为。</p>
+            <li>copy</li>
+            <p class="grey">只允许值为 "copy" 的 dropEffect 。</p>
+            <li>link</li>
+            <p class="grey">只允许值为 "link" 的 dropEffect 。</p>
+            <li>move</li>
+            <p class="grey">只允许值为 "move" 的 dropEffect 。</p>
+            <li>copyLink</li>
+            <p class="grey">允许值为 "copy" 和 "link" 的 dropEffect 。</p>
+            <li>copyMove</li>
+            <p class="grey">允许值为 "copy" 和 "move" 的 dropEffect 。</p>
+            <li>linkMove</li>
+            <p class="grey">允许值为 "link" 和 "move" 的 dropEffect 。</p>
+            <li>all</li>
+            <p class="grey">允许任意 dropEffect 。</p>
+        </ul>
+        <br>
+    </div>
+    <div id="5">
+        <h4>2.5 可拖动</h4>
+        <p>默认情况下,图像、链接和文本是可以拖动的,也就是说,不用额外编写代码,用户就可以拖动它们。文本只有在被选中的情况下才能拖动,而图像和链接在任何时候都可以拖动。</p>
+        <p>让其他元素可以拖动也是可能的。HTML5 为所有 HTML 元素规定了一个 draggable 属性,表
+示元素是否可以拖动。要想让其他元素可拖动,或者让图像或链接不能拖动,都可以设置这个属性:</p>
+        <pre><code>
+            <\!-- 让这个图像不可以拖动 -->
+            <\img src="smile.gif" draggable="false" alt="Smiley face">
+
+            <\!-- 让这个元素不可以拖动 -->
+            <\div draggable="true">...<\/div>
+        </code>支持 draggable 属性的浏览器有 IE 10+、Firefox 4+、Safari 5+和 Chrome。Opera 11.5 及之前的版
+本都不支持 HTML5 的拖放功能。另外,为了让 Firefox 支持可拖动属性,还必须添加一个 ondragstart
+事件处理程序,并在 dataTransfer 对象中保存一些信息。</pre>
+        <p></p>
+        <br>
+    </div>
+    <div id="6">
+        <h4>2.6 其他成员</h4>
+        <p>HTML5 规范规定 dataTransfer 对象还应该包含下列方法和属性。</p>
+        <ul>
+            <li>addElement(element)</li>
+            <p class="grey">为拖动操作添加一个元素。添加这个元素只影响数据(即增加作为拖动源而响应回调的对象),不会影响拖动操作时页面元素的外观。</p>
+            <li>clearData(format)</li>
+            <p class="grey">清除以特定格式保存的数据。</p>
+            <li>setDragImage(element, x, y)</li>
+            <p class="grey">指定一幅图像,当拖动发生时,显示在光标下方。</p>
+            <li>types</li>
+            <p class="grey">当前保存的数据类型。</p>
+        </ul>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+    var droptarget = document.getElementById("droptarget");
+
+    EventUtil.addHandler(droptarget, "dragover", function(event) {
+        console.log("dragover!");
+        EventUtil.preventDefault(event);
+        });
+
+     EventUtil.addHandler(droptarget, "dragenter", function(event) {
+        console.log("dragenter!");
+        EventUtil.preventDefault(event);
+        });
+
+      //在 Firefox 3.5+中,放置事件的默认行为是打开被放到放置目标上的 URL。
+      EventUtil.addHandler(droptarget, "drop", function(event){
+        EventUtil.preventDefault(event);
+        });
+  </script>
+{% endblock %}

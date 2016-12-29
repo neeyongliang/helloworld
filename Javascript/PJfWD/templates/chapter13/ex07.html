@@ -1,0 +1,26 @@
+{% extends "chapter13/base.html" %}
+{% block chapter_no %}13{% endblock %}
+{% block exercise_no %}05{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div>
+        <h3>小结</h3>
+        <p>件是将 JavaScript 与网页联系在一起的主要方式。“DOM3 级事件”规范和 HTML5 定义了常见的
+大多数事件。即使有规范定义了基本事件,但很多浏览器仍然在规范之外实现了自己的专有事件,从而
+为开发人员提供更多掌握用户交互的手段。</p>
+        <p>在使用事件时,需要考虑如下一些内存与性能方面的问题。</p>
+        <ul>
+            <li>有必要限制一个页面中事件处理程序的数量,数量太多会导致占用大量内存,而且也会让用户
+感觉页面反应不够灵敏。</li>
+            <li>建立在事件冒泡机制之上的事件委托技术,可以有效地减少事件处理程序的数量。</li>
+            <li>建议在浏览器卸载页面之前移除页面中的所有事件处理程序。</li>
+        </ul>
+        <p>事件是 JavaScript 中最重要的主题之一,深入理解事件的工作机制以及它们对性能的影响至关重要。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

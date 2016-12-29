@@ -1,0 +1,32 @@
+{% extends "chapter08/base.html" %}
+{% block chapter_no %}08{% endblock %}
+{% block exercise_no %}05{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>5. history对象</h3>
+        <p>使用 go() 方法可以在用户的历史记录中任意跳转,可以向后也可以向前。这个方法接受一个参数,
+表示向后或向前跳转的页面数的一个整数值。负数表示向后跳转(类似于单击浏览器的“后退”按钮)
+,正数表示向前跳转(类似于单击浏览器的“前进”按钮)。</p>
+    <p>虽然historty不常用, 但是在创建自定义的"后退"和"前进"按钮,以及检测当前页面<span class="dsp">是不是历史记录中的第一个页面</span>时,还是必须使用它.</p>
+    <pre><code>
+        //后退一页
+        history.go(-1);
+        history.back();
+
+        //前进一页
+        history.go(1);
+        history.forward();
+
+        if (history.length == 0) {
+            //这应该是用户打开窗口后的第一个页面
+        }
+    </code></pre>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

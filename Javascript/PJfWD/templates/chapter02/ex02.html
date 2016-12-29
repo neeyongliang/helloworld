@@ -1,0 +1,15 @@
+{% extends "chapter02/base.html" %}
+{% block chapter_no %}02{% endblock %}
+{% block exercise_no %}02{% endblock %}
+{% block mycss %}{% endblock %}
+{% block main %}
+    <h4>"\"转义</h4>
+    <xmp>
+        alert("<\/script>");
+    </xmp>
+{% endblock %}
+{% block myjs %}
+    <script>
+    alert("<\/script>");
+    </script>
+{% endblock %}

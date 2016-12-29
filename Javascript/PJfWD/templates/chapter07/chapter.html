@@ -1,0 +1,53 @@
+{% extends "chapter07/base.html" %}
+{% block chapter_no %}07{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <br>
+    <div>
+         <h3>本章内容</h3>
+         <ul>
+             <li>函数表达式的特征</li>
+             <li>使用函数实现递归</li>
+             <li>使用闭包定义私有变量</li>
+         </ul>
+    </div>
+
+    <div>
+        <p>函数定义的方式有两种:一种是函数声明,另一种是函数表达式.</p>
+        <pre><code>
+            //函数声明格式:function关键字 + 函数名
+            function functionName(arg0, arg1, arg2) {
+                //函数体
+            }
+        </code></pre>
+        <p>Firefox、Safari、Chrome和 Opera 都给函数定义了一个非标准的 name 属性,通过这个属性可以访问到给函数指定的名字。关于函数式声明,它一个重要特性就是<span class="epd">函数声明提升(function declaration hoisting)</span>,意思是执行代码之前会先读取函数式声明.这就意味着<span class="epd">可以把函数式声明放在调用它的语句后面.</span>这是函数式声明与函数表达式的是<span class="epd">唯一</span>区别!</p>
+        <p><span class="dsp">记忆技巧</span>: 有等号的才叫表达式.</p>
+        <div><span class="ext">FunctionNameExample01.html</span></div>
+        <pre><code>
+            //only work in Firefox, Safari, Chrome和Opera.
+            alert(functionName.name); //"functionName"
+
+            sayHi();
+            function sayHi() {
+                alert("Hi");
+            }
+        </code></pre>
+        <p>第二种创建函数的方式是使用函数表达式.函数表达式有几种不同的语法形式,下面是最常见的形式:</p>
+       <pre><code>
+            var functionName = function(arg0, arg1, arg2) {
+                //函数体
+            };
+
+            sayHi(); //错误,函数还不存在
+            var sayHi = function() {
+                alert("Hi");
+            }
+        </code></pre>
+        <p>在把函数当成值来使用的情况下,都可以使用匿名函数.</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "chapter17/base.html" %}
+{% block chapter_no %}17{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>本章内容</h3>
+        <ul>
+            <li>理解浏览器报告的错误</li>
+            <li>处理错误</li>
+            <li>调试JavaScript代码</li>
+        </ul>
+        <p>由于JavaScript 本身是动态语言,而且多年来一直没有固定的开发工具,因此人们普遍认为它是一种最难于调试的编程语言。</p>
+        <p>ECMAScript 第 3 版致力于解决这个问题,专门引入了 try-catch 和 throw 语句以及一些错误类型,意在让开发人员能够适当地处理错误。几年之后,Web 浏览器中也出现了一些 JavaScript 调试程序和工具。2008 年以来,大多数 Web 浏览器都已经具备了一些调试 JavaScript 代码的能力。</p>
+        <p>在有了语言特性和工具支持之后,现在的开发人员已经能够适当地实现错误处理,并且能够找到错
+误的根源。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

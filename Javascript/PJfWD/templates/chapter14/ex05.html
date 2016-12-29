@@ -1,0 +1,269 @@
+{% extends "chapter14/base.html" %}
+{% block chapter_no %}14{% endblock %}
+{% block exercise_no %}0{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>富文本编辑</h3>
+        <p>富文本编辑,又称为 WYSIWYG(What You See Is What You Get,所见即所得)。在网页中编辑富
+文本内容,是人们对 Web 应用程序最大的期待之一。这一技术
+的本质,就是在页面中嵌入一个包含空 HTML 页面的 iframe 。通过设置 designMode 属性,这个空白
+的 HTML 页面可以被编辑,而编辑对象则是该页面 body 元素的 HTML 代码。 designMode 属性有两
+个可能的值: "off" (默认值)和 "on" 。在设置为 "on" 时,整个文档都会变得可以编辑(显示插入符
+号),然后就可以像使用字处理软件一样,通过键盘将文本内容加粗、变成斜体,等等。</p>
+    <p>代码:</p>
+    <pre><code>
+        <\iframe name="richedit" style="height:100px;width:100px;" src="blank.htm"><\/iframe>
+        <\script type="text/javascript">
+            EventUtil.addHandler(window, "load", function(){
+                frames["richedit"].document.designMode = "on";
+            });
+        <\/script>
+    </code></pre>
+    <p>实例: <a href="{% url 'elements_richtext'%}" target="_blank">RichText</a></p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>5.1 使用contenteditable属性</h4>
+        <p>另一种编辑富文本内容的方式是使用名为 contenteditable 的特殊属性,这个属性也是由 IE 最早实现的。可以把 contenteditable 属性应用给页面中的任何元素,然后用户立即就可以编辑该元素。</p>
+        <pre><code>
+            //HTML方法
+            <\div class="editable" id="richedit" contenteditable><\/div>
+
+            //JS方法
+            var div = document.getElementById("richedit");
+            div.contentEditable = "true";
+        </code></pre>
+        <p>contenteditable属性可能有三个值: "true"表示打开,"false"表示关闭,"inherit"表示从父元素那里继承.</p>
+    </div>
+    <br>
+    <div id="2">
+        <h4>5.2 操作富文本</h4>
+        <p>与富文本编辑器交互的主要方式,就是使用 document.execCommand() 。这个方法可以对文档执行预定义的命令,而且可以应用大多数格式。可以为 document.execCommand() 方法传递 3 个参数:要执行的命令名称、表示浏览器是否应该为当前命令提供用户界面的一个布尔值和执行命令必须的一个值(如果不需要值,则传递 null).</p>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">命令</th>
+                        <th style="width: 200px;">值(第三个参数)</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>backcolor</td>
+                        <td>字符串颜色</td>
+                        <td>设置文档的背景颜色</td>
+                    </tr>
+                    <tr>
+                        <td>bold</td>
+                        <td>null</td>
+                        <td>将选择的文本转换为粗体</td>
+                    </tr>
+                    <tr>
+                        <td>copy</td>
+                        <td>null</td>
+                        <td>将选择的文本复制到剪切板</td>
+                    </tr>
+                    <tr>
+                        <td>createlink</td>
+                        <td>URL字符串</td>
+                        <td>将选择的文本转换成链接,指向指定的URL</td>
+                    </tr>
+                    <tr>
+                        <td>cut</td>
+                        <td>null</td>
+                        <td>将选择的文本剪切到剪切板</td>
+                    </tr>
+                    <tr>
+                        <td>delete</td>
+                        <td>null</td>
+                        <td>将选择的文本删除</td>
+                    </tr>
+                    <tr>
+                        <td>fontname</td>
+                        <td>字体名称</td>
+                        <td>将选择的文本修改字体</td>
+                    </tr>
+                    <tr>
+                        <td>fontsize</td>
+                        <td>1~7</td>
+                        <td>将选择的文本修改指定字体大小</td>
+                    </tr>
+                    <tr>
+                        <td>forecolor</td>
+                        <td>颜色字符串</td>
+                        <td>将选择的文本修改为指定的颜色</td>
+                    </tr>
+                    <tr>
+                        <td>formatblock</td>
+                        <td>要包围的文本块标签,如<\h1></td>
+                        <td>只用指定的HTML标签来格式化选择的文本块</td>
+                    </tr>
+                    <tr>
+                        <td>indent</td>
+                        <td>null</td>
+                        <td>缩进文本</td>
+                    </tr>
+                    <tr>
+                        <td>inserthorizontalrule</td>
+                        <td>null</td>
+                        <td>在插入字符处hr元素</td>
+                    </tr>
+                    <tr>
+                        <td>insertimage</td>
+                        <td>null</td>
+                        <td>在插入字符处插入图像</td>
+                    </tr>
+                    <tr>
+                        <td>insertunorderedlist</td>
+                        <td>null</td>
+                        <td>在插入字符处插入一个ol元素</td>
+                    </tr>
+                    <tr>
+                        <td>insertparagraph</td>
+                        <td>null</td>
+                        <td>在插入字符处插入一个p元素</td>
+                    </tr>
+                    <tr>
+                        <td>italic</td>
+                        <td>null</td>
+                        <td>将选择的文本转换成斜体</td>
+                    </tr>
+                    <tr>
+                        <td>justifycenter</td>
+                        <td>null</td>
+                        <td>将插入光标所在文本块居中对齐</td>
+                    </tr>
+                    <tr>
+                        <td>justifyleft</td>
+                        <td>null</td>
+                        <td>将插入光标所在文本块左对齐</td>
+                    </tr>
+                    <tr>
+                        <td>outdent</td>
+                        <td>null</td>
+                        <td>凸排文本(减少缩进)</td>
+                    </tr>
+                    <tr>
+                        <td>paste</td>
+                        <td>null</td>
+                        <td>将剪贴板中的文本粘贴到选择的文本</td>
+                    </tr>
+                    <tr>
+                        <td>removeformat</td>
+                        <td>null</td>
+                        <td>移除插入光标所在文本块的块级格式。这是撤销 formatblock命令的操作</td>
+                    </tr>
+                    <tr>
+                        <td>selectall</td>
+                        <td>null</td>
+                        <td>选择文档中的所有文本</td>
+                    </tr>
+                    <tr>
+                        <td>underline</td>
+                        <td>null</td>
+                        <td>为选择的文本添加下划线</td>
+                    </tr>
+                    <tr>
+                        <td>unlink</td>
+                        <td>null</td>
+                        <td>移除文本链接,与createlink命令相反</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>对于这些命令,各家浏览器差异极大;不过,即使不能通过 document.execCommand() 来执行这些命令,但却可以通过相应的快捷键来实现同样的操作。可以在任何时候使用这些命令来修改富文本区域的外观.</p>
+        <p><span class="ext">RichTextEditingExample01.htm</span></p>
+        <pre><code>
+            //转换粗体文本
+            frames["richedit"].document.exeCommand("bold", false, null);
+
+            //转换斜体文本
+            frames["richedit"].document.exeCommand("italic", false, null);
+
+            //穿件指向链接
+            frames["richedit"].document.exeCommand("createlink", false, "https://www.sogou.com");
+
+            //格式化1级标题
+            frames["richedit"].document.exeCommand("formateblock", false, "<\h1>");
+        </code></pre>
+        <p>同样的方法也适用于页面中 contenteditable 属性为 "true" 的区块,只要把对框架的引用替换
+成当前窗口的 document 对象即可。</p>
+        <pre><code>
+            //转换粗体文本
+            document.execCommand("bold", false, null);
+
+            //转换斜体文本
+            document.execCommand("italic", false, null);
+
+            //创建指向 www.wrox.com 的链接
+            document.execCommand("createlink", false,"http://www.wrox.com");
+
+            //格式化为 1 级标题
+            document.execCommand("formatblock", false, "<\h1>");
+        </code></pre>
+        <p><span class="epd">注意</span>:虽然所有浏览器都支持这些命令,但这些命令所产生的 HTML 仍然有很大不同。除了这些命令,还有一系列方法:</p>
+        <ul>
+            <li>queryCommandEnabled()</li>
+            <p>可以用它来检测是否可以针对当前选择的文本,或者当前插入字符所在位置执行某个命令。<span class="epd">注意</span>:queryCommandEnabled() 方法返回 true ,并不意味着实际上就可以执行相应命令,而只能说明对当前选择的文本执行相应命令是否合适。</p>
+            <li>queryCommandState()</li>
+            <p>它用于确定是否已将指定命令应用到了选择的文本。</p>
+            <li>queryCommandValue()</li>
+            <p>用于取得执行命令时传入的值(即前面例子中传给document.execCommand() 的第三个参数)</p>
+        </ul>
+        <pre><code>
+            var result = frames["richedit"].document.queryCommandEnabled("bold");
+
+            var isBold = frames["richedit"].document.queryCommandState("bold");
+
+            var fontSize = frame["richedit"].document.queryCommandValue("fontsize");
+        </code></pre>
+        <p>通过这个方法可以确定某个命令是怎样应用到选择的文本的,可以据以确定再对其应用后续命令是
+否合适。</p>
+    </div>
+    <br>
+    <div id="3">
+        <h4>5.3 富文本选区</h4>
+        <p>在富文本编辑器中,使用框架( iframe )的 getSelection() 方法,可以确定实际选择的文本。调用它会返回一个表示当前选择文本的 Selection这个方法是 window 对象和 document 对象的属性,对象。</p>
+        <p><span class="ext">RichTextEditingExample01.htm</span></p>
+        <pre><code>
+            var selection = frames["richtext"].getSelection();
+
+            //取得选择文本
+            var selectedText = selection.toString();
+
+            //取得代表选区的范围
+            var range = selection.getRangeAt(0);
+
+            //突出显示选择的文本
+            var span = frame["richtext"].document.createElement("span");
+            span.style.backgroundColor = "yellow";
+            range.surroundContents(span);
+        </code></pre>
+    </div>
+    <div id="4">
+        <h4>5.4 表单与富文本</h4>
+        <p>由于富文本编辑是使用 iframe 而非表单控件实现的,因此从技术上说,富文本编辑器并不属于表
+单。换句话说,富文本编辑器中的 HTML 不会被自动提交给服务器,而需要我们手工来提取并提交HTML。</p>
+        <p><span class="ext">RichTextEditingExample02.htm</span></p>
+        <pre><code>
+            EventUtil.addHanlder(form, "submit", function() {
+                event = EventUtil.getEvent(event);
+                var target = EventUtil.getTarget(event);
+
+                //iframe
+                target.elements["comments"].value = frames["richedit"].document.body.innerHTML;
+
+                //contenteditable
+                target.elments["comments"].value = document.getElementById("richedit").innerHTML;
+            });
+        </code></pre>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

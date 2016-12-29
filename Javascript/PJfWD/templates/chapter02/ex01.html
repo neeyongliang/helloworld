@@ -1,0 +1,54 @@
+{% extends "chapter02/base.html" %}
+{% block chapter_no %}02{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block main %}
+    <p>除了以下两种情况,脚本执行是按照顺序执行的:</p>
+    <ul>
+        <li><b>defer</b></li>
+        <li><b>async</b></li>
+    </ul>
+    <p>以下两种作法相同:</p>
+    <div id="type_1">
+    <h3>后置(推荐)</h3>
+    <xmp>
+        <body>
+        <!-- 这里放内容 -->
+        <script type="text/javascript" src="example1.js"></script>
+        <script type="text/javascript" src="example2.js"></script>
+        </body>
+    </xmp>
+    </div>
+    <div id="type_2">
+        <h3>延迟</h3>
+    <xmp>
+        <head>
+        <title>Example HTML Page</title>
+        <script type="text/javascript" defer="defer" src="example1.js"></script>
+        <script type="text/javascript" defer="defer" src="example2.js"></script>
+        </head>
+    </xmp>
+    </div>
+    <div id="xhtml">
+    <h3>XHTML过渡</h3>
+        <p>在将页面的 MIME 类型指定为 "application/xhtml+xml" 的情况下会触发XHTML 模式。并不是所有浏览器都支持以这种方式提供 XHTML 文档。</p>
+        <xmp>
+            <script type="text/javascript">
+            //<![CDATA[
+                function compare(a, b) {
+                    if (a < b) {
+                    alert("A is less than B");
+                    } else if (a > b) {
+                    alert("A is greater than B");
+                    } else {
+                    alert("A is equal to B");
+                    }
+                }
+            //]]>
+            </script>
+        </xmp>
+    </div>
+{% endblock %}
+{% block myjs %}
+    <script></script>
+{% endblock %}

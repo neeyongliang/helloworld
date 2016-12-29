@@ -1,0 +1,7 @@
+animals = ['bear','python','peacock','kangaroo','whale','platyus']
+print "The 2nd animals is at 1 and is a %s"%animals[1]
+print "The 3rd animals is at 2 and is a %s"%animals[2]
+print "The 1st animals is at 0 and is a %s"%animals[0]
+print "The 4th animals is at 3 and is a %s"%animals[3]
+print "The 5th animals is at 4 and is a %s"%animals[4]
+print "The 6th animals is at 5 and is a %s"%animals[5]

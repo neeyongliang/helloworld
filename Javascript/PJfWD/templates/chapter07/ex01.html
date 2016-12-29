@@ -1,0 +1,67 @@
+{% extends "chapter07/base.html" %}
+{% block chapter_no %}07{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+  <div class="right">
+    <div id="0">
+            <h3>1. 递归</h3>
+            <p>递归函数是在一个函数通过名字调用自身的情况下构成的.</p>
+        </div>
+        <div id="1">
+            <div><span class="ext">RecurisonExample01.html</span></div>
+            <pre><code>
+                function factorial(num) {
+                    if (num <= 1) {
+                        return 1;
+                    } else {
+                        return num * factorial(num-1);
+                    }
+                }
+                // 单纯定义没有问题,下面执行会出错
+                var anotherFactorial = factorial;
+                factorial = null;
+                alert(anotherFactorial(4)); //出错!
+            </code></pre>
+            <p>执行过程:</p>
+            <ol>
+                <li>将factorial()函数保存在变量anotherFactorial中;</li>
+                <li>将factorial变量设置为null,使得原始函数的引用仅仅剩下一个</li>
+                <li>调用anotherFactorial()时候,由于必须执行factorial(),但是factorial又不在是函数,导致报错.</li>
+            </ol>
+        </div>
+        <div id="2">
+            <p>为了解决这个问题,我们可以使用arguments.callee来解决.该函数可以始终指向正在运行的函数.</p>
+            <div><span class="ext">RecursionExample02.html</span></div>
+            <pre><code>
+                function factorial(num) {
+                    if (num <= 1) {
+                        return 1
+                    } else {
+                        return num * arguments.callee(num-1);
+                        // 不能在严格模式下运行
+                    }
+                }
+            </code></pre>
+            <div><span class="dsp">在严格模式下,arguments.callee属性会报错</span></div>
+        </div>
+        <div id="3">
+            <p>通用方法,在严格模式和非严格模式下都有效</p>
+            <div><span class="ext">RecursionExample03.html</span></div>
+            <pre><code>
+                var factorial = (function f(num) {
+                    if (num <= 1) {
+                        return 1;
+                    } else {
+                        return num * f(num-1);
+                    }
+                });
+            </code></pre>
+            <p></p>
+        </div>
+  </div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

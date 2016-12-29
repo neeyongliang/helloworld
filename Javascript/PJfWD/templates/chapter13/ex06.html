@@ -1,0 +1,102 @@
+{% extends "chapter13/base.html" %}
+{% block chapter_no %}13{% endblock %}
+{% block exercise_no %}05{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>模拟事件</h3>
+        <p>事件,就是网页中某个特别值得关注的瞬间。在测试 Web 应用程序,拟触发事件是一种极其有用的技术。</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>6.1 DOM中的事件模拟</h4>
+        <p>可以在document对象上使用createEvent()方法创建event对象.该方法接收一个参数</p>
+        <ul>
+            <li>UIEvents</li>
+            <p>一般化的 UI 事件。鼠标事件和键盘事件都继承自 UI 事件。 DOM3 级中是 UIEvent 。</p>
+            <li>MouseEvents</li>
+            <p>一般化的鼠标事件。DOM3 级中是 MouseEvent 。</p>
+            <li>MutationEvents</li>
+            <p>一般化的 DOM 变动事件。DOM3 级中是 MutationEvent 。</p>
+            <li>HTMLEvents</li>
+            <p>一般化的 HTML 事件。</p>
+        </ul>
+        <p>A. 模拟鼠标事件</p>
+        <p>B. 键盘模拟事件</p>
+        <p>C. 模拟其他事件</p>
+        <p>D. 自定义DOM事件</p>
+        <p>DOM3 级还定义了“自定义事件”。自定义事件不是由 DOM 原生触发的,它的目的是让开发人员
+        创建自己的事件。要创建新的自定义事件,可以调用 createEvent("CustomEvent") 。
+            返回的对象有一个名为 initCustomEvent() 的方法.有4个参数:</p>
+            <ul>
+                <li>type: 触发的事件类型,例如 "keydown" 。</li>
+                <li>bubbles: 表示事件是否应该冒泡。</li>
+                <li>cancelable: 表示事件是否可以取消。</li>
+                <li>detail: 任意值,保存在 event 对象的 detail 属性中。</li>
+            </ul>
+        <p><span class="ext">SimulateDOMCustomEventExample01.htm</span></p>
+        <pre><code>
+            var div = document.getElementById("myDiv"), event;
+
+            EventUtil.addHandler(div, "myevent", function(event) {
+                alert("DIV: " + event.detail);
+            });
+            EventUtil.addHandler(document, "myevent", function(event) {
+                alert("DOCUMENT: " + event.detail);
+            });
+
+            if (document.implementation.hasFeature("CustomEvents", "3.0") {
+                event = document.createEvent("CustomEvent");
+                event.initCustomEvent("myevent", true, false, "Hello World!");
+                div.dispatchEvent(event);
+            })
+        </code></pre>
+    </div>
+    <div id="2">
+        <h4>6.2 IE中的事件模拟</h4>
+        <p>先创建 event 对象,然后为其指定相应的信息,然后再使用该对象来触发事件。以下是模拟在按钮上触发click事件过程.</p>
+        <p><span class="ext">SimulateIEClickExample01.htm</span></p>
+        <pre><code>
+            var btn = document.getElementById("myBtn");
+
+            //创建事件对象
+            var event = document.createEventObject();
+
+            //初始化对象,必须手工添加,无任何方法
+            event.screenX = 100;
+            event.screenY = 0;
+            event.clientX = 0;
+            event.clientY = 0;
+            event.ctrlKey = false;
+            event.altKey = false;
+            event.shiftKey = false;
+            event.button = 0;
+
+            //触发事件
+            btn.fireEvent("onclick", event);
+        </code></pre>
+        <p>属性可以任意添加,只有事件处理程序才会用到它们.采用相同的模式,模拟keypress事件:</p>
+        <p><span class="ext">SimulateIEKeyEventExample01.htm</span></p>
+        <pre><code>
+            var textbox = document.getElementById("myTextbox");
+
+            //创建事件
+            var event = document.createEventObject();
+
+            //初始化事件
+            event.altKey = false;
+            event.ctrlKey = false;
+            event.shiftKye = false;
+            event.keyCode = 65;
+
+            //触发事件
+            textbox.fireEvent("onkeypress", event);
+        </code></pre>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

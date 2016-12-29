@@ -1,0 +1,148 @@
+{% extends "chapter20/base.html" %}
+{% block chapter_no %}20{% endblock %}
+{% block exercise_no %}02{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>解析与序列化</h3>
+        <p>除了与JavaScript类似的语法,更重要的是<span class="dsp">JSON数据结构解析为有用的JavaScript对象</span>.从此以后,JSON 就成了 Web 服务开发中交换数据的事实标准。</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>2.1 JSON对象</h4>
+        <p>早期的 JSON 解析器基本上就是使用 JavaScript 的 eval() 函数。由于 JSON 是 JavaScript 语法的子
+集,因此 eval() 函数可以解析、解释并返回 JavaScript 对象和数组。ECMAScript 5 对解析 JSON 的行
+为进行规范,定义了全局对象 JSON 。支持这个对象的浏览器有 IE 8+、Firefox 3.5+、Safari 4+、Chrome
+和 Opera 10.5+.</p>
+        <p>d对于早期浏览器,可以使用一个 shim: https://github.com/douglascrockford/JSON-js。
+在旧版本的浏览器中,使用 eval() 对 JSON 数据结构求值存在风险,因为可能会执行一些恶意代码。
+对于不能原生支持 JSON 解析的浏览器,使用这个 shim 是最佳选择。</p>
+        <p>JSON 对象有两个方法: stringify() 和 parse() 。在最简单的情况下,这两个方法分别用于把
+JavaScript 对象序列化为 JSON 字符串和把 JSON 字符串解析为原生 JavaScript 值。如果传给 JSON.parse() 的字符串不是有效的 JSON,该方法会抛出错误。</p>
+        <p class="extp">JSONStringifyExample01.htm</p>
+        <pre><code>
+            var book = {
+                title: "Professional JavaScript",
+                authors: [
+                    "Nicholas C. Zakas"
+                ],
+                edition: 3,
+                year: 2011
+            };
+
+            var jsonText = JSON.stringify(book);
+            //{"title":"Professional JavaScript","authors":["Nicholas C. Zakas"],"edition":3,"year":2011}
+            console.log(jsonText);
+
+            var jsonTextParse = JSON.parse(jsonText);
+            console.log(jsonTextParse);
+        </code></pre>
+        <br>
+    </div>
+    <div id="2">
+        <h4>2.2 序列化选项</h4>
+        <p>实际上, JSON.stringify() 除了要序列化的 JavaScript 对象外,还可以接收另外两个参数,这两
+个参数用于指定以不同的方式序列化 JavaScript 对象。第一个参数是个过滤器,可以是一个数组,也可
+以是一个函数;第二个参数是一个选项,表示是否在 JSON 字符串中保留缩进。单独或组合使用这两个
+参数,可以更全面深入地控制 JSON 的序列化。</p>
+        <p>A. 过滤结果</p>
+        <p class="extp">JSONStringifyExample01.htm</p>
+        <pre><code>
+            var book = {
+                "title": "Professional JavaScript",
+                "authors": [
+                    "Nicholas C. Zakas"
+                ],
+                edition: 3,
+                year: 2011
+            };
+
+            var jsonText2 = JSON.stringify(book, ["title", "edition"]);
+            //{"title":"Professional JavaScript","edition":3}
+
+            var jsonText = JSON.stringify(book, function(key, value) {
+                switch(key) {
+                    case "authors":
+                        return value.join(",")
+
+                    case "year":
+                        return 5000;
+
+                    case "edition":
+                        return undefined;                    //会被忽略
+
+                    default:
+                        return value;
+                }
+            });
+
+            //{"title":"Professional JavaScript","authors":"Nicholas C. Zakas","year":5000}
+        </code></pre>
+        <p>B. 字符串缩进</p>
+        <p>第三个参数,可以是小于10的正整数,也可以是"- -"之类的任意字符.</p>
+        <p>C. toJSON() 方法</p>
+        <p class="extp">JSONStringifyExample05.htm</p>
+        <pre><code>
+            var book = {
+                "title": "Professional JavaScript",
+                "authors": [
+                    "Nicholas C. Zakas"
+                ],
+                edition: 3,
+                year: 2011,
+                    toJSON: function() {
+                        return this.title;
+                    }
+            };
+
+            var jsonText = JSON.stringify(book);
+        </code></pre>
+        <p>toJSON() 可以作为函数过滤器的补充,因此理解序列化的内部顺序十分重要。假设把一个对象传入JSON.stringify() ,序列化该对象的顺序如下。</p>
+        <ol>
+            <li>如果存在 toJSON() 方法而且能通过它取得有效的值,则调用该方法。否则,返回对象本身。</li>
+            <li>如果提供了第二个参数,应用这个函数过滤器。传入函数过滤器的值是第(1)步返回的值。</li>
+            <li>对第(2)步返回的每个值进行相应的序列化。</li>
+            <li>如果提供了第三个参数,执行相应的格式化。</li>
+        </ol>
+        <p>无论是考虑定义 toJSON() 方法,还是考虑使用函数过滤器,亦或需要同时使用两者,理解这个顺序都是至关重要的。</p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>2.3 解析选项</h4>
+        <p>JSON.parse() 方法也可以接收另一个参数,该参数是一个函数,将在每个键值对儿上调用。</p>
+        <p class="extp">JSONParseExample02.htm</p>
+        <pre><code>
+            var book = {
+                "title": "Professional JavaScript",
+                "authors": [
+                    "Nicholas C. Zakas"
+                ],
+                edition: 3,
+                year: 2011,
+                releaseDate: new Date(2011, 11, 1)
+            };
+
+            var jsonText = JSON.stringify(book);
+
+            var bookCopy = JSON.parse(jsonText, function(key, value) {
+                if (key == "releaseDate") {
+                    return new Date(value);
+                } else {
+                    return value;
+                }
+            });
+
+            alert(bookCopy.releaseDate.getFullYear());
+        </code></pre>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

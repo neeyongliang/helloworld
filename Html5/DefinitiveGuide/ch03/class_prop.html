@@ -1,0 +1,46 @@
+<!DOCTYPE>
+<html>
+<head>
+  <title>Class prop</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+  .class2 {
+    background-color: grey;
+    color:white;
+    padding:5px;
+    margin:2px;
+  }
+
+  .class1 {
+    font-size:x-large;
+  }
+  </style>
+</head>
+<body>
+<div>
+<p> 用到的脚本</p>
+  <pre><code>
+var elems = document.getElementsByClassName('otherclass');
+  for(var i=0;i < elems.length; i++) {
+    var x = elems[i];
+    x.style.border = "thin solid black";
+    x.style.backgroundColor = "white";
+    x.style.color = "blue";
+  }
+  </code></pre>
+</div>
+<a class="class1 class2" href="https://www.baidu.com">Baidu</a>
+<p></p>
+<a class="class2 otherclass" href="https://www.sogou.com">Sogou</a>
+
+<script type="text/javascript">
+  var elems = document.getElementsByClassName('otherclass');
+  for(var i=0;i < elems.length; i++) {
+    var x = elems[i];
+    x.style.border = "thin solid black";
+    x.style.backgroundColor = "white";
+    x.style.color = "blue";
+  }
+</script>
+</body>
+</html>

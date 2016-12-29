@@ -1,0 +1,178 @@
+{% extends "chapter05/base.html" %}
+{% block chapter_no %}05{% endblock %}
+{% block exercise_no %}{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div id="0">
+  <h3>7 单体内置对象</h3>
+  <p>由ECMAScript实现提供,不依赖宿主环境,这些对象在ECMAScript程序执行之前就存在了.</p>
+  <p>除了前面包含的,例如Object,Array和String,ECMA-262还提供了两个单体对象: Global和Math.</p>
+</div>
+<div id="1">
+  <h4>7.1 Global对象</h4>
+  <p>除了所有的全局方法,函数(包括isNaN,isFinite,parseInt以及parseFloat),还包含以下方法:</p>
+  <h5 id="1">1. URI编码方法</h5>
+  <p><span>GlobalObjectURIEncodingExample01.htm</span></div>
+  <pre><code>
+    var uri = "http://www.wrox.com/illegal value.htm#start";
+    encodeURI(uri);
+    //"http://www.wrox.com/illegal%20value.htm#start"
+    encodeURIComponent(uri);
+    //"http%3A%2F%2Fwww.wrox.com%2Fillegal%20value.htm%23start"
+  </code></pre>
+  <p><span class="epd">结论</span>:可以对整个URI使用encodeURI,只能对附加在现有URI后面的使用encodeURIComponet()</p>
+  <p>与之相反的两个方法是decodeURI和decodeURIComponent()</p>
+  <h5 id="2">2. eval()方法</h5>
+  <p>这大概是整个ECMAScript语言中<span>最强大</span>的一个方法——eval()</p>
+  <pre><code>
+    eval("alert('hi')");
+    //等价于
+    alert("hi");
+  </code></pre>
+  <p>在eval中创建的任何变量或者函数都不会被提升,因为在解析代码的时候,因为它们只在eval()执行的时候创建</p>
+  <p>在严格模式下,在外部访问不到eval中创建的任何变量,严格模式下,为eval赋值也会出错.</p>
+  <p>使用eval()时候必须十分谨慎,特别是在用它执行用户输入数据的情况下.否则会有恶意的用户输入威胁你的网站.因为</p>
+  <h5>3. Global对象属性</h5>
+  <p>ECMAScript明确禁止给undefined,NaN和Infinity赋值.</p>
+  <h5>4. window对象</h5>
+  <p>在全局作用域中声明的变量与函数,都成为window对象的属性.</p>
+  <div><span class="ext">GlobalObjectWindowExample01.html</span></div>
+  <pre><code>
+    var color = "red";
+    function sayColor(){
+      alert(window.color);
+    }
+
+    window.sayColor();  //"red"
+
+    //另一种取得global的方法
+    var global = function(){
+      return this;
+    }
+  </code></pre>
+</div>
+<div id="2">
+  <div>
+
+  <h4>7.2 Math对象</h4>
+  <p>1. Math对象的属性</p>
+  <table style="text-align:center;">
+    <tr>
+      <th style="text-align:center;width:150px;">属性</th>
+      <th style="text-align:center;width:150px;">说明</th>
+    </tr>
+    <tr>
+      <td>Math.E</td>
+      <td>自然对数的底数</td>
+    </tr>
+    <tr>
+      <td>Math.LN10</td>
+      <td>10的自然对数</td>
+    </tr>
+    <tr>
+      <td>Math.LN2</td>
+      <td>2的自然对数</td>
+    </tr>
+    <tr>
+      <td>Math.LOG2E</td>
+      <td>以2为底E的对数</td>
+    </tr>
+    <tr>
+      <td>Math.LOG10E</td>
+      <td>以10为底E的对数</td>
+    </tr>
+    <tr>
+      <td>Meth.PI</td>
+      <td>π</td>
+    </tr>
+    <tr>
+      <td>Math.SQRT1_2</td>
+      <td>1/2的平方根</td>
+    </tr>
+    <tr>
+      <td>Math.SQRT2</td>
+      <td>2的平方根</td>
+    </tr>
+  </table>
+  </div>
+  <div>
+    <p>2. 最大和最小</p>
+    Math.min()和Math.max()
+  </div>
+  <div>
+    <p>3. 舍入方法</p>
+    <ul>
+      <li>Math.ceil向上舍入</li>
+      <li>Math.floor向下舍入</li>
+      <li>Math.round标准四舍五入</li>
+    </ul>
+  </div>
+  <div>
+    <p>4. random()方法</p>
+    <div><span class="ext">MathObjectRandomExample01.html</span></div>
+    <pre><code>
+    //范围随机数生成公式:
+    //值 = Math.floor(Math.random() * 可能值的总数 + 第一个可能值)
+
+    function selecFrome(lowerValue, upperValue) {
+      var choices = upperValue - lowerValue;
+      return Math.floor(Math.random() * chioces + lowerValue);
+    }
+
+    var num = selectFrom(2,10);
+    num; // 介于2~10之间的一个整数
+    </code></pre>
+  </div>
+  <div>
+    <p>5. 其他方法</p>
+    <p>以下表格仅供参考</p>
+    <table style="text-align:center;">
+      <tr>
+        <th style="text-align:center;width:150px;">方法</th>
+        <th style="text-align:center;width:150px;">说明</th>
+        <th style="text-align:center;width:150px;">方法</th>
+        <th style="text-align:center;width:150px;">说明</th>
+      </tr>
+      <tr>
+        <td>Math.abs(num)</td>
+        <td>返回绝对值</td>
+        <td>Math.exp(num)</td>
+        <td>返回Math.E的num次冥</td>
+      </tr>
+      <tr>
+       <td>Math.log(num)</td>
+        <td>返回num的自然对数</td>
+        <td>Math.pow(num,power)</td>
+        <td>返回num的power次冥</td>
+      </tr>
+      <tr>
+        <td>Math.sqrt(num)</td>
+        <td>返回返回num的平方根</td>
+        <td>Math.acos(x)</td>
+        <td>返回x的反余弦</td>
+      </tr>
+      <tr>
+        <td>Math.asin(x)</td>
+        <td>返回x的反正弦</td>
+        <td>Math.atan(x)</td>
+        <td>返回x的反正切</td>
+      </tr>
+      <tr>
+        <td>Math.atan2(y,x)</td>
+        <td>返回y/x的反正切值</td>
+        <td>Math.cos(x)</td>
+        <td>返回x的余弦值</td>
+      </tr>
+      <tr>
+        <td>Math.sin(x)</td>
+        <td>返回x的正弦值</td>
+        <td>Math.cos(x)</td>
+        <td>返回x的余弦值</td>
+      </tr>
+    </table>
+    <p><span class="epd">注</span>:由于算法不同,相同的函数结果会有差异.</p>
+  </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

@@ -1,0 +1,289 @@
+{% extends "chapter08/base.html" %}
+{% block chapter_no %}08{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>1. window 对象</h3>
+        <p>BOM的核心对象是window,它表示浏览器的一个实例.在浏览器中,window既是<span class="dsp">通过JavaScript访问浏览器窗口的一个接口</span>,又是<span class="dsp">ECMAScript规定的Global对象</span>.</p>
+        <p>这意味着web中的所有元素,都以window作为其Global对象,因此有权访问parseInt()等方法..</p>
+    </div>
+    <div id="1">
+        <h4>1.1 全局作用域</h4>
+        <p><span class="dsp">所有</span>在全局作用域中声明的变量,函数都会变成window对象的属性和方法.</p>
+        <p>定义全局变量与在window对象上直接定义属性的<span class="epd">差别</span>:全局变量不能通过delete操作符删除,而直接在window对象上的定义的属性可以.</p>
+        <p><span class="epd">此外</span>:尝试访问未声明变量会抛出错误, 但是通过查询window对象,可以知道某个可能未声明的变量是否存在.</p>
+        <p><span class="ext">DeleteOperatorExample01.html</span></p>
+        <pre><code>
+            var age = 29;
+            window.color = "red";
+
+            //在 IE <  9 时抛出错误, 在其他所有浏览器中返回false
+            delete window.age;
+
+            //在 IE < 9 时抛出错误, 在其他所有浏览器中都返回true
+            delete window.color //return true
+
+            window.age //29
+            window.color // undifined
+
+            //-------
+            //这里会抛出错误, 因为oldValue未定义
+            var newValue = oldValue;
+
+            //这里不会抛出错误,因为这是一次查询
+            //newValue的值是undefined
+            var newValue = window.oldValue;
+        </code></pre>
+        <br>
+    </div>
+    <div id="2">
+        <h4>1.2 窗口关系及框架</h4>
+        <p>如果页面中包含框架,则每个框架都拥有自己的window对象,并且保存在frames集合(从0开始,由上到下,由左到右)中,还可以通过框架名称.</p>
+        <p>实例:<a href="{% url 'elements_frame' %}">Frame</a></p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>1.3 窗口位置</h4>
+        <p>用来确定和修改window对象属性的和方法有很多.IE, Safari, Opera和Chrome都提供了screenLeft和screenTop属性(距离屏幕边距),而firefox, Safari和Chrome则支持screenX和screenY属性<span class="span epd">不要</span>在Opera中使用它们.</p>
+        <p>以下是跨浏览器获取左边距和上边距的代码:</p>
+        <p><span class="ext">WindowPositionExample01.html</span></p>
+        <pre><code>
+            var leftPos = (typeof window.screenLeft == "number") ? window.screenLeft : window.screenX;
+            var topPos = (typeof window.screenTop == "number") ? window.screenTop : window.screenY;
+        </code></pre>
+        <p>尽管如此, 不同浏览器具体的位置还是有偏差的. <span class="dsp">最终结论</span>:无法在跨浏览器的条件下取得窗口左边和上边的精确值.</p>
+        <p>然而,使用moveTo()和moveBy()方法倒是有可能将浏览器窗口精确地移动到一个新位置.它们都接收两个参数,
+        其中moveTo()是绝对位置,moveBy()是相对位置.</p>
+        <pre><code>
+            //将窗口移动到屏幕左上角
+            window.moveTo(0, 0);
+
+            //将窗口向下移动到100像素
+            window.moveBy(0, 100);
+
+            //将窗口移动到(200, 300)
+            window.moveTo(200, 300)
+
+            //将窗口左移50像素
+            window.moveBy(-50, 0)
+        </code></pre>
+        <br>
+    </div>
+    <div id="4">
+        <h4>1.4 窗口大小</h4>
+        <p>各个浏览器本身尺寸差别太大,标准分歧严重,最终无法确定浏览器窗口本身的大小,但却可以取得页面视口(viewport)的大小.</p>
+        <p><span class="ext">WindowSizeExample01.html</span></p>
+        <pre><code>
+            var pageWidth = window.innerWidth, pageHeigh = window.innerHeight;
+
+            if (typeof pageWidth != "number") {
+                if (document.compatMode == "CSS1Compat") {
+                    pageWidth = document.documentElement.clientWidth;
+                    pageHeight = document.documentElement.clientHeight;
+                } else {
+                    pageWidth = document.body.clientWidth;
+                    pageHeight = document.body.clientHeight;
+                }
+            }
+        </code></pre>
+        <p>移动设备的情况则更为复杂.另外,使用resizeTo()和resizeBy()方法可以调整浏览器窗口大小.用法与moveTo()和moveBy()类似.</p>
+        <br>
+    </div>
+    <div id="5">
+        <h4>1.5 导航和打开窗口</h4>
+        <p>window.open()方法有4个参数:要加载的URL, 窗口目标, 一个特性字符串以及一个新页面是否取代浏览器历史记录中当前加载页面的布尔值.</p>
+        <pre><code>
+            //等同于<a href="http://www.wrox.com" target="topFrame"></a>
+            window.open("http://www.wrox.com/", "topFrame");
+        </code></pre>
+        <p>如果有一个名叫 "topFrame" 的窗口或者框架,就会在该窗口或框架加载这个 URL;否则,就
+会创建一个新窗口并将其命名为 "topFrame" 。此外,第二个参数也可以是下列任何一个特殊的窗口名
+称: _self 、 _parent 、 _top 或 _blank 。</p>
+        <p>A. 弹出窗口</p>
+        <p>如果给 window.open() 传递的第二个参数并不是一个已经存在的窗口或框架,那么该方法就会根
+据在第三个参数位置上传入的字符串创建一个新窗口或新标签页。如果没有传入第三个参数,那么就会
+打开一个带有全部默认设置(工具栏、地址栏和状态栏等)的新浏览器窗口(或者打开一个新标签页—
+—根据浏览器设置)。在不打开新窗口的情况下,会忽略第三个参数。</p>
+        <div id="tab">
+            <table>
+                <thead>
+                    <tr>
+                    <th style="width: 80px;text-align: center;">设 置</th>
+                    <th style="width: 70px;text-align: center;">值</th>
+                    <th style="width: 220px;text-align: center;">说明</th>
+                    </tr>
+                </thead>
+            <tbody>
+                <tr>
+                    <td>fullscreen</td>
+                    <td>yes或no</td>
+                    <td>表示浏览器窗口是否最大化.仅限IE</td>
+                </tr>
+                <tr>
+                    <td>height</td>
+                    <td>数值</td>
+                    <td>表示新窗口的高度,不能小于100</td>
+                </tr>
+                  <tr>
+                    <td>left</td>
+                    <td>数值</td>
+                    <td>表示新窗口的左坐标,不能是负值.</td>
+                </tr>
+                  <tr>
+                    <td>location</td>
+                    <td>yes或no</td>
+                    <td>表示是否在浏览器窗口中显示地址栏.不同浏览器默认值不同.如果设置为no, 地址栏可能会隐藏,也可能会被禁用(取决于浏览器)</td>
+                </tr>
+                  <tr>
+                    <td>menubar</td>
+                    <td>yes或no</td>
+                    <td>表示是否可以在浏览器窗口中显示菜单栏.默认值为no.</td>
+                </tr>
+                  <tr>
+                    <td>resizable</td>
+                    <td>yes或no</td>
+                    <td>表示是否可以通过拖动浏览器窗口的边框改变其大小.默认值为no.</td>
+                </tr>
+                  <tr>
+                    <td>scrollbars</td>
+                    <td>yes或no</td>
+                    <td>表示如果内容在视口中显示不下,是否允许滚动.默认值为no.</td>
+                </tr>
+                  <tr>
+                    <td>status</td>
+                    <td>yes或no</td>
+                    <td>表示是否在浏览器中显示状态栏.默认值为no.</td>
+                </tr>
+                <tr>
+                    <td>toolbar</td>
+                    <td>yes或no</td>
+                    <td>表示是否在浏览器窗口中显示工具栏,默认值为no</td>
+                </tr>
+                <tr>
+                    <td>top</td>
+                    <td>数值</td>
+                    <td>表示新窗口的上坐标.不能是负值.</td>
+                </tr>
+                  <tr>
+                    <td>width</td>
+                    <td>数值</td>
+                    <td>表示新窗口的宽度,不能小于100</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        <p>B. 安全限制</p>
+        <p>C. 弹出窗口屏蔽程序</p>
+        <p>在任何情况下,检测弹出窗口是否被屏蔽:</p>
+        <p><span class="ext">PopupBlokerExample01.html</span></p>
+        <pre><code>
+            var blooked = false;
+
+            try {
+                var wroxWin = window.open("http://www.wrox.com", "_blank");
+                if (wroxWin == null) {
+                    blocked = true;
+                } catch (ex) {
+                    blocked = true;
+                }
+
+                if (blocked) {
+                    alert("the popup was blocked!");
+                }
+            }
+        </code></pre>
+        <p><span class="epd">注意</span>:检测弹出窗口是否被屏蔽只是一方面,它并不会阻止浏览器显示与被屏蔽的弹出窗口有关的消息。</p>
+        <br>
+    </div>
+    <div id="6">
+        <h4>1.6 间歇调用和超时调用</h4>
+        <p>JavaScript是单线程语言, 但它允许通过设置超时和间歇时间值来调度代码在特定的时刻执行.前者在指定的时间过后执行代码,而后者则每隔指定的时间就执行一次.</p>
+        <p>超时调用需要使用window对象的setTimeout()方法,它接受两个参数: 要执行的代码和以毫秒表示时间.其中,第一个参数可以是包含JavaScript代码的字符串,也可以是一个函数.</p>
+        <p><span class="ext">TimeoutExample01.html</span></p>
+        <pre><code>
+            //不建议传递字符串!
+            var timeoutId = setTimeout("alert('Hello world!') ", 1000);
+
+            //推荐的调用方式
+            var timeoutId = setTimeout(function() {
+                alert("hello world!");
+            }, 1000);
+
+            //取消函数
+            // clearTimeout(timeoutId);
+        </code></pre>
+        <p>setInterval()间歇调用和取消方式的用法与setTimeout()类似.以下是常见例子:</p>
+        <p><span class="ext">IntervalExample02.html</span></p>
+        <pre><code>
+            var num = 0;
+            var max = 10;
+            var intervalId = null;
+
+            function incrementNumber() {
+                num++;
+
+                // 如果执行次数到达了max设定值,则取消后续尚未执行的调用.
+                if (num === max) {
+                    clearInterval(intervalId);
+                    alert("Done");
+                }
+            }
+
+            intervalId = setInterval(incrementNumber, 500);
+        </code></pre>
+        <p>num每半秒执行一次,执行到最大值之后就取消间歇执行.这个模式也可以用超时来调用</p>
+        <p><span class="ext">TimeoutExample03.html</span></p>
+        <pre><code>
+            var num = 0;
+            var max = 10;
+
+            function incrementNumber() {
+                num ++;
+
+                //如果没达到执行次数max的设定值,则设置另一次超时调用
+                if (num < max) {
+                    setTimeout(incrementNumber, 500);
+                } else {
+                    alert("Done");
+                }
+            }
+
+            setTimeout(incrementNumber, 500);
+        </code></pre>
+        <p>一般认为,<span class="dsp">使用超时调用来模拟间歇调用的是一种最佳模式</span>。在开发环境下,很少使用间歇调用,原因是<span class="dsp">后一个间歇调用可能会在前一个间歇调用结束之前启动</span>,所以,<span class="epd">最好不要使用间歇调用</span>.</p>
+        <br>
+    </div>
+    <div id="7">
+        <h4>1.7 系统对话框</h4>
+        <p>系统对话框默认的有alert(), confirm()和prompt()三种.这不是由CSS决定,而是由浏览器及操作系统设置决定的.此外,通过这几个方法打开的对话框都是同步和模态的.也就是说,<span class="dsp">显示这些对话框的时候代码会停止执行,而关掉这些对话框的时候代码又会恢复执行.</span></p>
+        <p><span class="ext">SystemDialog01.html</span></p>
+        <pre><code>
+            //alert
+            alert("hello world!");
+
+            //confirm
+            if (confirm("Are you sure?")) {
+                alert("I'm so glad you're sure! ");
+            } else {
+                alert("I'm sorry to hear you're not sure.");
+            }
+
+            //prompt, 第二个参数可以不为空.
+            var result = prompt("What is your name? ", "");
+            if (result !== null) {
+            //返回null为非正常关闭
+                alert("Welcome, " + result);
+            }
+        </code></pre>
+        <p>Google Chrome还引入了一种从弹出多个对话框的第二个对话框开始,给予不再弹出的选项.</p>
+        <p>Chrome还提供了window.print()方法来"打印".</p>
+        <br>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+  <link href="/static/css/mycss.css" rel="stylesheet" type="text/css">
+  <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
+  <link href="/static/css/mycss.css" rel="stylesheet" type="text/css">
+  <title>Professional javascript for web developer</title>
+</head>
+<body>
+<div class="home">
+<div style="float:left;"><canvas id="drawing5" height="200" width="200"></canvas></div>
+<h1>&nbsp;&nbsp;Welcome to JavaScript exercise.</h1>
+<p>&nbsp;&nbsp;All exercise are from book<i>"Professional javascript for web developer."</i></p>
+<div id="mainPage">
+    <div style="float:left;width:400px;">
+        <h2>catalog</h2>
+    <ul style="font-size: 18px;">
+      <li><a href="{% url 'chapter_01' %}"><i>Chapter01 JavaScript简介</i></a></li>
+      <li><a href="{% url 'chapter_02' %}"><i>Chapter02 在HTML中使用JavaScript</i></a></li>
+      <li><a href="{% url 'chapter_03' %}"><i>Chapter03 基本概念</i></a></li>
+      <li><a href="{% url 'chapter_04' %}"><i>Chapter04 变量,作用域和内存问题</i></a></li>
+      <li><a href="{% url 'chapter_05' %}"><i>Chapter05 引用类型</i></a></li>
+      <li><a href="{% url 'chapter_06' %}"><i>Chapter06 面向对象程序设计</i></a></li>
+      <li><a href="{% url 'chapter_07' %}"><i>Chapter07 函数表达式</i></a></li>
+      <li><a href="{% url 'chapter_08' %}"><i>Chapter08 BOM</i></a></li>
+      <li><a href="{% url 'chapter_09' %}"><i>Chapter09 客户端检测</i></a></li>
+      <li><a href="{% url 'chapter_10' %}"><i>Chapter10 DOM</i></a></li>
+      <li><a href="{% url 'chapter_11' %}"><i>Chapter11 DOM扩展</i></a></li>
+      <li><a href="{% url 'chapter_12' %}"><i>Chapter12 DOM2和DOM3</i></a></li>
+      <li><a href="{% url 'chapter_13' %}"><i>Chapter13 事件</i></a></li>
+      <li><a href="{% url 'chapter_14' %}"><i>Chapter14 表单脚本</i></a></li>
+      <li><a href="{% url 'chapter_15' %}"><i>Chapter15 使用Canvas绘图</i></a></li>
+      <li><a href="{% url 'chapter_16' %}"><i>Chapter16 HTML5 脚本</i></a></li>
+      <li><a href="{% url 'chapter_17' %}"><i>Chapter17 错误处理与调试</i></a></li>
+      <li><a href="{% url 'chapter_18' %}"><i>Chapter18 JavaScript与XML</i></a></li>
+      <li><a href="{% url 'chapter_19' %}"><i>Chapter19 E4X</i></a></li>
+      <li><a href="{% url 'chapter_20' %}"><i>Chapter20 JSON</i></a></li>
+      <li><a href="{% url 'chapter_21' %}"><i>Chapter21 Ajax与Comet</i></a></li>
+      <li><a href="{% url 'chapter_22' %}"><i>Chapter22 高级技巧 </i></a></li>
+    </ul>
+    </div>
+    <div style="float:left;">
+    <h2>element</h2>
+    <ul style="font-size: 18px;">
+        <li><a href="{% url 'elements_tables' %}#tab"><i>Tables</i></a></li>
+        <li><a href="{% url 'elements_frame' %}"><i>Frame</i></a></li>
+        <li><a href="{% url 'elements_forms' %}"><i>Forms</i></a></li>
+        <li><a href="{% url 'elements_richtext' %}"><i>RichText</i></a></li>
+    </ul>
+</div>
+</div>
+</div>
+<script>
+       var drawing5 = document.getElementById("drawing5");
+
+    if (drawing5.getContext) {
+        var context = drawing5.getContext("2d");
+
+        //设置阴影
+        context.shadowOffsetX = 5;
+        context.shadowOffsetY = 5;
+        context.shadowBlur = 4;
+        context.shadowColor = "rgba(0, 0, 0, .5)";
+
+        //绘制红色矩形
+        context.fillStyle = "#ff0000";
+        context.fillRect(10, 10, 50, 50);
+
+        //绘制蓝色矩形
+        context.fillStyle = "rgba(0, 0, 255, 1)";
+        context.fillRect(30, 30, 50, 50);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+{% extends "chapter21/base.html" %}
+{% block chapter_no %}21{% endblock %}
+{% block exercise_no %}04{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>跨源资源共享</h3>
+        <p>通过 XHR 实现 Ajax 通信的一个主要限制,来源于跨域安全策略。默认情况下,XHR 对象只能访
+问与包含它的页面位于同一个域中的资源。这种安全策略可以预防某些恶意行为。但是,实现合理的跨
+域请求对开发某些浏览器应用程序也是至关重要的。</p>
+        <p>CORS(Cross-Origin Resource Sharing,跨源资源共享)是 W3C 的一个工作草案,定义了在必须访
+问跨源资源时,浏览器与服务器应该如何沟通。CORS 背后的基本思想,就是使用自定义的 HTTP 头部
+让浏览器与服务器进行沟通,从而决定请求或响应是应该成功,还是应该失败。</p>
+        <p>比如一个简单的使用 GET 或 POST 发送的请求,它没有自定义的头部,而主体内容是 text/plain。在发送该请求时,需要给它附加一个额外的 Origin 头部,其中包含请求页面的源信息(协议、域名和端口),以便服务器根据这个头部信息来决定是否给予响应。如果服务器认为这个请求可以接受,就在 Access-Control-Allow-Origin 头部中回发相同的源信息(如果是公共资源,可以回发 "*" ).</p>
+        <p>如果没有这个头部,或者有这个头部但源信息不匹配,浏览器就会驳回请求。正常情况下,浏览器会处理请求。注意,<span class="epd">请求和响应都不包含 cookie 信息</span>。</p>
+       <pre><code>
+            Origin: http://www.nczonline.net
+            Access-Control-Allow-Origin: http://www.nczonline.net
+        </code></pre>
+    </div>
+    <br>
+    <div id="1">
+        <h4>4.1 IE对CORS的实现</h4>
+        <p>微软在 IE8 中引入了 XDR( XDomainRequest )类型。这个对象与 XHR 类似,但能实现安全可靠
+的跨域通信。XDR 对象的安全机制部分实现了 W3C 的 CORS 规范。以下是 XDR 与 XHR 的一些不同之
+处。</p>
+        <ul>
+            <li>cookie 不会随请求发送,也不会随响应返回。</li>
+            <li>只能设置请求头部信息中的 Content-Type 字段。</li>
+            <li>不能访问响应头部信息.</li>
+            <li>只支持 GET 和 POST 请求。</li>
+        </ul>
+        <p>这些变化使 CSRF(Cross-Site Request Forgery,跨站点请求伪造)和 XSS(Cross-Site Scripting,跨
+站点脚本)的问题得到了缓解。被请求的资源可以根据它认为合适的任意数据(用户代理、来源页面等)
+来决定是否设置 Access-Control- Allow-Origin 头部。作为请求的一部分, Origin 头部的值表示
+请求的来源域,以便远程资源明确地识别 XDR 请求。</p>
+        <p>XDR 对象的使用方法与 XHR 对象非常相似。也是创建一个 XDomainRequest 的实例,
+方法,再调用 send() 方法。但与 XHR 对象的 open() 方法不同,XDR 对象的 open() 方法只接收两个
+参数:请求的类型和 URL。</p>
+        <p>所有 XDR 请求都是异步执行的,不能用它来创建同步请求。请求返回之后,会触发 load 事件,
+响应的数据也会保存在 responseText 属性中.</p>
+        <p class="extp"><span>XDomainRequestExample01.htm</span></p>
+        <pre><code>
+            var xdr = new XDomainRequest();
+            xdr.onload = function() {
+                alert(xdr.requestText);
+            };
+
+            xdr.onerror = function() {
+                alert("An error occurred.");
+            };
+
+            xdr.open("get", "http://www.somewhere-else.com/page/")
+            xdr.send(null);
+        </code></pre>
+        <p>鉴于导致 XDR 请求失败的因素很多,因此建议你不要忘记通过 onerror 事件处
+理程序来捕获该事件;否则,即使请求失败也不会有任何提示。同样支持abort()方法, 也支持timeout属性和ontimeout事件处理程序.</p>
+    <pre><code>
+        var xdr = new XDomainRequest();
+        xdr.onload = function() {
+            alert(xdr.responseText);
+        };
+
+        xdr.onerror = function() {
+            alert("An error occurred.");
+        };
+
+        xdr.timeout = 1000;
+        xdr.ontimeout = function() {
+            alert("Request took too long.");
+        };
+
+        //GET方法
+        xdr.open("get", "http://www.somewhere-else.com/page/");
+        xdr.send(null);
+
+        //POST方法
+        xdr.open("post", "http://www.somewhere-else.com/page/");
+        xdr.contentType = "application/x-www-form-urlencoded";
+        xdr.send("name1=value1&name2=value2");
+    </code></pre>
+    <p>为支持 POST 请求,XDR 对象提供了 contentType 属性,用来表示发送数据的格式.这个属性是通过 XDR 对象影响头部信息的<span class="dsp">唯一</span>方式。</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>4.2 其他浏览器对CORS的实现</h4>
+        <p>Firefox 3.5+、Safari 4+、Chrome、iOS 版 Safari 和 Android 平台中的 WebKit 都通过 XMLHttpRequest对象实现了对 CORS 的原生支持。在尝试打开不同来源的资源时,无需额外编写代码就可以触发这个行为。要请求位于另一个域中的资源,使用标准的 XHR 对象并在 open() 方法中传入绝对 URL 即可.</p>
+        <pre><code>
+            var xhr = createXHR();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 ) {
+                        alert(xhr.responseText);
+                    } else {
+                        alert("Request was unsuccessful: " + xhr.status);
+                    }
+                }
+            };
+            xhr.open("get", "http://www.somewhere-else.com/page/", true);
+            xhr.send(null);
+        </code></pre>
+        <p>与 IE 中的 XDR 对象不同,通过跨域 XHR 对象可以访问 status 和 statusText 属性,而且还支
+持同步请求。跨域 XHR 对象也有一些限制,但为了安全这些限制是必需的。以下就是这些限制。</p>
+        <ul>
+            <li>不能使用 setRequestHeader() 设置自定义头部</li>
+            <li>不能发送和接收 cookie</li>
+            <li>调用 getAllResponseHeaders() 方法总会返回空字符串</li>
+        </ul>
+        <p>由于无论同源请求还是跨源请求都使用相同的接口,因此<span class="dsp">对于本地资源,最好使用相对 URL,在访问远程资源时再使用绝对 URL</span>。这样做能消除歧义,避免出现限制访问头部或本地 cookie 信息等问题。</p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>4.3 Preflighted Reqeusts</h4>
+        <p>CORS通过一种叫做Preflighted Requests的透明服务器验证机制支持开发人员使用自定义的头部,GET 或 POST 之外的方法,以及不同类型的主体内容.在使用下列高级选项来发送请求时,就会向服务器发送一个Preflight请求.这种请求使用OPTIONS方法,发送下列头部.</p>
+        <ul>
+            <li>Origin :与简单的请求相同。</li>
+            <li>Access-Control-Request-Method :请求自身使用的方法。</li>
+            <li>Access-Control-Request-Headers :(可选)自定义的头部信息,多个头部以逗号分隔。</li>
+        </ul>
+        <p>发送这个请求后,服务器可以决定是否允许这种类型的请求。服务器通过在响应中发送如下头部与浏览器进行沟通。</p>
+        <ul>
+            <li>Access-Control-Allow-Origin :与简单的请求相同。</li>
+            <li>Access-Control-Allow-Methods :允许的方法,多个方法以逗号分隔。</li>
+            <li> Access-Control-Allow-Headers :允许的头部,多个头部以逗号分隔。</li>
+            <li>Access-Control-Max-Age :应该将这个 Preflight 请求缓存多长时间(以秒表示)。</li>
+        </ul>
+        <p>Preflight 请求结束后,结果将按照响应中指定的时间缓存起来。而为此付出的代价只是第一次发送这种请求时会多一次 HTTP 请求。支持 Preflight 请求的浏览器包括 Firefox 3.5+、Safari 4+和 Chrome。IE 10 及更早版本都不支持。</p>
+        <br>
+    </div>
+    <div id="4">
+        <h4>4.4 带凭据的请求</h4>
+        <p>默认情况下,跨源请求不提供凭据(cookie、HTTP认证及客户端SSL证明等).通过将withCredentials 属性设置为true,可以指定某个请求应该发送凭据。如果服务器接受带凭据的请求,会用下面的 HTTP 头部来响应。</p>
+        <pre><code>
+            Access-Contorl-Allow-Credentials: true;
+        </code></pre>
+        <p>如果发送的是带凭据的请求,但服务器的响应中没有包含这个头部,那么浏览器就不会把响应交给JavaScript.另外,服务器还可以在 Preflight 响应中发送这个 HTTP 头部,表示允许源发送带凭据的请求。支持 withCredentials 属性的浏览器有 Firefox 3.5+、Safari 4+和 Chrome。IE 10 及更早版本都不支持。</p>
+        <br>
+    </div>
+    <div id="5">
+        <h4>4.5 跨浏览器的CORS</h4>
+        <p>即使浏览器对 CORS 的支持程度并不都一样,但所有浏览器都支持简单的(非 Preflight 和不带凭据的)请求,因此有必要实现一个跨浏览器的方案。检测 XHR 是否支持 CORS 的最简单方式,就是检查是否存在 withCredentials 属性。再结合检测 XDomainRequest 对象是否存在,就可以兼顾所有浏览器了。</p>
+        <p class="extp"><span>CrossBrowserCORSRequestExample01.htm</span></p>
+        <pre><code>
+            function createCORSRequest(method, url) {
+                var xhr = new XMLHttpRequest();
+                if ("withCredentials" in xhr) {
+                    xhr.open(method, url, true);
+                } else if (typeof XDomainRequest != "undefined") {
+                    xhr = new XDomainRequest();
+                    xhr.open(method, url);
+                } else {
+                    xhr = null;
+                }
+                return xhr;
+            }
+
+            var request = createCORSRequest("get", "http://www.somewhere-else.com/page/");
+            if (request) {
+                request.onload = function() {
+                    //对request.responsetText 进行处理
+                };
+                request.send();
+            }
+        </code></pre>
+        <p>Firefox、Safari 和 Chrome 中的 XMLHttpRequest 对象与 IE 中的 XDomainRequest 对象类似,都提供了够用的接口,因此以上模式还是相当有用的。这两个对象共同的属性/方法如下, 都包含在 createCORSRequest() 函数返回的对象中,在所有浏览器中都能正常使用。</p>
+        <ul>
+            <li>abort() :用于停止正在进行的请求。</li>
+            <li>onerror :用于替代 onreadystatechange 检测错误。</li>
+            <li>onload :用于替代 onreadystatechange 检测成功。</li>
+            <li>responseText :用于取得响应内容。</li>
+            <li>send() :用于发送请求。</li>
+        </ul>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

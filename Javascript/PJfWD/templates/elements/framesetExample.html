@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frameset Example</title>
+</head>
+<frameset rows="250,*">
+    <frame src="{% url 'elements_topFrame' %}" name="topFrame">
+    <frameset cols="50%, 50%">
+        <frame src="{% url 'elements_leftFrame' %}" name="leftFrame">
+        <frame src="{% url 'elements_rightFrame' %}" name="rightFrame">
+    </frameset>
+</frameset>
+</html>

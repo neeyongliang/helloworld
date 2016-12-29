@@ -1,0 +1,23 @@
+{% extends "chapter13/base.html" %}
+{% block chapter_no %}13{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>事件流</h3>
+        <p><span class="dsp">事件流</span>描述的是从页面中接收事件的顺序。</p>
+        <h4>1.1 事件冒泡(推荐)</h4>
+        <p>div->body->html->document</p>
+        <h4>1.2 事件捕获</h4>
+        <p>某些特殊需求才会用到,document->html->body->div</p>
+        <h4>1.3 DOM事件流</h4>
+        <p>DOM事件流规定包括三个阶段: 事件捕获阶段, 处于目标阶段和事件冒泡阶段.</p>
+        <p>即:document->html->body->div->body->html->document</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "chapter15/base.html" %}
+{% block chapter_no %}15{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>WebGL</h3>
+        <p>WebGL 是针对 Canvas 的 3D 上下文。与其他 Web 技术不同,WebGL 并不是 W3C 制定的标准,而
+是由 Khronos Group 制定的。</p>
+        <p>参考<a href="www.learningwebgl.com">www.learningwebgl.com</a>,其中包含非常棒的系列教程.</p>
+    </div>
+    <div id="1">
+        <h4>3.1 类型化数组</h4>
+        <p>WebGL 涉及的复杂计算需要提前知道数值的精度,而标准的 JavaScript 数值无法满足需要。
+        为此,WebGL 引入了一个概念,叫类型化数组(typed arrays)。类型化数组也是数组,不过其元素被设置为
+特定类型的值。</p>
+        <ul>
+            <li>视图</li>
+            <li>类型化视图</li>
+        </ul>
+        <br>
+    </div>
+    <div id="2">
+        <h4>3.2 WebGL上下文</h4>
+        <p>目前,在支持的浏览器中,WebGL 的名字叫 "experimental-webgl" ,这是因为 WebGL 规范仍
+然未制定完成。制定完成后,这个上下文的名字就会变成简单的 "webgl" 。在使用 WebGL 上下文时,务必先检测一下返回值。</p>
+        <p><span class="ext">WebGLExample01.htm</span></p>
+        <pre><code>
+            var drawing9 = document.getElementById("drawing9");
+
+            //确定浏览器支持canvas元素
+            if (drawing9.getContext) {
+                var gl = drawing9.getContext("experimental-webgl");
+                if (gl) {
+                    console.log("Use WebGL");
+                }
+            }
+        </code></pre>
+        <br>
+    </div>
+    <div id="3">
+        <h4>3.3 支持</h4>
+        <p>WebGL比较特别的地方在于,某个浏览器的某个版本实现了它,并不一定意味着就真能使用它。某个浏览器支持 WebGL,至少意味着两件事:首先,浏览器本身必须实现了 WebGL API;其次,计算机必须升级显示驱动程序。</p>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

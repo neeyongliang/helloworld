@@ -1,0 +1,217 @@
+{% extends "chapter06/base.html" %}
+{% block chapter_no %}06{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+  <div class="right">
+    <h3>1. 理解对象</h3>
+    <p>创建自定义对象,最简单的方式就是创建一个object实例,然后再为它添加属性和方法:</p>
+    <div><span class="ext">CreatingObjectsExample01.html</span></div>
+    <pre><code>
+      var person = new Object();
+      person.name = "wikinee";
+      person.age = 25;
+      person.job = "Software Engineer";
+
+      person.sayName = function(){
+        alert(this.name);
+      };
+    </code></pre>
+    <p>上面是早期JavaScript开发人员的方法,几年以后,对象字面量成为创建这种对象的首选.</p>
+    <pre><code>
+      var person = {
+        name: "wiki",
+        age: 25,
+        job: "Software Engineer",
+
+        sayName: function(){
+          alert(this.name);
+        }
+      }
+    </code></pre>
+  </div>
+    <br>
+    <div class="right" id="1">
+        <h4>1.1 属性类型</h4>
+        <p>ECMA-262在定义只有内部才用的特性(attribute)时,描述了属性(property)的各种特征.需要才用一对方括号中.</p>
+        <p>ECMAScript中有两种属性:<b>数据属性</b>和<b>访问器属性</b>.</p>
+        <div id="dataProperty">
+            <h5>A. 数据属性</h5>
+            <p>[[Configurable]]:表示能否通过delete删除属性从而重新定义属性,能否修改属性的特性,或者能否把属性修改为访问器属性.</p>
+            <p>[[Enumerable]]:表示能否通过for-in循环.</p>
+            <p>[[Writable]]:表示能否修改属性的值.</p>
+            <p>[[Value]]:报杭属性的数据值.</p>
+
+        <p>要修改默认属性的特性,必须使用ECMAScript的Object.defineProperty()方法,
+        这个方法主要有三个参数:属性所在的对象,属性的名字和钱一个描述符对象.其中描述符(descriptor)
+        的属性必须是:configurable, enumerable, writable和value.设置其中一个或多个值,可以修改对应的特性值.</p>
+
+        <div><span class="ext">DataPropertiesExample01.html</span></div>
+        <pre><code>
+            var person = {};
+            Object.defineProperty(person, "name", {
+                writable: false,
+                value: "Nicholas"
+            });
+
+            person.name //"Nicholas"
+            person.name = "Greg";
+            person.name //"Nicholas"
+            //在非严格模式下,赋值会被忽略,在严格模式下,赋值抛出异常.
+        </code></pre>
+
+        <p>可以多次调用Object.defineProperty()方法,但在把configurable特性设置为false后就会有限制.</p>
+        <p>多熟情况下可能<span class="epd">没必要</span>使用这些高级方法,但它们能帮助我们更了解javascript的属性.</p>
+        <p><span class="epd">强烈不建议</span>在IE8以前使用Object.defineProperty()</p>
+        </div>
+        <div id="AccessorProperties">
+            <h5>访问器属性</h5>
+            <p>访问器不包含数据值;它们包含一对getter(负责读取)和setter(负责写入)函数(两个都是非必需的.)访问器属性有如下四个特性.</p>
+            <p>[[Configurable]]:表示能否通过delete删除属性从而重新定义属性,能否修改属性的特性,或者能否把属性修改为访问器属性.</p>
+            <p>[[Enumerable]]:表示能否通过for-in循环.</p>
+            <p>[[Get]]:在读取属性时调用个函数.默认undefined.</p>
+            <p>[[Set]]:在写入属性时调用个函数.默认undefined.</p>
+
+            <div><span class="ext">AccessorPropertiesExample01.html</span></div>
+            <pre><code>
+            var book = {
+                _year: 2004,//这种写法确保只能通过对象方法访问
+                edition: 1
+            };
+
+            Object.defineProperty(book, "year", {
+                get: function(){
+                    return this._year;
+                },
+                set: function(newValue){
+                    if (newValue > 2004) {
+                        this._year = newValue;
+                        this.edition += newValue - 2004;
+                    }
+                }
+            });
+
+            book.year = 2005;
+            book.edition //2
+            </code></pre>
+            <p>_year 前面的下划线是一种常用的记号,用于表示只能通过对象方法访问的属性。而访问器属性 year 则包含一个getter 函数
+                和一个 setter 函数。 getter 函数返回 _year 的值, setter 函数通过计算来确定正确的版本。
+                因此,把 year 属性修改为 2005 会导致 _year 变成 2005,而 edition 变为 2。</p>
+            <p>这是使用访问器属性的常见方式,即<span class="epd">设置一个属性的值会导致其他属性发生变化</span>。</p>
+            <p>不一定非要同时指定getter和setter,只指定getter意味着属性是不能写,尝试写属性会被忽略.
+            在严格模式下,尝试写入只指定了getter函数的属性会抛出错误.类似地,只指定setter属性也不能读.</p>
+
+            <p>目前,通用浏览器Chrome, Opera12+, Firefox4+, IE9+, Safari5+都是支持ECMAScript的这个方法.在此之前,一般都使用
+            __defineGetter__()和__defineSetter__()这两个非标准方法,上面例子可以重写为:</p>
+
+            <div><span class="ext">AccessorPropertiesExample02.html</span></div>
+            <pre><code>
+                var book = {
+                    _year: 2004,
+                    edition: 1
+                };
+                //定义访问器的旧有方法
+                book.__defineGetter("year", function(){
+                    return this._year;
+                });
+
+                book.__defineSetter("year", function(newValue){
+                    if (newValue > 2004) {
+                        this._year = newValue;
+                        this.edition += newValue - 2004;
+                    }
+                });
+
+                book.year = 2005;
+                book.editon //2
+            </code></pre>
+            <p>在不支持Object.defineProperty()方法的浏览器<span class="ext">不能修改</span>[[Configurable]]和[[Enumerable]]</p>
+        </div>
+    </div>
+    <br>
+    <div class="right" id="2">
+        <h4>1.2 定义多个属性</h4>
+        <p>ECMAScript 5定义了一个Object.defineProperties()方法来一次定义多个属性.
+        这个方法接收两个参数:第一个对象是要添加和修改其属性的对象;第二个对象的属性与第一个对象中要添加或修改的属性一一对应.</p>
+        <div><span class="ext">MultiplePropertiesExample01.html</span></div>
+        <pre><code>
+            var book = {};
+
+            Object.defineProperties(book, {
+                _year: {
+                    value: 2004
+                },
+
+                edition: {
+                    value: 1
+                },
+
+                year: {
+                    get: funciton() {
+                        return this._year;
+                    },
+
+                    set: function(newValue){
+                        if (newValue > 2004) {
+                            this._year = newValue;
+                            this.editon += newValue - 2004;
+                        }
+                    }
+                }
+            });
+        </code></pre>
+        <p><span class="dsp">说明</span>:两种方法相同,唯一区别是这里的属性都是同一时间创造的.</p>
+    </div>
+    <br>
+    <div class="right" id="3">
+        <h4>1.3 读取属性的特征</h4>
+        <p>使用ECMAScript 5的Object.getOwnPropertyDescriptor()方法,可以取得给定属性的描述符.
+        该方法接收两个参数: 属性所在的对象和要读取其描述符的属性名称.</p>
+        <p>如果是数据属性,这个对象的属性有:configurable, enumerable, writable和value.</p>
+        <p>如果是属性,这个对象的属性有:configurable, enumerable, get和set.</p>
+        <div><span class="ext">GetPropertyDescriptorExample01.html</span></div>
+        <pre><code>
+            var book = {};
+            Object.defineProperties(book, {
+                _year: {
+                    value: 2004
+                },
+
+                edition: {
+                    value: 1
+                },
+
+                year: {
+                    get: function() {
+                        return this._year;
+                    },
+
+                    set: function(newValue) {
+                        if (newValue > 2004) {
+                            this._year = newValue;
+                            this.edtion += newValue - 2004;
+                        }
+                    }
+                }
+            });
+
+            //Descriptor, DataProperties
+            var descriptor = Object.getOwnPropertyDescriptor(book, "_year");
+            descriptor.value; //2004
+            descriptor.configurable; //false
+            typeof descriptor.get; //"undefined"
+
+            //AccessorProperties
+            var descriptor = Object.getOwnPropertyDescriptor(book, "year");
+            descriptor.value; //undefined
+            descriptor.enumerable; //false
+            typeof descriptor.get //"function"
+        </code></pre>
+        <p>在javascript中,可以对<span class="dsp">任何对象(包括DOM和BOM)</span>使用.
+            目前,通用浏览器Chrome, Opera12+, Firefox4+, IE9+, Safari5+都是支持ECMAScript的这个方法.</p>
+    </div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

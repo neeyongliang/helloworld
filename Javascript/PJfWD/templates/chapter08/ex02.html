@@ -1,0 +1,137 @@
+{% extends "chapter08/base.html" %}
+{% block chapter_no %}08{% endblock %}
+{% block exercise_no %}02{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>2. location对象</h3>
+        <p>location提供与当前窗口中加载的文档有关的信息,还提供了一些导航功能.</p>
+        <p>window.location()和document.location()引用的是一个对象.下表对象列出location的所有属性(注:每个对象前省略location前缀.)</p>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                    <th style="width: 80px;text-align: center;">属 性 名</th>
+                    <th style="width: 70px;text-align: center;">例 子</th>
+                    <th style="width: 220px;text-align: center;">说 明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>hash</td>
+                        <td>"#contents"</td>
+                        <td>返回URL中hash(#号后面跟零或多个字符), 如果URL中不包含散列,则返回空字符串</td>
+                    </tr>
+                    <tr>
+                        <td>host</td>
+                        <td>"www.wrox.com:80"</td>
+                        <td>返回服务器名称和端口号(如果有)</td>
+                    </tr>
+                    <tr>
+                        <td>hostname</td>
+                        <td>"www.wrox.com"</td>
+                        <td>返回不带端口号的服务器名称.</td>
+                    </tr>
+                    <tr>
+                        <td>href</td>
+                        <td>"http://www.wrox.com"</td>
+                        <td>返回当前加载页面的完整URL,而location对象的toString()方法也返回这个值</td>
+                    </tr>
+                    <tr>
+                        <td>pathname</td>
+                        <td>"/WileyCDA/"</td>
+                        <td>返回URL中的目录和(或)文件名</td>
+                    </tr>
+                    <tr>
+                        <td>port</td>
+                        <td>"8080"</td>
+                        <td>返回URL中包含的端口号,如果url中不包含端口号,则返回空字符串.</td>
+                    </tr>
+                    <tr>
+                        <td>protocol</td>
+                        <td>"http:"</td>
+                        <td>返回页面使用的协议.通常是http:或者https:</td>
+                    </tr>
+                    <tr>
+                        <td>search</td>
+                        <td>"?q=javascript"</td>
+                        <td>返回URL的查询字符串,这个字符串以问号开头</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="1">
+        <h4>2.1 查询字符串参数</h4>
+        <p>自带的location.search查询并不方便,我们构造一下函数,增强其功能:</p>
+        <p><span class="ext">LocationExample01.html</span></p>
+        <pre><code>
+            function getQueryStringArgs() {
+                //取得字符串并去掉开头问号
+                var qs = (location.search.length > 0 ? location.search.substring(1) : ""),
+
+                //保存数组对象
+                args = {},
+
+                //取得每一项
+                items = qs.length ? qs.split("&") : [],
+                    name = null,
+                    value = null,
+                    i = 0,
+                    len = items.length;
+
+                  //逐个将每一项添加到args对象中
+                  for (i=0; i < len; i++) {
+                    item = items[i].split("=");
+                    name = decodeURIComponent(item[0]);
+                    value = decodeURIComponet(item[1]);
+
+                    if (name.length) {
+                        args[name] = value;
+                    }
+                  }
+                return args;
+            }
+        </code></pre>
+    </div>
+    <div id="2">
+        <h4>2.2 位置操作</h4>
+        <p>使用location对象可以通过很多方法来改变浏览器的位置.首先,也是最常用的方法,就是assign()方法并为其传递一个URL,下面三种方法效果相同:</p>
+        <p><span class="ext">LocationExample01.html</span></p>
+        <pre><code>
+            location.assign("http://www.wrox.com");
+            window.location = "http://www.wrox.com";
+            location.href = "http://www.wrox.com";
+        </code></pre>
+        <p>当通过人一种方式修改URL之后,浏览器中便会出现一天新纪录,因此用户通过单击"后退"就会跳到前一个页面.可以使用replace()方法来禁用这种行为.</p>
+        <p><span class="ext">LocationReplaceExample01.htm</span></p>
+        <pre><code>
+            <\html lang="en">
+            <\head>
+              <\meta charset="UTF-8">
+              <\title>You won't be able to get back here<\/title>
+            <\/head>
+            <\body>
+              <\p>Enjoy this page for a second, because you won't be coming back here.</p>
+              <\script\>
+                setTimeout(function () {
+                    location.replace("http://www.wrox.com/")
+                }, 1000 );
+              <\/script\>
+            <\/body>
+            <\/html>
+        </code></pre>
+        <p>最后,reload()函数</p>
+        <ul>
+            <li>location.reload(); //重新加载(有可能从缓存加载)</li>
+            <li>location.reload(true); //重新加载(从服务器)</li>
+        </ul>
+        <p><span class="dsp">最好将reload()放到代码最后一行.</span></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "chapter09/base.html" %}
+{% block chapter_no %}09{% endblock %}
+{% block exercise_no %}02{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>2. 怪癖检测</h3>
+        <p>与能力检测类似,怪癖检测(quirks detection)的目标是识别浏览器的特殊行为。但与能力检测确
+认浏览器支持什么能力不同,怪癖检测是想要知道浏览器存在什么缺陷(“怪癖”也就是 bug)。这通常
+需要运行一小段代码,以确定某一特性不能正常工作。</p>
+<p>例如,IE8 及更早版本中存在一个 bug,即如果某个实例属性与 [[Enumerable]] 标记为 false 的某个原型属性同名,那么该实例属性将不会出现在fon-in 循环当中。可以使用如下代码来检测这种“怪癖”
+。</p>
+        <pre><code>
+            var hasDontEnumQuirky = function() {
+                var o = ( toString : function() {} );
+                for (var prop in o) {
+                    if (prop == "toString") {
+                        return false;
+                    }
+                }
+                return true;
+            }();
+        </code></pre>
+        <p>另一个经常需要检测的“怪癖”是 Safari 3 以前版本会枚举被隐藏的属性。可以用下面的函数来检
+测该“怪癖”。</p>
+        <p><span class="ext">QuirksDetectionExample01.htm</span></p>
+        <pre><code>
+            var hasEnumShadowsQuirk = function() {
+
+                var o = ( toString : function() {} );
+                var count = 0;
+                for (var prop in o) {
+                    if (prop == "toString") {
+                        count++;
+                    }
+                }
+                return (count > 1);
+            }();
+        </code></pre>
+        <p>因此我们建议仅检测那些对你有<span class="epd">有直接影响的</span>“怪癖”,而且最好在脚本一开始就执行此类检测,以便尽早解决问题。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

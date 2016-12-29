@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+  <script src="/static/js/basic/jquery-2.1.4.js"></script>
+  <script src="/static/js/basic/bootstrap.min.js"></script>
+  <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Ch{% block chapter_no %}{% endblock %}ex{% block exercise_no %}{% endblock %}</title>
+</head>
+<body>
+    <noscript><h2>本页面需要浏览器支持(启用)JavaScript。</h2></noscript>
+    {% block mycss %}{% endblock %}
+    {% block main %}{% endblock %}
+    {% block myjs %}{% endblock %}
+</body>
+</html>

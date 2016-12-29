@@ -1,0 +1,92 @@
+{% extends "chapter05/base.html" %}
+{% block chapter_no %}05{% endblock %}
+{% block exercise_no %}{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+  <div id="0">
+    <h3>3 Date类型</h3>
+    <p>Date类型由早期的 java.util.Date类基础上构建.</p>
+    <div><span class="ext">
+      DateTypeExample01.html
+    </span></div>
+    <pre><code>
+      var now = new Date();
+    </code></pre>
+      <ul>
+        <p>ECMAScript提供了两个方法:</p>
+        <li>Date.parse()</li>
+        <li>Date.UTC()</li>
+      </ul>
+    <div><span class="ext">DateTypeExample01.html</span></div>
+    <p>将地区设置成美国的浏览器通常接受以下格式:</p>
+    <pre><code>
+      "月日年", 如6/13/2004;
+      "英文月名日年,", 如January 12,2004;
+      "英文星期几 英文月名 日 年 时:分:秒 时区", 如Tue May 25 2004 00:00:00 GMT-0700
+      "ISO 8601 扩展格式 YYYY-MMDDTHH:mm:ss.sssZ", 如2004-05-25T00:00:00,只有兼容ECMAScript5的实现支持这种格式
+    </code></pre>
+    <p>Date.UTC参数:年份,基于0的月份,月中哪一天,小时(0-23),分钟,毫秒</p>
+    <p>说明:年和月是必须的;如果没用指定哪一天,就默认为1;如果没有指定其他的就默认为0</p>
+
+    <div><span class="ext">DateTypeUTCExample01.html</span></div>
+    <pre><code>
+      // GMT时间2000年1月1日
+      var y2k = new Date(Date.UTC(2000,0));
+      // GMT时间2005年5月5日下午 5:55:55
+      var allFives = new Date(Date.UTC(2005,4,5,17,55,55));
+      // 本地时间2000年1月1日
+      var y2k = new Date(2000,0);
+      // 本地时间2005年5月5日下午 5:55:55
+      var allFives = new Date(2005,4,5,17,55,55);
+    </code></pre>
+    <p>在ECMAScript5中,添加了Date.now()方法</p>
+      <p><span>DateTypeNowExample01.html</span></div>
+      <pre><code>
+        //取得开始时间
+        var start = Date.now();
+        //调用函数
+        doSomething();
+        //取得结束时间
+        var stop = Date.now();
+      </code></pre>
+      <p>对于不支持Date.now()的浏览器,还可以使用如下方法:</p>
+      <p><span>DateTypeNowExample02.html</span></div>
+    <pre><code>
+      // 取得开始时间
+      var start = +new Date();
+      // 取得结束时间
+      var stop = +new Date();
+    </code></pre>
+  </div>
+  <div id="1">
+    <h4>3.1 继承方法</h4>
+    <p>在不同的浏览器中,toLocalString()和toString()的差异可谓大相径庭.不能用于是显示时间才操作.</p>
+    <div><span class="ext">DateTypeValueOfExample01.html</span></div>
+    <pre><code>
+      var date1 = new Date(2007, 0, 1); //"January 1, 2007"
+      var date2 = new Date(2007, 1, 1); //"February 1, 2007"
+      alert(date1 < date2); // true
+      alert(date1 > date2); // false
+      相对于1970年的大小
+    </code></pre>
+  </div>
+  <div id="2">
+    <h4>3.2 日期格式化方法</h4>
+    <p>对日期的格式化操作,有如下的专门的方法:</p>
+    <ul>
+      <li>toDateString()</li>
+      <li>toTimeString()</li>
+      <li>toLocalDateString()</li>
+      <li>toLocalTimeString()</li>
+      <li>toUTCString()</li>
+      ECAMScript推荐在编码里一律使用toUTCString方法.
+    </ul>
+  </div>
+  <div id="3">
+    <h4>日期/时间组件方法</h4>
+    <p>Date类型方法都是直接取得设这只日期中的特定部分的方法.</p>
+    <p><b class="epd">注意</b>:如果UTC日期将在没有时区偏差的情况下转换为GMT时间.</p>
+  </div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

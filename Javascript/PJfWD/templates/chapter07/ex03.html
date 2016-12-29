@@ -1,0 +1,22 @@
+{% extends "chapter07/base.html" %}
+{% block chapter_no %}07{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+  <div class="right">
+    <div id="0">
+        <h3>3. 模仿块级作用域</h3>
+        <p>JavaScript中没有块级作用域的概念.这意味着<span class="epd">在块级语句中定义的变量,实际上是包含函数中而非语句中创建</span>.用作块级作用域(通常称为私有作用域)的匿名函数的语法如下:</p>
+          <pre><code>
+              (function() {
+                    //这里是块级作用域
+              })();
+          </code></pre>
+          <p>这种做法可以减少闭包占用的内存问题,因为没有指向匿名函数的引用。只要函数执行完毕,就可以立即销毁其作用域链了。</p>
+    </div>
+  </div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

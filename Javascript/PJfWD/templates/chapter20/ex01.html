@@ -1,0 +1,76 @@
+{% extends "chapter20/base.html" %}
+{% block chapter_no %}20{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>语法</h3>
+        <p>JSON 的语法可以表示以下三种类型的值。</p>
+        <ul>
+            <li>简单值</li>
+            <p class="grey">使用与JavaScript相同的语法,可以在JSON中表示字符串,数值,布尔值和null.但JSON不支持JavaScript中的特殊值<span class="dsp">undefined</span>. </p>
+            <li>对象</li>
+            <p class="grey">对象作为一种复杂数据类型,表示的是一组无序的键值对。而每个键值对中的值可以是简单值,也可以是复杂数据类型的值。</p>
+            <li>数组</li>
+            <p class="grey">数组也是一种复杂数据类型,表示一组有序的值的列表,可以通过数值索引来访问其中的值。数组的值也可以是任意类型——简单值、对象或数组。</p>
+        </ul>
+        <p>JSON <span class="epd">不支持变量, 函数或者对象实例</span>, 它就是一种表示结构化数据的格式, 虽然与JavaScript中表示数据的某些语法相同,但它并不局限于JavaScript的范畴.</p>
+    </div>
+    <div id="1">
+        <h4>1.1 简单值</h4>
+        <p>最简单的JSON数据形式就是简单值.布尔值和null也是有效的JSON形式.但是,在实际应用中,JSON 更多地用来表示更复杂的数据结构,而简单值只是整个数据结构中的一部分。
+        <span class="epd">JSON字符串必须使用双引号</span>("单引号可能会导致语法错误").</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>1.2 对象</h4>
+        <p>JSON中的对象与JavaScript字面量稍微有一些不同.JSON 中的对象要求给属性加引号。</p>
+        <p>与 JavaScript 的对象字面量相比,JSON 对象有两个地方不一样。首先,没有声明变量(JSON 中没有变量的概念)。其次,没有末尾的分号(因为这不是 JavaScript 语句,所以不需要分号)。再说一遍,<span class="epd">对象的属性必须加双引号</span>,这在 JSON 中是必需的。属性的值可以是简单值,也可以是复杂类型值.</p>
+
+        <pre><code>
+            //JavaScript对象字面量
+            var person = {
+                name: "nee",
+                age: 25
+            };
+
+            //或
+
+            var object = {
+                "name": "nee",
+                "age": 25
+            }
+
+            //JSON对象表示
+            {
+                "name": "nee", //属性简单值
+                "age": 29
+            }
+
+            {
+                "name": "nee",
+                "age": 29,
+                "school": {
+                    "name": "Merrimack College", //没有问题
+                    "location": "North Andover, MA"
+                }
+            }
+        </code></pre>
+        <p class="dsp">手工编写 JSON 时,忘了给对象属性名加双引号或者把双引号写成单引号都是常见的错误。</p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>1.3 数组</h4>
+        <p>JSON 中的第二种复杂数据类型是数组。JSON 数组采用的就是 JavaScript 中的数组字面量形式。同样要注意,JSON 数组也没有变量和分号。把数组和对象结合起来,可以构成更复杂的数据集合:</p>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

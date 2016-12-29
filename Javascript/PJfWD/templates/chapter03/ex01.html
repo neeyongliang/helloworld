@@ -1,0 +1,28 @@
+{% extends "chapter03/base.html" %}
+{% block chapter_no %}03{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block main %}
+<div>定义变量不带var,就是全局变量.</div>
+    <p>局部变量</p>
+    <xmp>
+    funciton test(){
+        var message = "hi";//局部变量
+    }
+    test();
+    alert(message);
+    </xmp>
+    <p>全局变量</p>
+    <xmp>
+    function test(){
+        message = "hi";
+        }
+    test();
+    alert(message);
+    </xmp>
+{% endblock %}
+{% block myjs %}
+    <script>
+
+    </script>
+{% endblock %}

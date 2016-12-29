@@ -1,0 +1,110 @@
+{% extends "chapter21/base.html" %}
+{% block chapter_no %}21{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>进度事件</h3>
+        <p>Progress Events 规范是 W3C 的一个工作草案,定义了与客户端服务器通信有关的事件。这些事件最
+早其实只针对 XHR 操作,但目前也被其他 API 借鉴。有以下 6 个进度事件。</p>
+        <ul>
+            <li>loadstart :在接收到响应数据的第一个字节时触发。</li>
+            <li>progress :在接收响应期间持续不断地触发。</li>
+            <li>error :在请求发生错误时触发。</li>
+            <li>abort :在因为调用 abort() 方法而终止连接时触发。</li>
+            <li>load :在接收到完整的响应数据时触发。</li>
+            <li>loadend :在通信完成或者触发 error 、 abort 或 load 事件后触发。</li>
+        </ul>
+        <p>每个请求都从触发 loadstart 事件开始,接下来是一或多个 progress 事件,然后触发 error 、
+abort 或 load 事件中的一个,最后以触发 loadend 事件结束。</p>
+        <p>支持前 5 个事件的浏览器有 Firefox 3.5+、Safari 4+、Chrome、iOS 版 Safari 和 Android 版 WebKit。
+Opera(从第 11 版开始)、<span class="epd">IE 8+只支持 load 事件</span>。目前还没有浏览器支持 loadend 事件。</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>3.1 load事件</h4>
+        <p>Firefox 在实现 XHR 对象的某个版本时,曾致力于简化异步交互模型。最终,Firefox 实现中引入了
+load 事件,用以替代 readystatechange 事件。响应接收完毕后将触发 load 事件,因此也就没有必
+要去检查 readyState 属性了。而 onload 事件处理程序会接收到一个 event 对象,其 target 属性
+就指向 XHR 对象实例,因而可以访问到 XHR 对象的所有方法和属性。然而,并非所有浏览器都为这个事件实现了适当的事件对象。结果,开发人员还是要像下面这样被迫使用 XHR 对象变量。</p>
+        <p class="extp"><span>XHRProgressEventExample01.htm</span></p>
+        <pre><code>
+            var xhr = createXHR();
+            xhr.onload = function() {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                    alert(xhr.responseText);
+                } else {
+                    alert("Request was unsuccessful: " + xhr.status);
+                }
+            };
+
+            xhr.open("get", "altevent.php", true);
+            xhr.send(null);
+        </code></pre>
+        <p>只要浏览器接收到服务器的响应,不管其状态如何,都会触发 load 事件。而这意味着你必须要检
+查 status 属性,才能确定数据是否真的已经可用了。Firefox、Opera、Chrome 和 Safari 都支持 load
+事件。</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>3.2 progress事件</h4>
+        <p>Mozilla 对 XHR 的另一个革新是添加了 progress 事件,这个事件会在浏览器接收新数据期间周期性地触发。而 onprogress 事件处理程序会接收到一个 event 对象,其 target 属性是 XHR 对象,但包含着三个额外的属性: lengthComputable 、 position 和 totalSize 。其中, lengthComputable是一个表示进度信息是否可用的布尔值, position 表示已经接收的字节数, totalSize 表示根据Content-Length 响应头部确定的预期字节数。有了这些信息,我们就可以为用户创建一个进度指示器了。</p>
+        <p class="extp"><span>XHRProgressEventExample01.htm</span></p>
+        <pre><code>
+            var xhr = createXHR();
+            xhr.onload = function(event) {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                    alert(xhr.responseText);
+                } else {
+                    alert("Response was unsuccessful: " + xhr.status);
+                }
+            };
+
+            xhr.onprogress = function() {
+                var divStatus = document.getElementById("status");
+                if (event.lengthComputable) {
+                    divStatus.innerHTML = "Received " + event.position + " of " + event.totalSize + " bytes"
+                }
+            };
+
+            xhr.open("get", "altevents.php", true);
+            xhr.send(null);
+        </code></pre>
+        <div>
+            <div><button onclick="testOnprogress();">试一试</button></div>
+            <div id="status"></div>
+        </div>
+        <p>为确保正常执行,必须在调用 open() 方法之前添加 onprogress 事件处理程序。每次触发 progress 事件,都会以新的状态信息更新 HTML 元素的内容。如果响应头部中包含Content-Length 字段,那么也可以利用此信息来计算从响应中已经接收到的数据的百分比。</p>
+
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  var testOnprogress = function() {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function(event) {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                    alert(xhr.responseText);
+                } else {
+                    alert("Response was unsuccessful: " + xhr.status);
+                }
+            };
+
+            xhr.onprogress = function() {
+                var divStatus = document.getElementById("status");
+                if (event.lengthComputable) {
+                    divStatus.innerHTML = "Received " + event.position + " of " + event.totalSize + " bytes"
+                }
+            };
+
+            xhr.open("get", "{% url 'testforget' %}", true);
+            xhr.send(null);
+  }
+  </script>
+{% endblock %}

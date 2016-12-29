@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>tabindex prop</title>
+</head>
+<body>
+<p>tabindex为1的元素会被第一个选中, 用户按下 tab 后 tabindex 值为2的那个元素会被选中.
+Tabindex 为-1的不会被 tab 选中.</p>
+  <form>
+    <label>Name: <input type="text" name="name" tabindex="1" /></label>
+    <p></p>
+    <label>City: <input type="text" name="name" tabindex="-1"></label>
+    <p></p>
+    <label for="">Country :<input type="text" name="name" tabindex="2"></label>
+    <p></p>
+    <input type="submit" tabindex="3" />
+  </form>
+</body>
+</html>

@@ -1,0 +1,248 @@
+{% extends "chapter14/base.html" %}
+{% block chapter_no %}14{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>表单的基础知识</h3>
+        <p>在HTML中,表单是有<\form>元素来表示的,而在JavaScript中,表单对应的则是HTMLFormElement.不过,HTMLFormElement也有它自己下列独有的属性和方法.</p>
+        <ul>
+            <li>acceptCharset: 服务器字符集,等于HTML中的accept-charset特性.</li>
+            <li>action: 接受请求的URL; 等价于HTML中的action特性.</li>
+            <li>elements: 表单中所有控件的集合(HTMLCollection).</li>
+            <li>enctype: 请求的编码类型.等价于HTML中的enctype.</li>
+            <li>length: 表单中控件数量.</li>
+            <li>method: 要发送的HTTP请求类型.</li>
+            <li>name: 表单的名称; 等价于name特性.</li>
+            <li>reset(): 将所有表单重置<span class="epd">(慎用)</span></li>
+            <li>submit(): 提交表单.</li>
+            <li>target: 用于发送请求和接收响应的窗口名称,等价于HTML的target特性.</li>
+        </ul>
+        <p><span class="ext">SelectFormExample.htm</span></p>
+        <pre><code>
+            //不推荐
+            var firstForm = document.forms[0]; //取得页面中的第一个表单
+            var myForm = document.forms["form2"]; //取得页面中名称为"form2"的表单
+
+            //通用方式
+            var form = document.getElementById("form1");
+        </code></pre>
+    </div>
+    <br>
+    <div id="1">
+        <h4>1.1 提交表单</h4>
+        <p>分为HTML方法和JS方法.</p>
+        <p><span class="ext">SubmitFormExample01.htm</span></p>
+        <pre><code>
+            <\!-- 通用提交按钮 -->
+            <\input type="submit" value="Submit Form">
+
+            <\!-- 自定义提交按钮 -->
+            <\button type="submit">Submit Form<\/button>
+
+            <\!-- 图像按钮 -->
+            <\input type="image" src="graphic.gif">
+
+            var form = document.getElementById("myform");
+
+            //提交表单
+            form.submit();
+        </code></pre>
+        <p><span class="epd">区别</span>:在以submit()方法的形式提交表单的时候,不会触发submit事件,因此记得在调用此方法前,要<span class="dsp">先验证</span>表单数据.</p>
+        <p>提交表单可能出现的最大问题,就是多次点击提交按钮.解决这一问题的方法有两个: 在第一次提交表单后禁用,或者利用onsubmit事件程序处理后续的提交操作.</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>1.2 重置表单</h4>
+        <p><span class="epd">慎用</span>该功能!现代web交互,采用取消->返回前一页面来代替重置按钮.</p>
+        <p>重置表单,同样有HTML方法和JS方法.</p>
+        <p><span class="ext">ResetFormExample01.htm</span></p>
+        <pre><code>
+            <\!-- 通用重置按钮 -->
+            <\input type="reset" value="Reset Form">
+
+            <\!-- 自定义重置按钮 -->
+            <\button type="reset">Reset Form<\/button>
+
+            var form = document.getElementById("myForm");
+            EventUtil.addHandler(form, "reset", function(event) {
+                //取得事件对象
+                event = EventUtil.getEvent(event);
+
+                //阻止表单重置
+                EventUtil.preventDefault(event);
+            })
+
+            var form = document.getElementById("myForm");
+
+            //充值表单
+            form.reset();
+        </code></pre>
+        <p><span class="epd">注意</span>:与提交表单一样,JS方法也可以提交,但是与submit不同的是,reset()方法会像重置按钮一样触发reset事件.</p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>1.3 表单字段</h4>
+        <p>可以像访问页面中的其他元素一样,使用原生 DOM 方法访问表单元素。此外,每个表单都有elements 属性,该属性是表单中所有表单元素(字段)的集合。每个表单字段在 elements 集合中的顺序,与它们出现在标记中的顺序相同,可以按照位置和 <span class="dsp">name</span> 特性来访问它们。如果有多个表单控件都在使用一个 name (如单选按钮),那么就会返回以该 name 命名的一个NodeList 。</p>
+        <p><span class="ext">FormFieldExample01.htm</span></p>
+        <pre><code>
+            var form = document.getElementById("form1");
+
+            //取得表单中的第一个字段
+            var field1 = form.elements[0];
+
+            //取得名为"textbox1"的字段
+            var field2 = form.elements["textbox1"];
+
+            //取得表单中包含的字段的数量
+            var fieldCount = form.elements.length;
+
+            <\form method="post" id="myForm">
+                <\ul>
+                    <\li><\input type="radio" name="color" value="red">Red<\/li>
+                    <\li><\input type="radio" name="color" value="green">Green<\/li>
+                    <\li><\input type="radio" name="color" value="blue">Blue<\/li>
+                <\/ul>
+            <\/form>
+
+            var form = document.getElementById("myForm");
+
+            var colorFields = form.elements("color");
+            colorFields.length; //3
+
+            var firstColorField = colorFields[0];
+            var firstFormField = form.element[0];
+            firstColorField === firstFormField; //true
+        </code></pre>
+        <p>尽可能的使用elements属性而不要使用表单的属性如 form[0]来访问.</p>
+        <div id="1_2_1">
+            <p>A. 共有的表单字段属性</p>
+            <ul>
+                <li>disabled: 布尔值,表示当前属性是否被禁用.</li>
+                <li>form: 指向当前字段所属表单的指针; 只读.</li>
+                <li>name: 当前字段的名称.</li>
+                <li>readOnly: 布尔值,表示当前字段是否只读.</li>
+                <li>tabIndex: 表示当前字段的切换(tab)序号.</li>
+                <li>type: 当前字段的类型, 如"checkbox", "radio", 等等.</li>
+                <li>value: 当前字段将被提交给服务器.</li>
+            </ul>
+            <p>除了form属性外,还可以通过JavaScript动态修改其他任何属性.</p>
+            <pre><code>
+                var form = document.getElementById("myForm");
+                var field = form.elements[0];
+
+                //修改value属性
+                field.value = "Another value";
+
+                //修改form属性的值
+                field.form === form;
+
+                //把焦点设置到当前字段
+                field.focus();
+
+                //禁用当前字段
+                field.disabled = true;
+
+                //修改type属性(不推荐!但可行)
+                field.type = "checkbox"
+            </code></pre>
+            <p>能够动态的修改任何属性,在处理重复提交表单的时候, 最常见的解决方法就是<:span class="dsp">第一次单击后就禁用提交按钮</:span>,只要侦听submit事件,并在改事件发生时禁用提交按钮即可.</p>
+            <p><span class="ext">FormFieldExample02.htm</span></p>
+            <pre><code>
+                // 避免多次提交表单
+                EventUtil.addHandler(form, "submit", function(event) {
+                    event = EventUtil.getEvent(event);
+                    var target = EventUtil.getTarget(event);
+
+                    //取得提交按钮
+                    var btn = target.elements["submit-btn"];
+
+                    //禁用它
+                    btn.disabled = true;
+                });
+            </code></pre>
+            <p><span class="epd">注意</span>:不能通过 onclick 事件处理程序来实现这个功能,原因是不同浏览器之间存在“时差”.因此,最好是通过 submit 事件来禁用提交按钮。不过,这种方式不适合表单中不包含提交按钮的情况;如前所述,只有在包含提交按钮的情况下,才有可能触发表单的 submit事件。</p>
+        </div>
+        <div id="1_2_2">
+            <p>B. 共有的表单字段方法</p>
+            <p>共有方法是focus()和blur().其中, focus() 方法用于将浏览器的焦点设置到表单字段,即激活表单字段,使其可以响应键盘事件。与 focus() 方法相对的是 blur() 方法,它的作用是从元素中移走焦点。在调用 blur() 方法时,并不会把焦点转移到某个特定的元素上;仅仅是将焦点从调用这个方法的元素上面移走而已。</p>
+            <p><span class="dsp">但是</span>,如果要获取焦点的对象是的type是hidden或者通过CSS的display和visibility属性隐藏了该字段,同样也会导致错误.在HTML5中,为表单新增autofocus属性,如果支持,就可以自动获取焦点.</p>
+            <p><span class="ext">FocusExample01.htm</span></p>
+            <pre><code>
+                //HTML5方法
+                <\input type="text" autofocus id="element1">
+
+                //JS方法
+                EventUtil.addHandler(window, "load", function(event) {
+                    // 当load完成时
+                    var form1 = document.getElementById("elment1");
+                    var element = form1.elements[0];
+
+                    if (element.autofocus !== true) {
+                        element.focus();
+                        console.log("JS focus");
+                    }
+                })
+
+                //blur的场合很少
+                document.forms[0].elements[0].blur();
+            </code></pre>
+        </div>
+        <div id="1_2_3">
+            <p>C. 共有的表单字段事件</p>
+            <ul>
+                <li>blur: 当前字段失去焦点时触发</li>
+                <li>change: 对<\input>和<\textarea>元素,当它们从获取焦点到失去焦点且value值改变时候触发.<\select>在其改变选项时.</li>
+                <li>focus: 当前字段获取焦点时触发.</li>
+            </ul>
+            <p><span class="ext">FormFieldEventsExample01.htm</span></p>
+            <pre><code>
+                var textbox = document.forms[0].elements[0];
+
+                EventUtil.addHandler(textbox, "focus", function(event) {
+                    event = EventUtil.getEvent(event);
+                    var target = EventUtil.getTarget(event);
+
+                    if (target.style.backgroundColor != "red") {
+                        target.style.backgroundColor = "yellow";
+                    }
+                });
+
+                EventUtil.addHandler(textbox, "blur", function(event) {
+                    event = EventUtil.getEvent(event);
+                    var target = EventUtil.getTarget(event);
+
+                    if (/[^\d]/.test(target.value)) {
+                        target.style.backgroundColor = "red";
+                    } else {
+                        target.style.backgroundColor = "";
+                    }
+                });
+
+                EventUtil.addHandler(textbox, "change", function(event) {
+                    event = EventUtil.getEvent(event);
+                    var target = EventUtil.getTarget(event);
+
+                    if (/[^\d]/.test(target.value)) {
+                        target.style.backgroundColor = "red";
+                    } else {
+                        target.style.backgroundColor = "";
+                    }
+                });
+            </code></pre>
+        </div>
+        <p>在此, onfocus 事件处理程序将文本框的背景颜色修改为黄色,以清楚地表明当前字段已经激活。
+随后, onblur 和 onchange 事件处理程序则会在发现非数值字符时,将文本框背景颜色修改为红色。
+为了测试用户输入的是不是非数值,这里针对文本框的 value 属性使用了简单的正则表达式。而且,
+为确保无论文本框的值如何变化,验证规则始终如一, onblur 和 onchange 事件处理程序中使用了相
+同的正则表达式。</p>
+        <p><span class="epd">注意</span>:blur和change没有严格的先后关系!</p>
+        <br>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

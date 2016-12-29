@@ -1,0 +1,100 @@
+{% extends "chapter21/base.html" %}
+{% block chapter_no %}21{% endblock %}
+{% block exercise_no %}02{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>XMLHttpRequest 2 级</h3>
+        <p>鉴于XHR已经得到广泛接受,成为了事实标准,W3C也着手制定相应的标准以规范其行为。
+XMLHttpRequest 1 级只是把已有的 XHR 对象的实现细节描述了出来。而 XMLHttpRequest2级则进一步发展了 XHR。并非所有浏览器都完整地实现了XMLHttpRequest2级规范,但所有浏览器都实现了它规定的部分内容。</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>2.1 FormData</h4>
+        <p>现代 Web 应用中频繁使用的一项功能就是表单数据的序列化,XMLHttpRequest 2 级为此定义了
+FormData 类型。 FormData 为序列化表单以及创建与表单格式相同的数据(用于通过 XHR 传输)提供
+了便利。创建了 FormData 的实例后,可以将它直接传给 XHR 的 send() 方法.</p>
+        <p class="extp"><span>XHRFormDataExample01.htm</span></p>
+        <pre><code>
+            //手动添加
+            var data = new FormData();
+            data.append("name", "Nicholas");
+
+            //现有表单添加
+            var data = new FormData(document.form[0]);
+
+            //XHRFormDataExample01.htm
+            var xhr = createXHR();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.staus == 304) {
+                        alert(xhr.requestText);
+                    } else {
+                        alert("Request was unsuccessful: " + xhr.status);
+                    }
+                }
+            };
+
+            xhr.open("post", "postexample.php", true);
+            var form = document.getElementById("user-info");
+            xhr.send(new FormData(form));
+            </code></pre>
+            <p>使用 FormData 的方便之处体现在不必明确地在 XHR 对象上设置请求头部。XHR 对象能够识别传
+入的数据类型是 FormData 的实例,并配置适当的头部信息。</p>
+            <p>支持 FormData 的浏览器有 Firefox 4+、Safari 5+、Chrome 和 Android 3+版 WebKit。</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>2.2 超时设定</h4>
+        <p>IE8 为 XHR 对象添加了一个 timeout 属性,表示请求在等待响应多少毫秒之后就终止。在给timeout 设置一个数值后,如果在规定的时间内浏览器还没有接收到响应,那么就会触发 timeout 事件,进而会调用 ontimeout事件处理程序。这项功能后来也被收入了 XMLHttpRequest 2 级规范中。</p>
+        <p class="extp"><span>XHRTimeoutExample01.htm</span></p>
+        <pre><code>
+            var xhr = createXHR();
+            xhr.onreadystatechange = funtion() {
+                if (xhr.readyState == 4) {
+                    try {
+                        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                            alert(xhr.statusText);
+                        } else {
+                            alert("Request was unsuccessful: " + xhr.status);
+                        }
+                    } catch (ex) {
+                        //假设由ontimeout事件处理程序处理
+                    }
+                }
+            };
+
+            xhr.open("get", "timeout.php", true);
+            xhr.timeout = 1000; //将超时设置为1000毫秒,仅限IE8+
+            xhr.ontimeout = function() {
+                alert("Request did not return in a second.");
+            }
+            xhr.send(null);
+        </code></pre>
+        <br>
+    </div>
+    <div id="3">
+        <h4>2.3 overrideMimeType() 方法</h4>
+        <p>Firefox 最早引入了 overrideMimeType() 方法,用于重写 XHR 响应的 MIME 类型。这个方法后
+来也被纳入了 XMLHttpRequest 2 级规范。因为返回响应的 MIME 类型决定了 XHR 对象如何处理它,所
+以提供一种方法能够重写服务器返回的 MIME 类型是很有用的。</p>
+        <pre><code>
+            var xhr = createXHR();
+            xhr.open("get", "text.php", true);
+            //强迫XHR对象将响应当作XML来处理.
+            xhr.overrideMimeType("text/xml");
+            xhr.send(null);
+        </code></pre>
+        <p>调用 overrideMimeType() 必须在send() 方法之前,才能保证重写响应的 MIME 类型。</p>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "chapter13/base.html" %}
+{% block chapter_no %}13{% endblock %}
+{% block exercise_no %}05{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>内存和性能</h3>
+        <p>由于事件处理程序可以为现代 Web 应用程序提供交互能力,因此许多开发人员会不分青红皂白地
+向页面中添加大量的处理程序。</p>
+        <p>在创建 GUI 的语言(如 C#)中,为 GUI 中的每个按钮添加一个 onclick
+事件处理程序是司空见惯的事,而且这样做也不会导致什么问题。可是在 JavaScript 中,添加到页面上
+的事件处理程序数量将直接关系到页面的整体运行性能。导致这一问题的原因是多方面的。首先,每个
+函数都是对象,都会占用内存;内存中的对象越多,性能就越差。其次,必须事先指定所有事件处理程
+序而导致的 DOM 访问次数,会延迟整个页面的交互就绪时间。事</p>
+    <br>
+    </div>
+    <div id="1">
+        <h4>5.1 事件委托</h4>
+        <p>对"事件处理程序过多"问题的解决方案就是<span class="dsp">事件委托</span>.事件委托利用了事件冒泡,只指定一个事件处理程序,就可以管理某一类型的所有事件。例如, click 事件会一直冒泡到 document 层次。也就是说,我们可以为整个页面指定一个 onclick 事件处理程序,而不必给每个可单击的元素分别添加事件处理程序。</p>
+        <p><span class="ext">EventDelegationExample01.htm</span></p>
+        <pre><code>
+            <\ul id="myLinks">
+                <\li id="goSomewhere">Go somewhere<\/li>
+                <\li id="doSomething">Do something<\/li>
+                <\li id="sayHi">Say hi<\/li>
+            <\/ul>
+        </code></pre>
+        <p>对比一下传统作法,如果在一个复杂的 Web 应用程序中,对所有可单击的元素都采用这种方式,那么结果就会有数不
+清的代码用于添加事件处理程序。使用事件委托,只需在DOM 树中尽量最高的层次上添加一个事件处理程序.</p>
+        <p><span class="ext">EventDelegationExample01.htm</span></p>
+        <pre><code>
+            var item1 = document.getElementById("goSomewhere");
+            var item2 = document.getElementById("doSomething");
+            var item3 = document.getElementById("sayHi");
+
+            EventUtil.addHandler(item1, "click", function(event) {
+                location.href = "http://www.baidu.com"
+            });
+
+            EventUtil.addHandler(item2, "click", function(event) {
+                document.title = "I changed the document's title";
+            });
+
+            EventUtil.addHandler(item3, "click", function(event) {
+                alert("hi');
+            });
+
+            //......
+
+            //事件委托
+
+            var list = document.getElementById("myLinks"); //对整个ul起效
+
+            EventUtil.addHandler(list, "click", function(event) {
+                event = EventUtil.getEvent(event);
+                var target = EventUtil.getTarget(event);
+                /**
+                * from EventUtil.js
+                * getEvent: function(event){
+                *  return event ? event : window.event;
+                * },
+                * getTarget: function(event){
+                *   return event.target || event.srcElement;
+                * },
+                */
+                switch(target.id) {
+                    case "doSomething":
+                        document.title = "I changed the document's title";
+                        break;
+
+                    case "goSomewhere":
+                        document.href = "https://www.sogou.com";
+                        break;
+
+                    case "sayHi":
+                        alert("hi");
+                        break;
+                }
+            });
+        </code></pre>
+        <p>虽然对用户来说最终的结果相同,但这种技术需要占用的内存更少。所有用到按钮的事件(多
+数鼠标事件和键盘事件)都适合采用事件委托技术。</p>
+        <ul>
+            <li>document 对象很快就可以访问,而且可以在页面生命周期的任何时点上为它添加事件处理程序
+。换句话说,只要可单击的元素呈现在页面上,(无需等待 DOMContentLoaded 或 load 事件)就可以立即具备适当的功能。</li>
+            <li>在页面中设置事件处理程序所需的时间更少。只添加一个事件处理程序所需的 DOM 引用更少,
+所花的时间也更少。</li>
+            <li>整个页面占用的内存空间更少,能够提升整体性能。</li>
+        </ul>
+        <p>最适合采用事件委托技术的事件包括click, mousedown, mouseup, keydown, keyup和keypress.</p>
+        <p>不适合的是mouseover和mouseout</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>5.2 移除事件处理程序</h4>
+        <p>如前所述,可以采用事件委托技术,限制建立的连接数量。另外,在不需要的时候移除事件处理程序,也是解决这个问题的一种方案。</p>
+        <p><span class="ext">ManualRemoveEvent01.htm</span></p>
+        <pre><code>
+            <\div id="myDiv">
+                <\input type="button" value="Click Me" id="myBtn">
+            <\/div>
+            <\script>
+                var btn = document.getElementById("myBtn");
+                btn.onclick = function() {
+
+                    //先执行某些操作
+
+                    btn.onclick = null; //移除事件处理程序
+
+                    document.getElementById("myDiv").innerHTML = "Processing..."
+                }
+            <\/script>
+        </code></pre>
+        <p>一般来说,最好的做法是在页面卸载之前,先通过 onunload 事件处理程序移除所有事件处理程序。
+在此,事件委托技术再次表现出它的优势——需要跟踪的事件处理程序越少,移除它们就越容易。</p>
+        <p><span class="epd">结论</span>:只要是通过 onload 事件处理程序添加的东西,最后都要通
+过 onunload 事件处理程序将它们移除。</p>
+        <br>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

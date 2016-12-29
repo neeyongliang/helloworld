@@ -1,0 +1,20 @@
+{% extends "chapter18/base.html" %}
+{% block chapter_no %}18{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>本章内容</h3>
+        <ul>
+            <li>检查浏览器对XML DOM的支持</li>
+            <li>理解JavaScript中的XPath</li>
+            <li>使用XSLT处理器</li>
+        </ul>
+        <p>曾几何时,XML 一度成为存储和通过因特网传输结构化数据的标准。透过 XML 的发展,能够清晰地看到Web技术发展的轨迹。DOM规范的制定,不仅是为了方便在Web浏览器中使用XML,也是为了在桌面及服务器应用程序中处理 XML 数据。</p>
+        <p>此前,由于浏览器无法解析 XML 数据,很多开发人员都要动手编写自己的XML解析器.而自从DOM出现后,所有浏览器都内置了对XML的原生支持(XML DOM),同时也提供了一系列相关的技术支持.</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

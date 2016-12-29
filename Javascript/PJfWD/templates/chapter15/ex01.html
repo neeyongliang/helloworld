@@ -1,0 +1,56 @@
+{% extends "chapter15/base.html" %}
+{% block chapter_no %}15{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>基本用法</h3>
+        <p>使用canvas元素,必须先设置width和heigh属性,指定绘图区域大小.使用在开始和结束标签中的内容是后备信息,如果浏览器不支持canvas元素,就会显示这些信息.如果不添加任何样式或者不绘制任何图形,在页面中是看不到该元素的。</p>
+        <p>要在这块画布(canvas)上绘图,需要取得绘图上下文。而取得绘图上下文对象的引用,需要调用
+getContext() 方法并传入上下文的名字。传入 "2d" ,就可以取得 2D 上下文对象。</p>
+        <canvas id="drawing" width="200" height="200" style="background-color: grey;" >A drawing of something.</canvas>
+        <pre><code>
+        <\canvas id="drawing" width="200" height="200" style="background-color: grey;" >A drawing of Something.<\/canvas>
+
+        var drawing = document.getElementById("drawing");
+
+        //确定浏览器支持canvas元素
+        if (drawing.getContext) {
+            var context = drawing.getContext("2d");
+            //更多代码
+        }
+        </code></pre>
+        <p>使用canvas元素两个<span class="dsp">先决条件</span>:</p>
+        <ul>
+            <li>设置宽度和高度;</li>
+            <li>检测getContext()方法是否存在.</li>
+        </ul>
+        <p>此外,使用toDataURL()方法,可以导出canvas元素上绘制的图像.默认情况下会支持png,比较新的浏览器会支持"image/jepg" </p>
+        <p><span class="ext">2DDataUrlExample01.htm</span></p>
+        <pre><code>
+            var drawing = document.getElementById("drawing");
+
+            //确定浏览器支持canvas
+            if (drawing.getContext) {
+
+                //取得图像的数据URI
+                var imgURI = drawing.toDataURL("image/png");
+
+                //显示图像
+                var image = document.createElement("img");
+                image.src = imgURI;
+                document.body.appendChild(image);
+            }
+        </code></pre>
+        <p><span class="epd">保存路径在哪里？</span></p>
+    </div>
+    <div id="footer">
+        <p><a href="#0">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

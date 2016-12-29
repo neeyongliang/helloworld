@@ -1,0 +1,21 @@
+{% extends "chapter15/base.html" %}
+{% block chapter_no %}15{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>本章内容</h3>
+        <ul>
+            <li>理解canvas元素</li>
+            <li>绘制简单的2D图形</li>
+            <li>使用WebGL绘制图形</li>
+        </ul>
+        <p>不用说,HTML5 添加的最受欢迎的功能就是canvas元素。这个元素负责在页面中设定一个
+区域,然后就可以通过 JavaScript 动态地在这个区域中绘制图形。</p>
+        <p>由于 WebGL 还是实验性的,因此要得到所有浏览器支持还需要很长一段时间。一些老版本的操作系统,比如 Windows XP,由于缺少必要的绘图驱动程序,即便安装了这两款浏览器也无济于事。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

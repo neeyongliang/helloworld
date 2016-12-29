@@ -1,0 +1,80 @@
+{% extends "chapter09/base.html" %}
+{% block chapter_no %}09{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+    <h3>1. 能力检测</h3>
+    <p>最常用也最为人们广泛接受的客户端检测形式是能力检测(又称特性检测)。能力检测的目标不是
+识别特定的浏览器,而是识别浏览器的能力。基本模式如下:</p>
+    <pre><code>
+        if (object.propertyInQuestion) {
+            //使用object.propertyInQuestion
+        }
+
+        //例如IE5.0之前不支持document.getElementById()这个方法.
+
+        function getElement(id) {
+            if (document.getElementById) {
+                return document.getElementById(id);
+            } else if (document.all) {
+                return document.all(id);
+            } else {
+                throw new Error("No Way to retrieve element!");
+            }
+        }
+    </code></pre>
+        <p>能力检测的两个概念:</p>
+        <ul style="font-size: 18px;">
+            <li>先检测达成目的的最常用的特性</li>
+            <li>必须测试实际要用到的特性</li>
+        </ul>
+     </div>
+     <div id="1">
+         <h4>1.1 更可靠的能力检测</h4>
+         <p>能力检测对于想知道某个特性是否会按照适当方式行事(而不仅仅是某个特性存在)非常有用。</p>
+         <pre><code>
+             //不要这样做!这不是能力检测——只检测了是否存在相应的方法
+            function isSortable(object) {
+                return !!object.sort;
+            }
+
+            //这样更好
+            function isSortable(object) {
+                return typeof object.sort == "function";
+            }
+         </code></pre>
+         <p>在浏览器环境下测试任何对象的某个特性是否存在,要使用下面这个函数。</p>
+         <pre><code>
+             //作者: Peter Michaux
+             function isHostMethod(object, property) {
+                var t = typeof object[property];
+                return t=='function' || (!!(t=='object' && object[property])) || t=='unknown';
+             }
+             //usage
+             result = isHostMethod(xhr, "open"); //true
+             result = isHostMethod(xhr, "foo"); //false
+         </code></pre>
+     </div>
+     <div id="2">
+         <h4>1.2 能力检测,不是浏览器检测</h4>
+         <p>根据浏览器不同将能力组合起来是更可取的方式。如果你知道自己的应用程序需要使用某
+些特定的浏览器特性,那么最好是一次性检测所有相关特性,而不要分别检测。</p>
+         <p><span class="ext">CapabilitiesDetectionExample01.htm</span></p>
+         <pre><code>
+             // 确定浏览器是否支持Netscape风格插件
+             var hasNSPPlugins = !!(navigator.plugins && navigator.plugins.length);
+
+             //确定浏览器是否具有DOM1级规定的能力
+             var hasDOM1 = !!(document.getElementById && document.createElement && document.getElementByTagName);
+         </code></pre>
+         <p><span class="epd">在实际开发中,应该将能力检测作为确定下一步解决方案的依据,而不是用它来
+判断用户使用的是什么浏览器。</span></p>
+     </div>
+    </div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

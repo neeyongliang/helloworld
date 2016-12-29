@@ -1,0 +1,29 @@
+{% extends "chapter14/base.html" %}
+{% block chapter_no %}14{% endblock %}
+{% block exercise_no %}0{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>表单序列化</h3>
+        <p>随着 Ajax 的出现,表单序列化已经成为一种常见需求.在 JavaScript 中,可
+以利用表单字段的 type 属性,连同 name 和 value 属性一起实现对表单的序列化。在编写代码之前,
+有必须先搞清楚在表单提交期间,浏览器是怎样将数据发送给服务器的。</p>
+        <ul>
+            <li>对表单字段的名称和值进行URL编码, 使用和号(&)</li>
+            <li>不发送禁用的表单字段</li>
+            <li>只发送勾选的复选框和单选框</li>
+            <li>不发送type为"reset"和"button"的按钮</li>
+            <li>多选可中的每个选中的值单独一个条目</li>
+            <li>在单击提交按钮表单的情况下,也会发送提交按钮;否则,不发送提交按钮.也包括type为image的元素.</li>
+            <li>sel</li>
+        </ul>
+        <p>在表单序列化过程中,一般不包含任何按钮字段,因为结果字符串很可能是通过其他方式提交的。
+除此之外的其他上述规则都应该遵循。以下就是实现表单序列化的代码。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSX Spread Attributes</title> 
+  <script src="../build/react.js"></script>
+  <script src="../build/react-dom.js"></script>
+  <script src="../build/browser.min.js"></script>
+</head>
+<body>
+<div>
+    <p>不要随意修改Props对象!</p>
+    <p>JSX的延展属性, 传入对象的属性会被复制到组件内部后面的属性会覆盖掉前边的属性.</p>
+    <p>'...props'是ES6的新特性--扩展运算符,是rest运算符逆运算,将一个数组转换成逗号分隔的序列..</p>
+    <pre>
+        <code>
+            var props = {};
+            props.foo = x;
+            props.bar =y;
+            var component = <Component {...props} />;
+        </code>
+    </pre>
+</div>
+  <script type="text/babel">
+    var props = { foo: 'default' };
+    var component = <Component {...props} foo={'override'} />;
+    console.log(component.props.foo);
+  </script>
+</body>
+</html>

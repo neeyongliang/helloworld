@@ -1,0 +1,180 @@
+{% extends "chapter05/base.html" %}
+{% block chapter_no %}05{% endblock %}
+{% block exercise_no %}02{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+  <div id="0">
+    <h3>2 Array</h3>
+    <p>创建数组的方式有两种，一种是使用Array构造函数。</p>
+    <div><span class="ext">ArrayTypeExample01.html</span></div>
+    <pre>
+      <code>
+        var colors = new Array();
+        var colors = new Array(20);
+        var colors = new Array("red", "blue", "green");
+      </code>
+    </pre>
+    <p>new可以省略</p>
+    <p>创建数组的第二种方式是使用数组字面量表示法</p>
+    <div><span class="ext">ArrayTypeExample02.html</span></div>
+    <pre>
+      <code>
+        var colors = ["red", "blue", "green"];
+        var names = [];
+        var values = [1,2,] //不要这样做
+        var options = [,,,,,,]//不要这样做
+      </code>
+    </pre>
+  </div>
+  <div id="1">
+    <h4>2.1 检测数组</h4>
+    判断数据类型，自从ECMAScript 3以后就做出规定：
+  <pre>
+    <code>
+      if (value instanceof Array){
+        //对数组执行那些操作
+      }
+    </code>
+  </pre>
+  在ECMAScript 5之后，给处理更详细的方法来判断到底是不是数组的终极方法：
+  <pre>
+    <code>
+      if (Array.isArray()){
+        //TO DO
+      }
+    </code>
+  </pre>
+  </div>
+  <div id="2">
+    <h4>2.2 转换方法</h4>
+		<p>所有的对象都有toLocaleString(), toString(), valueOf()</p>
+		<div><span class="ext">ArrayTypeJoinExample01.html</span></div>
+		<pre>
+      <code>
+        var colors = ["red", "green", "blue"];
+        alert(colors.join(",")); //red,green,blue <<==>> colors.join();
+        alert(colors.join("|")); //red|green|blue
+      </code>
+    </pre>
+  </div>
+	<div id="3">
+		<h4>2.3 栈方法</h4>
+		<p>push放到队尾,pop从队尾取出.</p>
+		<div><span class="ext">ArrayTypeExample10.html</span></div>
+		<pre>
+      <code>
+        var colors = ["red", "blue"];
+        colors.push("brown");
+        colors[3] = "black";
+        alert(colors.length); //4
+        var item = colors.pop();
+        alert(item); // "black"
+      </code>
+		</pre>
+	</div>
+	<div id="4">
+		<h4>2.4 队列方法</h4>
+		<p>shift()方法可以取得数组第一个元素</p>
+		<p>ECAScript 还提供了unshift方法来向数组前增加任意多个字符</p>
+	</div>
+	<div id="5">
+		<h4>2.5 重新排序</h4>
+
+		<p>主要是reverse()和sort()</p>
+
+		<div><span class="ext">ArrayTypeExample15.html</span></div>
+		<pre><code>
+      function compare(value1, value2){
+        if (value1 < value2){
+          return -1;
+      }else if(value1 > value2){
+        return 1
+      } else {
+        return 0;
+      }
+      特别的,对于数值类型有:
+      function compare(value1, value2){
+        return value1 - value2
+      }
+    </code></pre>
+  </div>
+	<div id="6">
+      <h4>2.6 操作方法</h4>
+    <ul>
+      <li>contact</li>
+      <p>contact():复制原数组,加入参数后创建新数组;无参数等于复制</p>
+      <li>
+        splice
+        <ul>
+          <li>删除</li>
+          <p>参数1:删除起始位置;参数2:要删除的项数</p>
+          <li>插入</li>
+          <p>参数1:起始位置,参数2:要删除的项目,参数3:要插入的项</p>
+          <li>替换</li>
+          <p>同插入</p>
+        </ul>
+      </li>
+    </ul>
+
+	</div>
+	<div id="7">
+		<h4>2.7 位置方法</h4>
+		<ul>
+      <li>indexOf</li>
+      <li>lastindexOf</li>
+		</ul>
+	</div>
+	<div id="8">
+		<h4>2.8 迭代方法</h4>
+
+		<p>以下方法不会改变数组里的值</p>
+		<ul>
+      <li>every:每一项都返回真,则为真</li>
+      <li>filter:把返回真的筛选出来</li>
+      <li>forEach:对每一项运行函数,<b class="epd">没有</b>返回值</li>
+      <li>map:每次返回的结果组成数组</li>
+      <li>some:有一个为真,就是真</li>
+		</ul>
+		<p><span>ArrayEveryAndSomeExample.html</span></div>
+		<pre><code>
+      var numbers = [1,2,3,4,5,4,3,2,1]
+      var everResult = numbers.every(function(item, index, array{
+      	return (item > 2);
+      });		//false
+
+      var someResult = numbers.some(function(item, index, array{
+      	return (item > 2);
+      });		//true
+
+      var filterResult = numbers.filter(function(item, index, array{
+      	return (item > 2);
+      });
+
+      var mapResult = numbers.map(function(item, index, array{
+      	return item * 2;
+      });		// [2,4,6,8,10]
+		</code></pre>
+	</div>
+
+	<div id="9">
+		<h4>2.9 归并方法</h4>
+		<p>函数: reduce() 和reduceRight()</p>
+		<p>参数: 一个在每一项上调用的参数和(可选的)作为缩小基础的初始值</p>
+		<p>用到的函数会接受4个参数:前一个值,当前值,项的索引,数组的对象</p>
+
+		<p><span>ArrayReductionExample01.html</span></div>
+		<pre><code>
+      var values=[1,2,3,4,5];
+      var sum= values.reduce(function(pre, cur, index, array){
+      	return prev + cur
+      });    // 15
+      round1: 1,2
+      round2: 3,3
+      round3: ...
+		</code></pre>
+	</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

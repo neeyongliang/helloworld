@@ -1,0 +1,231 @@
+{% extends "chapter05/base.html" %}
+{% block chapter_no %}05{% endblock %}
+{% block exercise_no %}{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div id="0">
+  <h3>6 基本包装类型</h3>
+  <p>在读取模式中访问字符串时候, 调用了以下处理:</p>
+  <ol>
+    <li>创建String类型的一个实例;</li>
+    <li>在实例上调用指定的方法;</li>
+    <li>销毁这个实例</li>
+  </ol>
+  <p>此过程分别适用于Boolean和Number类型对应的布尔值和数字值.</p>
+  <div><span class="ext">BasicTypeExample01.html</span></div>
+  <pre><code>
+    var s1 = new String("some text");
+    var s2 = s1.substring(2);
+    s1 = null
+    ------
+    var s1 = "some text";
+    s1.color = "red";
+    alert(s1.color);   //undifine
+  </code></pre>
+  <p>对基本包装类型的实例调用typeof都会返回"object"</p>
+  <pre><code>
+    var obj = new Number(value); //构造函数, 实例
+    alert(typeof obj); // "object"
+  </code></pre>
+  <p>,而基本包装类型的对象都会返回布尔值true</p>
+  <pre><code>
+    var value = "25";
+    var number = Number(value); //转型函数
+    alert(typeof number); // "number"
+  </code></pre>
+</div>
+<p>NEE: 对象和实例的区别在哪?</p>
+<div id="1">
+  <h4>6.1 Boolean类型</h4>
+  <p>Boolean类型:</p>
+  <p>重写了valueOf()方法,返回了基本类型值true和false;</p>
+  <p>重写了toString()方法,返回字符串true和false.</p>
+  <ul>
+    <p>基本类型与应用类型的区别:</p>
+    <li>布尔表达式中的所有对象都会被转成true</li>
+    <li>typeof类型的操作符对基本类型返回"boolean"</li>
+    <li>由于Boolean对象是Boolean类型的实例,所以使用instanceof操作符测试Boolean对象会<br>
+    会返回true,而测试基本的布尔值则会返回false.</li>
+  </ul>
+  <div><span class="ext">BooltTypeExample01.html</span></div>
+  <pre><code>
+    var falseObject = new Boolean(false); //boolean对象
+    var result = falseObject && true;
+    alert(result) // true
+
+    var falseValue = false;
+    result = falseValue && true;
+    alert(result); // false
+
+    typeof falseObject; //object
+    typeof falseValue; //boolean
+    falseObject instanceof Boolean; // true
+    falseValue instanceof Boolean; // false
+  </code></pre>
+  <p><b class="epd">最好永远不要使用Boolean对象!</b></p>
+</div>
+<div id="2">
+  <h4>6.2 Number类型</h4>
+  <p>创建Number对象，可以在调用Number构造函数时候向其中传递相应的数值。</p>
+  <div><span class="ext">NumberTypeExample01.html</span></div>
+  <pre><code>
+    var numberObject = new Number(20);
+    var num = 10；
+    num.toString(); // "10"
+    num.toString(2); // "1010"
+    ...
+    num.toString(16); // "a"
+  </code></pre>
+  <p>此外，Number类提供了一些格式化字符串的方法。</p>
+  <div><span class="ext">NumberTypeExample01.html</span></div>
+  <pre><code>
+    var num = 10.005;
+    alert(num.toFixed(2)); // "10.01"
+    var num2 = 10;
+    alert(num2.toExponential(1)); //"1.0e+1"
+  </code></pre>
+    <p>简单粗暴的方法：一律使用toPrecision()</p>
+    <div><span class="ext">NumberTypeExample01.html</span></div>
+    <pre><code>
+      var num = 99;
+      num.toPrecision(1); //"1e+2"
+      num.toPrecision(2); //"99"
+      num.toPrecision(3); //"99.0"
+    </code></pre>
+    <p>使用typeof操作符测试基本类型数值时，始终会返回"number", 而在测试Number对象时,</p>
+    <p>则会返回"object".类似地,Number对象是Number类型的实例,而基本的数值则不是.</p>
+</div>
+<div id="3">
+  <h4>6.3 String类型</h4>
+  <p>String除了基本类型共有的方法外,还有一个length属性.</p>
+  <div id="1">
+    <h5>1. 字符方法</h5>
+    <div><span class="ext">StringTypeMainpulationMethodsExample01.html</span></div>
+    <pre id="charCode"><code>
+      var stringValue = "hello world";
+      stringValue.charAt(1); //"e"
+      stringValue.charCodeAt(1); // 输出"101"
+      stringValue[1]; //"e", 不支持<=ie7
+    </code></pre>
+    <h5>2. 字符串操作方法</h5>
+    <p>主要包含contact, slice, substr和substring, 它们均<b class="epd">不会</b>修改数组本身.</p>
+    <div><span class="ext">StringTypeMainpulationMethodsExample01.html</span></div>
+    <pre><code>
+      var stringValue = "hello world";
+      stringValue.slice(3); //"lo world"
+      stringValue.substring(3); //"lo world"
+      stringValue.substr(3); //"lo world"
+      stringValue.slice(3,7); //"lo w"
+      stringValue.substring(3,7); //"lo w"
+      stringValue.substr(3,7); //"lo worl"
+
+      stringValue.slice(-3); //"rld"
+      stringValue.substring(-3); //"hello world"
+      stringValue.substr(-3); //"rld"
+      stringValue.slice(3, -4); //"lo w"
+      stringValue.substring(3, -4); //"hel"
+      stringValue.substr(3, -4); //"" (空字符串)
+    </code></pre>
+    <h5>3. 字符串位置方法</h5>
+    <p>包括indexOf()和lastIndexOf(),如果有第二个参数,则从第二个参数开始搜索,忽略之前所有</p>
+    <p>循环调用搜索实例:</p>
+    <div><span class="ext">StringTypeMainpulationMethodsExample02.html</span></div>
+    <pre><code>
+      var stringValue = "Loerm ipsum dolor sit amet, consectetur adipiscing elit";
+      var positions = new Array();
+      var pos = stringValue.indexOf("e");
+
+      while(pos > -1){
+        // -1 表示没找到
+        position.push(pos);
+        pos = stringValue.indexOf("e", pos+1);
+      }
+      positions; // "3,24,32,35,52"
+    </code></pre>
+    <h5>4. trim()方法</h5>
+    <p>ECAMScript为所有字符串定义了trim()方法.该方法会创建副本,删除前置以及后缀空格,返回结果.</p>
+    <h5>5. 字符串大小写转换方法</h5>
+    <p>ECMAStript涉及大小写转换的方法有四个:</p>
+    <ul>
+      <li>toLowerCase</li>
+      <li>toLocalLowerCase(推荐)</li>
+      <li>toUpperCase</li>
+      <li>toLocalUpperCase(推荐)</li>
+    </ul>
+    <h5>6. 字符串的模式匹配方法</h5>
+    <p>主要包括match,search和replace方法</p>
+    <p>match方法只接受一个参数,要么是一个正则表达式,要么是一个RegExp对象.</p>
+    <p>search的唯一参数与match方法相同</p>
+    <div><span class="ext">StringTypePatternMatchingExample01.html</span></div>
+    <pre><code>
+        var text = "cat, bat, sat, fat";
+        var pattern = /.at/;
+        //与pattern.exec(text)相同
+        var matches = text.match(pattern);
+        matches.index //0
+        matches[0]; //"cat"
+        pattern.lastIndex; //0
+
+        var pos = text.search(/at/);
+        pos; // 1
+
+        var result = text.replace("at", "ond");
+        alert(result); //"cond, bat, sat, fat"
+
+        result = text.replace(/at/g, "ond");
+        alert(result); //"cond, bond, sond, fond"
+    </code></pre>
+    <div><span class="ext">下面给一个包含两个参数的replace</span></div>
+    <pre><code>
+      function htmlEscape(text){
+        return text.replace(/[<>"&]/g, function(match, pos, originalText){
+          switch(match){
+            case "<":
+              return "&lt;"
+            case ">":
+              return "&gt;"
+            case "&":
+              return "&amp;"
+            case "\"":
+              return "&quot;"
+          }
+        });
+      }
+      alert(htmlEscape("<p class=\"greeting\">Hello world!</p>"));
+      //&lt;p class=&quot;greeting&quot;Hello world!&lt;/p&gt;
+    </code></pre>
+
+    <h5>7. localCompare()方法</h5>
+    <p>与字符串相关的最后一个方法是localeCompare(), 这个方法比较两个字符串:</p>
+    <ul>
+      <li>如果字符串在字母表中应该排在字符串参数之前,则返回一个负数;</li>
+      <li>如果字符串等于字符串参数,则返回0</li>
+      <li>如果字符串在字母表中应该排在字符串参数之后,则返回一个整数.</li>
+    </ul>
+    <div><span class="ext">StringTypeLocaleCompareExample01.html</span></div>
+    <p><span class="epd">再次强调</span>:因为localeCompare()返回的数值取决于实现,所以最好向下面这种写法..</p>
+    <pre><code>
+      function determineOrder(value){
+        var result = stringValue.localeCompare(value);
+        if (result < 0){
+          alert("The string 'yellow' comes before the string ' "+ value + " '.");
+        } else if (result > 0){
+          alert("The string 'yellow' comes after the string ' "+ value + " '.");
+        } else {
+           alert("The string 'yellow' is equal to the string ' "+ value + " '.");
+        }
+      }
+    </code></pre>
+    <h5>8. fromCharCode()方法</h5>
+    <p>String构造函数本身还有一个静态方法:fromcharCode:作用是接受一或者多个字符编码,然后将他们转换成一个字符串.</p>
+    <p>从本质上看,与<a href="#charCode">charCodeAt()</a>方法相反.</p>
+    <p><span>StringTypeFromCharCodeExample01.html</span></div>
+    <pre><code>
+      String.fromCharCode(104, 101, 108, 111); //"hello"
+    </code></pre>
+    <h5>9. HTML方法</h5>
+    <p>早期浏览器提供商自定义的非标准化方法,类似big(),bold(),fixed(),sub()等等,<span class="epd">强烈不建议使用</span>!</p>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "chapter21/base.html" %}
+{% block chapter_no %}21{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>本章内容</h3>
+        <ul>
+            <li>使用XMLHttpRequest对象</li>
+            <li>使用XMLHttpRequest事件</li>
+            <li>跨域Ajax通信的限制</li>
+        </ul>
+        <p>Ajax 技术的核心是 XMLHttpRequest 对象(简称 XHR),这是由微软首先引入的一个特性,其他
+浏览器提供商后来都提供了相同的实现。在 XHR 出现之前,Ajax 式的通信必须借助一些 hack 手段来实现,大多数是使用隐藏的框架或内嵌框架。XHR为向服务器发送请求和解析服务器响应提供了流畅的接口。能够以异步方式从服务器取得更多信息,意味着用户单击后,可以不必刷新页面也能取得新数据。也就是说,可以使用 XHR 对象取得新数据,然后再通过 DOM 将新数据插入到页面中。另外,虽然名字中包含 XML 的成分,但Ajax通信与数据格式无关;这种技术就是无须刷新页面即可从服务器取得数据,但不一定是 XML 数据。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

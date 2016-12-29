@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSX Gotchas</title> 
+  <script src="../build/react.js"></script>
+  <script src="../build/react-dom.js"></script>
+  <script src="../build/browser.min.js"></script>
+</head>
+<body>
+  <div>
+  <h1>HTML实体</h1>
+  <p>JSX会默认转义所有字符.</p>
+  <p>最简单的方法是使用Unicode编码.确保文件是UTF-8编码且网页也指定为UTF-8.</p>
+  <p>安全的做法是先找到实体的Unicode编号,然后在JavaScript中字符串里使用.</p>
+    <div>
+          <pre><code>
+              <div>{'First' \u00b7 'Second'}</div>
+              <div>{'First' + String.fromCharCode(183) + 'Second'}</div>
+          </code></pre>
+    </div>    
+  </div>
+  <div>
+      <h1>自定义HTML属性</h1>
+      <p>如果网HTML元素里传入HTML规范里不存在的属性, React不会显示它们.如果需要使用自定义属性, 要加'data-'前缀.以'aria-'开头的网络无障碍应用属性可以正常使用.</p>
+      <\div data-custom-attribute="foo" />
+      <br>
+      <\div aria-hidden={true} />
+  </div>
+  
+
+  <script type="text/babel">
+  </script>
+</body>
+</html>

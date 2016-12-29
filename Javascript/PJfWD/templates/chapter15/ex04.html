@@ -1,0 +1,33 @@
+{% extends "chapter15/base.html" %}
+{% block chapter_no %}15{% endblock %}
+{% block exercise_no %}04{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>小结</h3>
+        <p>HTML5 的 <canvas> 元素提供了一组 JavaScript API,我们可以动态地创建图形和图像。图形是在一
+个特定的上下文中创建的,而上下文对象目前有两种。第一种是 2D 上下文,可以执行原始的绘图操作,比如</p>
+<ul>
+    <li>设置填充、描边颜色和模式</li>
+    <li>绘制矩形</li>
+    <li>绘制路径</li>
+    <li>绘制文本</li>
+    <li>创建渐变和模式</li>
+</ul>
+        <p>第二种是 3D 上下文,即 WebGL 上下文。 WebGL 是从 OpenGL ES 2.0 移植到浏览器中的,而 OpenGLES 2.0 是游戏开发人员在创建计算机图形图像时经常使用的一种语言。WebGL 支持比 2D 上下文更丰富和更强大的图形图像处理能力,比如:</p>
+    <ul>
+        <li>用 GLSL(OpenGL Shading Language,OpenGL 着色语言)编写的顶点和片段着色器</li>
+        <li>支持类型化数组,即能够将数组中的数据限定为某种特定的数值类型</li>
+        <li>创建和操作纹理</li>
+    </ul>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

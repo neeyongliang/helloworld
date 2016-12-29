@@ -1,0 +1,207 @@
+{% extends "chapter21/base.html" %}
+{% block chapter_no %}21{% endblock %}
+{% block exercise_no %}05{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>其他跨域技术</h3>
+        <p>在 CORS 出现以前,要实现跨域 Ajax 通信颇费一些周折。开发人员想出了一些办法,利用 DOM 中能够执行跨域请求的功能,在不依赖 XHR 对象的情况下也能发送某种请求。虽然 CORS 技术已经无处不在,但开发人员自己发明的这些技术仍然被广泛使用,毕竟这样不需要修改服务器端代码。</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>5.1 图像Ping</h4>
+        <p>上述第一种跨域请求技术是使用img 标签。一个网页可以从任何网页中加载图像,不用担心跨域不跨域。这也是在线广告跟踪浏览量的主要方式。也可以动态地创建图像,使用它们的 onload 和 onerror 事件处理程序来确定是否接收到了响应。</p>
+        <p>动态创建图像经常用于<span class="dsp">图像Ping</span>。图像Ping是与服务器进行简单、单向的跨域通信的一种方式.
+请求的数据是通过查询字符串形式发送的,而响应可以是任意内容,但通常是像素图或 204 响应.通过
+图像 Ping,浏览器得不到任何具体的数据,但通过侦听 load 和 error 事件,它能知道响应是什么时候接收到的。</p>
+        <p class="extp"><span>ImagePingExample01.htm</span></p>
+        <pre><code>
+            var img = new Image();
+            img.onload = img.onerror = function() {
+                alert("Done");
+            };
+            img.src = "http://www.example.com/test?name=Nicholas";
+        </code></pre>
+        <p>这里创建了一个 Image 的实例,然后将 onload 和 onerror 事件处理程序指定为同一个函数。这
+样无论是什么响应,只要请求完成,就能得到通知。请求从设置 src 属性那一刻开始.</p>
+        <p>图像 Ping 最常用于跟踪用户点击页面或动态广告曝光次数。图像 Ping 有两个主要的缺点:</p>
+        <ul>
+            <li>只能发送 GET 请求;</li>
+            <li>无法访问服务器的响应文本。</li>
+        </ul>
+        <p>因此,图像 Ping 只能用于浏览器与服务器间的单向通信。</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>5.2 JSONP</h4>
+        <p>JSONP 是 JSON with padding(填充式 JSON 或参数式 JSON)的简写,是应用 JSON 的一种新方法,在后来的 Web 服务中非常流行。 JSONP 看起来与 JSON 差不多,只不过是被包含在函数调用中的 JSON.JSONP由两部分组成:回调函数和数据。回调函数是当响应到来时应该在页面中调用的函数。回调函数的名字一般是在请求中指定的,而数据就是传入回调函数中的 JSON 数据。</p>
+        <p class="extp"><span></span></p>
+        <pre><code>http://freegeoip.net/json/?callback=handleResponse</code></pre>
+        <p>这个 URL 是在请求一个 JSONP 地理定位服务。通过查询字符串来指定 JSONP 服务的回调参数是很常见的,就像上面的 URL 所示,这里指定的回调函数的名字叫 handleResponse() 。</p>
+        <p class="expt"><span>JSONPExample01.htm</span></p>
+        <pre><code>
+            function handleResponse(response) {
+                alert("you're at IP address " + response.ip + ", which is in " + response.city + ", " + response.region_name);
+            }
+
+            var script = document.createElement("script");
+            script.src = "http://freegeoip.net/json/?callback=handleResponse";
+            document.body.insertBefore(script, document.body.firstChild);
+        </code></pre>
+        <ul>
+            <p>优点:</p>
+            <li>简单易用</li>
+            <li>能够直接访问响应文本,支持在浏览器与服务器之间双向通信</li>
+            <p>缺点:</p>
+            <li>JSONP 是从其他域中加载代码执行,在使用不是你自己运维的 Web 服务时,一定得保证它安全可靠.</li>
+            <li>要确定 JSONP 请求是否失败并不容易。</li>
+        </ul>
+        <br>
+    </div>
+    <div id="3">
+        <h4>5.3 Comet</h4>
+        <p>Comet 是 Alex Russell发明的一个词儿,指的是一种更高级的Ajax技术(经常也有人称为“服务器推送”)。Ajax是一种从页面向服务器请求数据的技术,而Comet则是一种服务器向页面推送数据的技术。Comet能够让信息近乎实时地被推送到页面上,非常适合处理体育比赛的分数和股票报价。</p>
+        <p>有两种实现 Comet 的方式:<span class="dsp">长轮询</span>和<span class="dsp">流</span>。长轮询是传统轮询(也称为短轮询)的一个翻版,即浏览器定时向服务器发送请求,看有没有更新的数据。</p>
+        <p>无论是短轮询还是长轮询,浏览器都要在接收数据之前,先发起对服务器的连接。两者最大的区别在于服务器如何发送数据。短轮询是服务器立即发送响应,无论数据是否有效,而长轮询是等待发送响应。轮询的优势是所有浏览器都支持,因为使用 XHR 对象和 setTimeout()就能实现。而你要做的就是决定什么时候发送请求。</p>
+        <p>第二种流行的 Comet 实现是 HTTP 流。流不同于上述两种轮询,因为它在页面的整个生命周期内只使用一个 HTTP 连接。具体来说,就是浏览器向服务器发送一个请求,而服务器保持连接打开,然后周期性地向浏览器发送数据。所有服务器端语言都支持打印到输出缓存然后刷新(将输出缓存中的内容一次性全部发送到客户端)的功能。而这正是实现 HTTP 流的关键所在。</p>
+        <p>在 Firefox、Safari、Opera 和 Chrome 中,通过侦听 readystatechange 事件及检测 readyState的值是否为 3,就可以利用 XHR 对象实现 HTTP 流。在上述这些浏览器中,随着不断从服务器接收数据, readyState 的值会周期性地变为 3。当 readyState 值变为 3 时, responseText 属性中就会保存接收到的所有数据。此时,就需要比较此前接收到的数据,决定从什么位置开始取得最新的数据。</p>
+        <p class="extp"><span>HTTPStreamingExample01.htm</span></p>
+        <pre><code>
+            function createStreamingClient(url, progress, finished) {
+                var xhr = new XMLHttpRequest(), received = 0;
+
+                xhr.open("open", url, true);
+                xhr.onreadystatechage = function() {
+                    var result;
+
+                    if (xhr.readyState == 3) {
+                        //只获得最新数据并调整计数器
+                        result = xhr.responseText.substring(received);
+                        received += result.length;
+
+                        //调用progress回调函数
+                        progress(result);
+                    } else if (xhr.readyState == 4) {
+                        finished(xhr.responseText);
+                    }
+                };
+                xhr.send(null);
+                return xhr;
+            }
+
+            var client = createStreamingClient("streaming.php", function(data) {
+                alert("Received: " + data);
+            }, function(data) {
+                alert("Done!");
+            });
+        </code></pre>
+        <p>这个 createStreamingClient() 函数接收三个参数:要连接的 URL、在接收到数据时调用的函
+数以及关闭连接时调用的函数。有时候,当连接关闭时,很可能还需要重新建立,所以关注连接什么时候关闭还是有必要的。</p>
+        <p>只要 readystatechange 事件发生,而且 readyState 值为 3,就对 responseText 进行分割以取得最新数据。这里的received 变量用于记录已经处理了多少个字符,每次 readyState 值为 3 时都递增。然后,通过 progress回调函数来处理传入的新数据。而当 readyState 值为 4 时,则执行finished 回调函数,传入响应返回的全部内容。</p>
+        <p>虽然这个例子比较简单,而且也能在大多数浏览器中正常运行(IE 除外),但管理 Comet 的连接是很容易出错的,需要时间不断改进才能达到完美。浏览器社区认为 Comet 是未来 Web 的一个重要组成部分,为了简化这一技术,又为 Comet 创建了两个新的接口。</p>
+        <br>
+    </div>
+    <div id="4">
+        <h4>5.4 服务器发送事件</h4>
+        <p>SSE(Server-Sent Events,服务器发送事件)是围绕只读 Comet 交互推出的 API 或者模式。SSE API用于创建到服务器的单向连接,服务器通过这个连接可以发送任意数量的数据。服务器响应的MIME类型必须是text/event-stream,而且是浏览器中的 JavaScript API 能解析格式输出。SSE 支持短轮询、长轮询和 HTTP 流,而且能在断开连接时自动确定何时重新连接。有了这么简单实用的 API,再实现 Comet 就容易多了。</p>
+        <p>支持 SSE 的浏览器有 Firefox 6+、Safari 5+、Opera 11+、Chrome 和 iOS 4+版 Safari。</p>
+        <p>A. SSE API</p>
+        <p>SSE 的 JavaScript API 与其他传递消息的 JavaScript API 很相似。要预订新的事件流,首先要创建一个新的 EventSource 对象,并传进一个入口点.注意,<span class="epd">传入的 URL 必须与创建对象的页面同源</span>(相同的 URL 模式、域及端口)。 EventSource 的实例有一个 readyState 属性,值为 0 表示正连接到服务器,值为 1 表示打开了连接,值为 2 表示关闭了连接。</p>
+        <p>另外,还有以下三个事件。</p>
+        <ul>
+            <li>open: 在建立链接时触发.</li>
+            <li>message: 在从服务器接收到新事件时触发.</li>
+            <li>error: 在无法建立连接时触发.</li>
+        </ul>
+        <p>默认情况下, EventSource 对象会保持与服务器的活动连接。如果连接断开,还会重新连接。这就意味着 SSE 适合长轮询和 HTTP 流。如果想强制立即断开连接并且不再重新连接,可以调用 close()方法。</p>
+        <pre><code>
+            var source = new EventSource("myevents.php");
+
+            source.onmessage = function(event) {
+                var data = event.data;
+                //处理数据
+            }
+
+            source.close();
+        </code></pre>
+        <p>2. 事件流</p>
+        <p>所谓的服务器事件会通过一个持久的 HTTP 响应发送,这个响应的 MIME 类型为 text/event-stream。响应的格式是纯文本,最简单的情况是每个数据项都带有前缀 data: .如果连接断开,会向服务器发送一个包含名为 Last-Event-ID 的特殊 HTTP 头部的请求,以便服务器知道下一次该触发哪个事件。在多次连接的事件流中,这种机制可以确保浏览器以正确的顺序收到连接的数据段。</p>
+        <br>
+    </div>
+    <div id="5">
+        <h4>5.5 Web Sockets</h4>
+        <p>要说最令人津津乐道的新浏览器 API,就得数 Web Sockets 了。Web Sockets 的目标是在一个单独的
+持久连接上提供全双工、双向通信。在 JavaScript 中创建了 Web Socket 之后,会有一个 HTTP 请求发送
+到浏览器以发起连接。在取得服务器响应后,建立的连接会使用 HTTP 升级从 HTTP 协议交换为 Web
+Socket 协议。也就是说,使用标准的 HTTP 服务器无法实现 Web Sockets,只有支持这种协议的专门服
+务器才能正常工作。</p>
+        <p>由于 Web Sockets 使用了自定义的协议,所以 URL 模式也略有不同。未加密的连接不再是 http:// ,
+而是 ws:// ;加密的连接也不是 https:// ,而是 wss:// 。在使用 Web Socket URL 时,必须带着这个
+模式,因为将来还有可能支持其他模式。</p>
+        <p>使用自定义协议而非 HTTP 协议的好处是,能够在客户端和服务器之间发送非常少量的数据,而不
+必担心 HTTP 那样字节级的开销。由于传递的数据包很小,因此 Web Sockets <span class="dsp">非常适合移动应用</span>。毕竟对移动应用而言,带宽和网络延迟都是关键问题。使用自定义协议的缺点在于,制定协议的时间比制定JavaScript API 的时间还要长。Web Sockets 曾几度搁浅,就因为不断有人发现这个新协议存在一致性和安全性的问题。</p>
+        <p>A. Web Sockets API</p>
+        <p>要创建 Web Socket,先实例一个 WebSocket 对象并传入要连接的 URL.注意, <span class="epd">必须给 WebSocket 构造函数传入绝对 URL</span>。同源策略对 Web Sockets 不适用,因此可以通过它打开到任何站点的连接。至于是否会与某个域中的页面通信,则完全取决于服务器。(通过握手信息就可以知道请求来自何方。)</p>
+        <p>WebSocket 没有 readystatechange 事件;不过,它有其他事件,对应着不同的状态。 readyState的值永远从 0 开始。要关闭 Web Socket 连接,可以在任何时候调用 close() 方法。调用了 close() 之后, readyState 的值立即变为 2(正在关闭),而在关闭连接后就会变成 3。</p>
+        <pre><code>
+            var socket = new WebSocket("ws://www.example.com/server.php");
+        </code></pre>
+        <p>2. 发送和接收数据</p>
+        <p>Web Socket 打开之后,就可以通过连接发送和接收数据。要向服务器发送数据,使用 send() 方法
+并传入任意字符串.</p>
+        <pre><code>
+            var socket = new WebSocket("ws://www.example.com/server.php");
+            socket.send("Hello World!");
+        </code></pre>
+        <p>因为 Web Sockets 只能通过连接发送纯文本数据,所以对于复杂的数据结构,在通过连接发送之前,
+必须进行序列化。接下来,服务器要读取其中的数据,就要解析接收到的 JSON 字符串。当服务器向客户端发来消息时, WebSocket 对象就会触发 message 事件。这个 message 事件与其他传递消息的协议类似,也是把返回的数据保存在 event.data 属性中.与通过 send() 发送到服务器的数据一样, event.data 中返回的数据也是字符串。</p>
+        <p>3. 其他事件</p>
+        <p>WebSocket 对象还有其他三个事件,在连接生命周期的不同阶段触发。</p>
+        <ul>
+            <li>open: 在成功建立连接时触发.</li>
+            <li>error: 在发生错误时触发, 连接不能持续.</li>
+            <li>close: 在连接关闭时触发.</li>
+        </ul>
+        <p>WebSocket 对象不支持 DOM 2 级事件侦听器,因此必须使用 DOM 0 级语法分别定义每个事件处理程序。在这三个事件中,只有 close 事件的 event 对象有额外的信息。这个事件的事件对象有三个额外
+的属性: wasClean 、 code 和 reason 。其中, wasClean 是一个布尔值,表示连接是否已经明确地关
+闭; code 是服务器返回的数值状态码;而 reason 是一个字符串,包含服务器发回的消息。可以把这
+些信息显示给用户,也可以记录到日志中以便将来分析。</p>
+        <pre><code>
+            var socket = new WebSocket("ws://www.example.com/server.php");
+
+            socket.onopen = function() {
+                alert("Connection established");
+            };
+
+            socket.oneerror = function() {
+                alert("Connection error.");
+            };
+
+            socket.onclose = function() {
+                alert("Connection closed.");
+            }
+
+            socket.onclose = funtion() {
+                console.log("Was clean?" + event.wasClean + " Code=" + event.code + " Reason=" +event.reason);
+            };
+        </code></pre>
+        <br>
+    </div>
+    <div id="6">
+        <h4>5.6 SSE与Web Sockets</h4>
+        <p>面对某个具体的用例,在考虑是使用 SSE 还是使用 Web Sockets 时,可以考虑如下几个因素。首先,
+你是否有自由度建立和维护 Web Sockets 服务器?因为 Web Socket 协议不同于 HTTP,所以现有服务器
+不能用于 Web Socket 通信。SSE 倒是通过常规 HTTP 通信,因此现有服务器就可以满足需求。</p>
+        <p>第二个要考虑的问题是到底需不需要双向通信。如果用例只需读取服务器数据(如比赛成绩),那么 SSE 比较容易实现。如果用例必须双向通信(如聊天室),那么 Web Sockets 显然更好。别忘了,在不能选择 Web Sockets 的情况下,组合 XHR 和 SSE 也是能实现双向通信的。</p>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

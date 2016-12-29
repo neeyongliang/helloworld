@@ -1,0 +1,224 @@
+{% extends "chapter21/base.html" %}
+{% block chapter_no %}21{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>XMLHttpRequest对象</h3>
+        <p>IE5 是第一款引入 XHR 对象的浏览器。在 IE5 中,XHR 对象是通过 MSXML 库中的一个ActiveX对象实现的。因 此,在IE中可能会遇到三种不同版本的XHR对象,即MSXML2.XMLHttp, MSXML2.XMLHttp.3.0和MXSML2.XMLHttp.6.0。要使用MSXML库中的XHR对象,需要编写一个函数:</p>
+        <pre><code>
+            //适用于ie7 以前
+            function createXHR() {
+                if (typeof argument.callee.activeXString != "string") {
+                    var versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"], i, len;
+
+                    for (i=0, len=versions.length; i < len; i++) {
+                        try {
+                            new ActiveXObject(version[i]);
+                            arguments.callee.activeXString = versions[i];
+                            break;
+                        } catch (ex) {
+                            //跳过
+                        }
+                    }
+                }
+
+                return new ActiveXObject(argument.callee.activeXString);
+            }
+        </code></pre>
+        <p>假如你只想支持 IE7 及更高版本,那么大可丢掉前面定义的那个函数,而只用原生的 XHR 实现。但是,如果你必须还要支持 IE 的早期版本,那么则可以在这个 createXHR() 函数中加入对原生 XHR对象的支持。</p>
+        <p class="extp"><span>XHRExample01.htm</span></p>
+        <pre><code>
+            function createXHR() {
+                if (typeof XMLHttpRequest != "undefined") {
+                    return new XMLHttpRequest();
+                } else if (typeof ActiveXObject != "undefined") {
+                //IE7之前
+                    if (typeof arguments.callee.activeXString != "string") {
+                        var version = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0",
+                         "MSXML2.XMLHttp"], i, len;
+
+                        for (i=0, len=versions.length; i < len; i++) {
+                            try {
+                                new ActiveXObject(versions[i]);
+                                arguments.callee.activeXString = versions[i];
+                                break;
+                            } catch (ex) {
+                                //跳过
+                            }
+                        }
+                    }
+                    return new ActiveXObject(arguments.callee.activeXString);
+                } else {
+                    throw new Error("No XHR object available.");
+                }
+            }
+
+            var xhr = createXHR();
+        </code></pre>
+        <p>这个函数中新增的代码首先检测原生 XHR 对象是否存在,如果存在则返回它的新实例。如果原生对象不存在,则检测 ActiveX 对象.如果这两种对象都不存在,就抛出一个错误.然后,就可以使用下面的代码在所有浏览器中创建XHR对象了.</p>
+    </div>
+    <div id="1">
+        <h4>1.1 XHR的用法</h4>
+        <p>在使用 XHR 对象时,要调用的第一个方法是 open() ,它接受 3 个参数:要发送的请求的类型
+( "get", "post" 等), 请求的URL和表示是否异步发送请求的布尔值.</p>
+        <p class="grey">xhr.open("get", "example.php", false);</p>
+        <p>这行代码会启动一个针对 example.php 的 GET 请求。有关这行代码,需要说明两点:一是 URL相对于执行代码的当前页面(当然也可以使用绝对路径);二是调用 open() 方法并不会真正发送请求,而只是启动一个请求以备发送。要发送特定的请求,必须像下面这样调用 send() 方法:</p>
+        <p class="extp"><span>XHRExample01.htm</span></p>
+        <pre><code>
+            xhr.open("get", "example.txt", false);
+            xhr.send(null);
+        </code></pre>
+        <ul>
+            <li>responseText: 作为响应主体被返回的文本.</li>
+            <li>responseXML: 如果响应的内容类型是 "text/xml" 或 "application/xml" ,这个属性中将保存包含着响应数据的 XML DOM 文档。</li>
+            <li>status: 响应的HTTP状态.(推荐)</li>
+            <li>statusText: HTTP 状态的说明.(不推荐)</li>
+        </ul>
+        <p class="extp"><span>XHRExample01.htm</span></p>
+        <pre><code>
+            xhr.open("get", "example.txt", false);
+            xhr.send(null);
+
+            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                alert(xhr.responseText);
+            } else {
+                alert("Request was unsucessful: " + xhr.status);
+            }
+        </code></pre>
+        <p>无论内容类型是什么,响应主体的内容都会保存到 responseText 属性中;而对于非 XML 数据而言, responseXML 属性的值将为 null 。</p>
+        <p>以上是同步请求当然没问题,但是多数情况下,我们还是要发送异步请求,才能让JavaScript继续执行而不必等待响应.此时,可以检测XHR对象的 readyState 属性,该属性表示请求/响应过程的当前阶段.这个属性可能值如下:</p>
+        <ul>
+            <li>0: 尚未初始化.尚未调用 open() 方法.</li>
+            <li>1: 启动.已经调用 open() 方法,但尚未调用 send() 方法.</li>
+            <li>2: 发送.已经调用 send() 方法,但尚未接收到响应.</li>
+            <li>3 :接收.已经接收到部分响应数据.</li>
+            <li>4 :完成.已经接收到全部响应数据,而且已经可以在客户端使用了.</li>
+        </ul>
+        <p>只要readyState属性的值由一个值变成另一个值,都会触发一次readystatechange事件.可以利用这个事件来检测每次状态变化后 readyState 的值.通常,我们只对 readyState值为4的阶段感兴趣,因为这时所有数据都已经就绪.不过,必须在调用open()之前指定onreadystatechange事件处理程序才能确保跨浏览器兼容性。</p>
+        <p class="extp"><span>XHRAsyncExample01.htm</span></p>
+        <pre><code>
+            var xhr = createXHR();
+            xhr.onreadychange = function() {
+                if (xhr.readyState == 4) {
+                    if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        alert(xhr.responseText);
+                    } else {
+                        alert("Request was unsuccessful: " + xhr.state);
+                    }
+                }
+            };
+
+            xhr.open("get", "example.txt", true);
+            xhr.send(null);
+        </code></pre>
+        <p>这个例子在 onreadystatechange 事件处理程序中使用了 xhr 对象,没有使用
+this 对象,原因是 onreadystatechange 事件处理程序的作用域问题。如果使用this 对象,在有的浏览器中会导致函数执行失败,或者导致错误发生。因此,使用实际的 XHR 对象实例变量是较为可靠的一种方式。</p>
+        <p>另外,在接收到响应之前还可以调用 abort() 方法来取消异步请求.调用这个方法后, XHR 对象会停止触发事件,而且也不再允许访问任何与响应有关的对象属性。在终止请求之后,还应该对 XHR 对象进行解引用操作。由于内存原因,不建议重用 XHR 对象。</p>
+        <pre><code>
+            xhr.abort();
+        </code></pre>
+        <br>
+    </div>
+    <div id="2">
+        <h4>1.2 带HTTP头部信息</h4>
+        <p>每个 HTTP 请求和响应都会带有相应的头部信息,其中有的对开发人员有用,有的也没有什么用。XHR 对象也提供了操作这两种头部(即请求头部和响应头部)信息的方法。</p>
+        <p>默认情况下,在发送 XHR 请求的同时,还会发送下列头部信息。</p>
+        <ul>
+            <li>Accept :浏览器能够处理的内容类型。</li>
+            <li>Accept-Charset :浏览器能够显示的字符集。</li>
+            <li>Accept-Encoding :浏览器能够处理的压缩编码。</li>
+            <li>Accept-Language :浏览器当前设置的语言。</li>
+            <li>Connection :浏览器与服务器之间连接的类型。</li>
+            <li>Cookie :当前页面设置的任何 Cookie。</li>
+            <li>Host :发出请求的页面所在的域 。</li>
+            <li>Referer :发出请求的页面的 URI。注意,HTTP 规范将这个头部字段拼写错了,而为保证与规范一致,也只能将错就错了。(这个英文单词的正确拼法应该是 referrer。)</li>
+            <li>User-Agent :浏览器的用户代理字符串。</li>
+        </ul>
+        <p class="extp"><span>XHRequestHeadersExample01.htm</span></p>
+        <pre><code>
+            var xhr = createXHR();
+            xhr.readystatechange = function() {
+                if ((xhr.readyState >= 200 && xhr.status < 300) || xhr.status == 304) {
+                    alert(xhr.responseText);
+                } else {
+                    alert("Request was unsuccessful: " + xhr.status);
+                }
+            };
+            xhr.open("get", "example.php", true);
+            xhr.setRequestHeader("MyHeader", "MyValue");
+            xhr.send(null);
+        </code></pre>
+        <p>使用 setRequestHeader() 方法可以设置自定义的请求头部信息.这个方法接受两个参数:头部字段的名称和头部字段的值。要成功发送请求头部信息,必须在调用 open() 方法之后且调用 send() 方法之前调用 setRequestHeader().</p>
+        <p>使用自定义的头部字段名称,不要使用浏览器正常发送的字段名称,否则有可能会影响服务器的响应。</p>
+        <p>调用 XHR 对象的 getResponseHeader() 方法并传入头部字段名称,可以取得相应的响应头部信息。而调用 getAllResponseHeaders() 方法则可以取得一个包含所有头部信息的长字符串。</p>
+        <pre><code>
+            var myHeader = xhr.getResponseHeader("MyHeader");
+            var allHeaders = xhr.getAllResponseHeaders();
+        </code></pre>
+        <br>
+    </div>
+    <div id="3">
+        <h4>1.3 GET 请求</h4>
+        <p>GET 是最常见的请求类型,最常用于向服务器查询某些信息。必要时,可以将查询字符串参数追加到 URL 的末尾,以便将信息发送给服务器。对 XHR 而言,位于传入 open() 方法的 URL 末尾的查询字符串必须经过正确的编码才行.</p>
+        <p>使用 GET 请求经常会发生的一个错误,就是查询字符串的格式有问题。查询字符串中每个参数的名称和值都<span class="epd">必须使用encodeURIComponent()进行编码</span>,然后才能放到 URL 的末尾;而且所有名-值对儿都必须由和号(&)分隔.</p>
+        <pre><code>
+            xhr.open("get", "example.php?name1=value1&name2=value2", true);
+
+            function addURLParam(url, name, value) {
+                url += (url.indexOf("?") == -1 ? "?" : "&");
+                url += encodeURIComponent(name) + "=" + encodeURIComponent(value);
+                return url;
+            }
+
+            var url = "example.php";
+
+            //添加参数
+            url = addURIParam(url, "name", "Nicholas");
+            url = addURIParam(url, "book", "Professional JavaScript");
+
+            //初始化请求
+            xhr.open("get", url, false);
+        </code></pre>
+        <p>这个 addURLParam() 函数接受三个参数:要添加参数的URL、参数的名称和参数的值。这个函数首先检查 URL 是否包含问号(以确定是否已经有参数存在)。如果没有,就添加一个问号;否则,就添加一个和号。然后,将参数名称和值进行编码,再添加到URL的末尾。最后返回添加参数之后的 URL。</p>
+        <br>
+    </div>
+    <div id="4">
+        <h4>1.4 POST请求</h4>
+        <p>使用频率仅次于 GET 的是 POST 请求,通常用于向服务器发送应该被保存的数据.POST 请求应该把数据作为请求的主体提交,而 GET 请求传统上不是这样.POST请求的主体可以包含非常多的数据,而且格式不限。在 open() 方法第一个参数的位置传入 "post" ,就可以初始化一个 POST 请求.</p>
+        <p>发送 POST 请求的第二步就是向 send() 方法中传入某些数据。默认情况下,服务器对 POST 请求和提交 Web 表单的请求并不会一视同仁。因此,服务器端必须有程序来读取发送过来的原始数据,并从中解析出有用的部分。不过,我们可以使用 XHR 来模仿表单提交:首先将 Content-Type 头部信息设置为 application/x-www-form-urlencoded ,也就是表单提交时的内容类型,其次是以适当的格式创建一个字符串。</p>
+        <p class="extp"><span>XHRPostExample01.htm</span></p>
+        <pre><code>
+            function submitData() {
+                var xhr = createXHR();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        if ((xhr.status >= 200 && xhr.status.status < 300) || xhr.status == 304) {
+                            alert (xhr.responseText);
+                        } else {
+                            alert("Request was unsussessful: " + xhr.status);
+                        }
+                    }
+                }
+
+                xhr.open("post", "postexmample.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                var form = document.getElementById("user-info");
+                xhr.send(serialize(form));
+            }
+        </code></pre>
+        <p>这个函数可以将 ID 为 "user-info" 的表单中的数据序列化之后发送给服务器。而下面的示例 PHP
+文件 postexample.php 就可以通过 $_POST 取得提交的数据.如果不设置 Content-Type 头部信息,那么发送给服务器的数据就不会出现在 $_POST 超级全局变量中。这时候,要访问同样的数据,就必须借助 $HTTP_RAW_POST_DATA 。</p>
+        <p>与 GET 请求相比, POST 请求消耗的资源会更多一些。从性能角度来看,以发送相同的数据计, GET 请求的速度最多可达到 POST 请求的<span class="epd">两倍</span>。</p>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

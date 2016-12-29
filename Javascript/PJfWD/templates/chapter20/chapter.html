@@ -1,0 +1,24 @@
+{% extends "chapter20/base.html" %}
+{% block chapter_no %}20{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>本章内容</h3>
+        <ul>
+            <li>理解JSON方法</li>
+            <li>解析JSON</li>
+            <li>序列化JSON</li>
+        </ul>
+        <p>曾度上都是建立在 XML 之上的,突出的特点是服务器与服务器间通信.然而,业界一直不乏质
+经有一段时间,XML 是互联网上传输结构化数据的事实标准。Web 服务的第一次浪潮很大程
+疑 XML 的声音。不少人认为 XML 过于烦琐、冗长。为解决这个问题,也涌现了一些方案。不过,Web
+的发展方向已经改变了。</p>
+        <p>曾经有一段时间,XML是互联网上传输结构化数据的事实标准。Web服务的第一次浪潮很大程度上都是建立在XML之上的,突出的特点是服务器与服务器间通信。然而,业界一直不乏质疑XML的声音。不少人认为XML过于烦琐、冗长。为解决这个问题,也涌现了一些方案。不过,Web的发展方向已经改变了。</p>
+        <p>2006年,Douglas Crockford 把JSON(JavaScript Object Notation,JavaScript 对象表示法)作为IETF RFC 4627 提交给IETF,而JSON的应用早在2001年就已经开始了。JSON是JavaScript的一个严格的子集,利用了JavaScript中的一些模式来表示结构化数据。Crockford认为与XML相比,JSON是在JavaScript中读写结构化数据的更好的方式。因为可以把JSON直接传给eval(),而且不必创建 DOM 对象。</p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

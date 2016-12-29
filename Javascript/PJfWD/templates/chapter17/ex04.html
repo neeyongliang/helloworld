@@ -1,0 +1,75 @@
+{% extends "chapter17/base.html" %}
+{% block chapter_no %}17{% endblock %}
+{% block exercise_no %}04{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>常见的 IE 错误</h3>
+        <p>多年以来,IE一直都是最难于调试 JavaScript 错误的浏览器。IE给出的错误消息一般很短又语焉不详,且上下文信息也很少,有时甚至一点都没有.但作为用户最多的浏览器,如何看懂IE给出的错误也是最受关注的。</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>4.1 终止操作</h4>
+        <p>在 IE8 之前的版本中,存在一个相对于其他浏览器而言,最令人迷惑、讨厌,也最难于调试的错误:操作终止(operation aborted)。在修改尚未加载完成的页面时,就会发生操作终止错误。发生错误时,会出现一个模态对话框,告诉你“操作终止。”单击确定(OK)按钮,则卸载整个页面,继而显示一张空白屏幕;此时要进行调试非常困难。</p>
+        <p>准确一点说,当 <\script> 节点被包含在某个元素中,而且 JavaScript 代码又要使用 appendChild() 、 innerHTML 或其他 DOM 方法修改该元素的父元素或祖先元素时,将会发生操作终止错误(因为只能修改已经加载完毕的元素)。</p>
+        <p>解决方法:等到目标元素加载完毕后再对它进行操作;提升js代码的层级,让body是它的直接父元素.</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>4.2 无效字符</h4>
+        <p>根据语法,JavaScript 文件必须只包含特定的字符。在 JavaScript 文件中存在无效字符时,IE 会抛出
+无效字符(invalid character)错误。所谓无效字符,就是 JavaScript 语法中未定义的字符。</p>
+        <p></p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>4.3 未找到成员</h4>
+        <p>如前所述,IE 中的所有 DOM 对象都是以 COM 对象,而非原生 JavaScript 对象的形式实现的。这
+会导致一些与垃圾收集相关的非常奇怪的行为。IE 中的未找到成员(Member not found)错误,就是由
+于垃圾收集例程配合错误所直接导致的。</p>
+<p>具体来说,如果在对象被销毁之后,又给该对象赋值,就会导致未找到成员错误。而导致这个错误
+的,一定是 COM 对象。发生这个错误的最常见情形是使用 event 对象的时候。IE 中的 event 对象是
+window 的属性,该对象在事件发生时创建,在最后一个事件处理程序执行完毕后销毁。</p>
+        <pre><code>
+            document.onclick = function() {
+                var event = window.event;
+                setTimeout(function() {
+                    event.returnValue = false; //未找到成员错误
+                }, 1000);
+            }
+        </code></pre>
+        <p>在这段代码中,我们将一个单击事件处理程序指定给了文档。在事件处理程序中, window.event
+被保存在 event 变量中。然后,传入 setTimeout() 中的闭包里又包含了 event 变量。当单击事件处
+理程序执行完毕后, event 对象就会被销毁,因而闭包中引用对象的成员就成了不存在的了。换句话说,
+由于不能在 COM 对象被销毁之后再给其成员赋值,在闭包中给 returnValue 赋值就会导致未找到成
+员错误。</p>
+        <br>
+    </div>
+    <div id="4">
+        <h4>4.4 未知运行时错误</h4>
+        <p>当使用 innerHTML 或 outerHTML 以下列方式指定 HTML 时,就会发生未知运行时错误(Unknown
+runtime error):一是把块元素插入到行内元素时,二是访问表格任意部分( table, tbody等)的任意属性时.</p>
+        <p>例如:span标签不能包含div之类的块级元素</p>
+        <br>
+    </div>
+    <div id="5">
+        <h4>4.5 语法错误</h4>
+        <p>通常,只要 IE 一报告发生了语法错误(syntax error),都可以很快找到错误的原因。这时候,原因可能是代码中少了一个分号,或者花括号前后不对应。然而,还有一种原因不十分明显的情况需要格外注意。</p>
+        <p>如果<span class="epd">引用了外部的 JavaScript 文件,而该文件最终并没有返回 JavaScript 代码</span>,IE 也会抛出语法错误。在服务器端组件动态生成 JavaScript 的情况下,比较容易出现这种错误。</p>
+        <br>
+    </div>
+    <div id="6">
+        <h4></h4>
+        <p>系统无法找到指定资源(The system cannot locate the resource specified)这种说法,恐怕要算是IE给出的最有价值的错误消息了。在使用 JavaScript 请求某个资源 URL,而该 URL 的长度超过了IE对URL最长不能超过 2083 个字符的限制时,就会发生这个错误.IE 不仅限制 JavaScript 中使用的 URL 的长度,而且也限制用户在浏览器自身中使用的 URL 长度(其他浏览器对 URL 的限制没有这么严格).IE 对 URL路径还有一个不能超过 2048 个字符的限制。</p>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

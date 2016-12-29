@@ -1,0 +1,53 @@
+{% extends "chapter17/base.html" %}
+{% block chapter_no %}17{% endblock %}
+{% block exercise_no %}0{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>浏览器报告的错误</h3>
+        <p>IE, Firefox, Safari, Chrome和Opera等主流浏览器,都具有某种向用户报告 JavaScript 错误的机制。默认情况下,所有浏览器都会隐藏此类信息,毕竟除了开发人员之外,很少有人关心这些内容。因此,在基于浏览器编写 JavaScript 脚本时,别忘了启用浏览器的 JavaScript 报告功能,以便及时收到错误通知。</p>
+        <br>
+    </div>
+    <div id="1">
+        <h4>1.1 IE</h4>
+        <p>可以通过设置让错误对话框一发生错误就显示出来。为此,要打开“Tools”(工具)菜单中的“Internet Options”(Internet 选项)
+对话框,切换到“Advanced”(高级)选项卡,选中“Display a notification about every script error”(显示每个脚本错误的通知)复选框。单击“OK”(确定)按钮保存设置。</p>
+        <p>保存了设置之后,通常要双击黄色图标才会显示的对话框,就会变成一有错误发生随即自动显示出来。另外,如果启用了脚本调试功能的话(默认是禁用的),那么在发生错误时,你不仅会显示错误通知,而且还会看到另一个对话框,询问是否想要调试错误.</p>
+        <p>要启用脚本调试功能,必须要在 IE 中安装某种脚本调试器。(IE8 和 IE9 自带调试器。在 IE7 及更早版本中,如果错误发生在位于外部文件的脚本中,行号通常会与错误所在的行号差 1。如果是嵌入在页面中的脚本发生错误,则行号就是错误所在的行号。)</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>1.2 Firefox</h4>
+        <p>单击“Tools”(工具)菜单中的“Error Console”(错误控制台)可以显示错误控制台.此外,目前,最流行的 Firefox 插件 Firebug,已经成为开发人员必备的 JavaScript 纠错工具。除了显示错误之外,Firebug 还有更多的用处。实际上,它还是针对 Firefox 的成
+熟的调试环境,为调试 JavaScript、CSS、DOM 和网络连接错误提供了诸多功能。</p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>1.3 Safari</h4>
+        <p>Windows 和 Mac OS 平台的 Safari 在默认情况下都会隐藏全部 JavaScript 错误。为了访问到这些信息,必须启用“Develop”(开发)菜单。为此,需要单击“Edit”(编辑)菜单中的“Preferences”(偏好设置),然后在“Advanced”(高级)选项卡中,选中“Show evelop menu in menubar”(在菜单栏中显示“开发”菜单)。启用此项设置之后,就会在 Safari 的菜单栏中看到一个“Develop”菜单.</p>
+        <p>“Develop”菜单中提供了一些与调试有关的选项,还有一些选项可以影响当前加载的页面。单击“Show Error Console”
+(显示错误控制台)选项,将会看到一组 JavaScript 及其他错误。控制台中显示着错误消息、错误的 URL 及错误的行号.</p>
+        <br>
+    </div>
+    <div id="4">
+        <h4>1.4 Opera</h4>
+        <p>Opera 在默认情况下也会隐藏 JavaScript 错误,所有错误都会被记录到错误控制台中。要打开错误控制台,需要单击“Tools”(工具)菜单,在“Advanced”(高级)子菜单项下面再单击“Error Console”(错误控制台)。</p>
+        <p></p>
+        <br>
+    </div>
+    <div id="5">
+        <h4>1.5 Chrome</h4>
+        <p>与 Safari 和 Opera 一样,Chrome 在默认情况下也会隐藏 JavaScript 错误。所有错误都将被记录到Web Inspector 控制台中。要查看错误消息,必须打开 Web Inspector。为此,要单击位于地址栏右侧的“Control this page”(控制当前页)按钮,选择“Developer”(开发人员)、“JavaScript console”(JavaScript控制台).</p>
+        <p>单击 JavaScript 控制台中的错误,就可以定位到导致错误的源代码行。</p>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

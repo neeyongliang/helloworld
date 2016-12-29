@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>517</title>
+</head>
+<body>
+    <script>
+      var myData = {
+        name: "Adam",
+        weather: "sunny",
+      };
+
+      myData.sayHello = function() {
+        document.writeln("hello");
+      };
+
+      delete myData.name;
+      delete myData["weather"];
+      delete myData.sayHello;
+    </script>
+</body>
+</html>

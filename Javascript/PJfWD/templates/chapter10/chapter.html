@@ -1,0 +1,29 @@
+{% extends "chapter10/base.html" %}
+{% block chapter_no %}10{% endblock %}
+{% block exercise_no %}_list{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>简介</h3>
+        <p>DOM 是语言中立的 API,用于访问和操作 HTML 和 XML 文档。DOM1 级将 HTML 和 XML 文档
+形象地看作一个层次化的节点树,可以使用 JavaScript 来操作这个节点树,进而改变底层文档的外观和
+结构。</p>
+        <p>DOM 由各种节点构成,简要总结如下。</p>
+        <ul style="font-size: 18px;">
+            <li>最基本的节点类型是 Node ,用于抽象地表示文档中一个独立的部分;所有其他类型都继承自
+Node 。</li>
+            <li>Document 类型表示整个文档,是一组分层节点的根节点。在 JavaScript 中, document 对象是
+Document 的一个实例。使用 document 对象,有很多种方式可以查询和取得节点</li>
+            <li>Element 节点表示文档中的所有 HTML 或 XML 元素,可以用来操作这些元素的内容和特性。</li>
+            <li>另外还有一些节点类型,分别表示文本内容、注释、文档类型、CDATA 区域和文档片段。</li>
+        </ul>
+        <p>理解 DOM 的关键,就是理解 DOM 对性能的影响。DOM 操作往往是 JavaScript 程序中开销最大的
+部分,而因访问 NodeList 导致的问题为最多。 NodeList 对象都是“动态的”,这就意味着每次访问
+NodeList 对象,都会运行一次查询。有鉴于此,最好的办法就是尽量减少 DOM 操作。</p>
+    <p>更多请参考 <a href="http://www.liaoxuefeng.com">廖雪峰官方网站</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "chapter05/base.html" %}
+{% block chapter_no %}05{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+  <div>
+  <h3>1 Object</h3>
+  <p>一种方法是：new Object构造函数</p>
+    <div><span class="ext">ObjectTypeExample01.html</span></div>
+    <pre><code>
+      var person = new Object();
+      person.name = "Nee";
+      person.age = 25;
+    </code></pre>
+  <p>另一种方法是：<b class="epd">对象字面量</b>表示法(推荐)</p>
+  <div><span class="ext">ObjectTypeExample02.html</span></div>
+    <pre><code>
+      var person = {
+      name : "Nee",
+      age : 25,
+    }
+    </code></pre>
+  <p>例如：</p>
+  <div><span class="ext">ObjectTypeExample04.html</span></div>
+    <pre>
+      <code>
+      function displayInfo(args){
+        var output = "";
+        if (typeof args.name == "string"){
+            output += "Name: " + args.name + "\n";
+          }
+        if (typeof args.age == "number"){
+            output += "Age: " + args.age + "\n";
+          }
+          alert(output);
+        }
+        displayInfo({
+          name: "Nee",
+          age: 25
+        });
+
+        displayInfo({
+          name: "Nee"
+        });
+      </code>
+    </pre>
+  </div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

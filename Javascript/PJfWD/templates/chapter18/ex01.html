@@ -1,0 +1,193 @@
+{% extends "chapter18/base.html" %}
+{% block chapter_no %}18{% endblock %}
+{% block exercise_no %}01{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>浏览器对XML DOM的支持</h3>
+        <p>在正式的规范诞生以前,浏览器提供商实现的 XML 解决方案不仅对 XML 的支持程度参差不齐,而且对同一特性的支持也各不相同.</p>
+    </div>
+    <br>
+    <div id="1">
+        <h4>1.1 DOM2 级核心</h4>
+        <p>DOM2级在document.implementation中引用了createDocument()方法.在支持DOM2级的浏览器中,可以使用一下方法创建一个XML文档:</p>
+        <pre><code>
+            var xmldom = document.implementation.createDocument(namespaceUri, root, doctype);
+        </code></pre>
+        <p>在通过 JavaScript 处理 XML 时,通常只使用参数 root ,因为这个参数指定的是 XML DOM 文档元
+素的标签名。而 namespaceUri 参数则很少用到,原因是在 JavaScrip 中管理命名空间比较困难。最后,
+doctype 参数用得就更少了。创建一个新的,文档元素为root的XML文档,如下:</p>
+        <p><span class="ext">DOMLevel2CoreExample01.htm</span></p>
+        <pre><code>
+            var xmldom = document.implementation.createDocument("", "root", null);
+
+            alert(xmldom.documentElement.tagName);  //"root"
+
+            var child = xmldom.createElement("child");
+            xmldom.documentElement.appendChild(child);
+
+            //检测浏览器是否支持DOM2级XML
+            var hasXmlDom = document.implementation.hasFeature("XML", "2.0");
+        </code></pre>
+        <p>在实际开发中,很少需要从头开始创建一个 XML 文档,然后再使用 DOM 文档为其添加元素。更常见的情况往往是将某个 XML 文档解析为 DOM 结构,或者反之。由于 DOM2 级规范没有提供这种功能,因此就出现了一些事实标准。</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>1.2 DOMParser 类型</h4>
+        <p>在解析 XML 之前,首先必须创建一个 DOMParser 的实例,然后再调用parseFromString() 方法。这个方法接受两个参数:要解析的 XML 字符串和内容类型(内容类型始终都应该是 "text/xml"),返回的值是一个Document 的实例。</p>
+        <p><span class="ext">DOMParserExample01.htm</span></p>
+        <pre><code>
+            var parser = new DOMParser();
+            var xmldom = parser.parseFromString("<\root><\child/><\/root>", "text/xml");
+
+            alert(xmldom.documentElement.tagName); //"root"
+            alert(xmldom.documentElement.firstChild.tagName); //"child"
+
+            var anotherChild = xmldom.createElement("child");
+            xmldom.documentElement.appendChild(anotherChild);
+
+            var children = xmldom.getElementByTagName("child");
+            alert(children, length); //2
+        </code></pre>
+        <p>DOMParser 只能解析格式良好的 XML,因而不能把 HTML 解析为 HTML 文档。在发生解析错误时 , 仍 然 会 从 parseFromString()中返回一个Document对象,但这个对象的文档元素是<parsererror>,而文档元素的内容是对解析错误的描述。</p>
+        <p>由于存在这些差别,因此确定是否发生解析错误的最佳方式就是,使用一个 try-catch 语句块,如果没有错误,则通过 getElementsByTagName() 来查找文档中是否存在parsererror元素.</p>
+        <p class="extp"><span>DOMParserExample02.htm</span></p>
+        <pre><code>
+            var parser = new DOMParser(),
+                xmldom,
+                errors;
+            try {
+                xmldom = parser.parseFromString("<\root>, "text/xml");
+                errors = xmldom.getElementsByTagName("parsererror");
+                if (errors.length > 0) {
+                    throw new Error("Parsing error!");
+                }
+            } catch (ex) {
+                alert("Parsing error!");
+            }
+        </code></pre>
+        <p>还可以更进一步,从错误元素中提取出错误信息.</p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>1.3 XMLSerializer 类型</h4>
+        <p>在引入 DOMParser 的同时,Firefox 还引入了 XMLSerializer 类型,提供了相反的功能:将 DOM
+文档序列化为 XML 字符串。</p>
+        <p><span class="ext"></span></p>
+        <pre><code>
+            var serializer = new XMLSerializer();
+            var xml = serializer.serializeToString(xmldom);
+            alert(xml);
+        </code></pre>
+        <p>但是, serializeToString() 方法返回的字符串并不适合打印,因此看起来会显得乱糟糟的。</p>
+        <p>XMLSerializer 可以序列化任何有效的 DOM 对象,不仅包括个别的节点,也包括 HTML 文档。
+将 HTML 文档传入 serializeToString() 以后,HTML 文档将被视为 XML 文档,因此得到的代码也
+将是格式良好的。</p>
+        <p class="dsp">如果将非 DOM 对象传入 serializeToString() ,会导致错误发生。</p>
+        <br>
+    </div>
+    <div id="4">
+        <h4>1.4 IE8 及之前版本中的XML</h4>
+        <p>事实上,IE 是第一个原生支持 XML 的浏览器,而这一支持是通过 ActiveX 对象实现的。为了便于
+桌面应用程序开发人员处理 XML,微软创建了 MSXML 库;但微软并没有针对 JavaScript 创建不同的对象,而只是让 Web 开发人员能够通过浏览器访问相同的对象。</p>
+        <p>由于是以同步方式处理 XML 文件,因此在解析完成之前,代码不会继续执行,这样的编程工作要
+简单一点。虽然同步方式比较方便,但如果下载时间太长,会导致程序反应很慢。因此,在加载 XML
+文档时,通常都使用异步方式。</p>
+        <p>在异步加载 XML 文件的情况下,需要为 XML DOM 文档的 onreadystatechange 事件指定处理程序。有 4 个就绪状态(ready state).在实际开发中,要关注的只有一个就绪状态:4。这个状态表示 XML 文件已经全部加载完毕,而且
+已经全部解析为 DOM 文档。</p>
+        <p class="extp"><span>IEXmlDomExample04.htm</span></p>
+        <pre><code>
+            var xmldom = createDocument();
+            xmldom.async = true;
+
+            xmldom.onreadystatechange = function() {
+                if (xmldom.readyState == 4) {
+                    if(xmldom.parseError != 0) {
+                    alert("An error occurred: \nError Code: "+
+                            xmldom.parseError.errorCode + "\n"
+                            + "Line: " + xmldom.parseError.line + "\n"
+                            + "Line Pos: " + xmldom.parseError.linepos + "\n"
+                            + "Reason: " + xmldom.parseError.reason);
+                } else {
+                    alert(xmldom.documentElement.tagName); //root
+                    alert(xmldom.documentElement.firstChild.tagName); //child
+
+                    var anotherChild = xmldom.createElement("child");
+                    xmldom.documentElement.appendChild(anotherChild);
+
+                    var children = xmldom.getElementByTagName("child");
+                    alert(children.length); //2
+
+                    alert(xmldom.xml);
+                }
+            }
+        };
+        xmldom.load("example.xml");
+        </code></pre>
+        <p><span class="epd">注意</span>:为 onreadystatechange 事件指定处理程序的语句,必须放在调用 load() 方法的语句之前;这样,才能确保在就绪状态变化时调用该事件处理程序。另外,在事件处理程序内部,还必须注意要使用XML文档变量的名称(xmldom),不能使用this对象。原因是ActiveX控件为预防安全问题不允许使用this对象。当文档的就绪状态变化为 4 时,就可以放心地检测是否发生了解析错误,
+并在未发生错误的情况下处理 XML 了。</p>
+        <br>
+    </div>
+    <div id="5">
+        <h4>1.5 跨浏览器处理XML</h4>
+        <p>很少有开发人员能够有福气专门针对一款浏览器做开发。因此,编写能够跨浏览器处理 XML 的函
+数就成为了常见的需求。对解析 XML 而言,下面这个函数可以在所有四种主要浏览器中使用。</p>
+        <p><span class="ext">CrossBrowserXmlExample01.htm</span></p>
+        <pre><code>
+            function parseXml(xml) {
+                var xmldom = null;
+
+                if (typeof DOMParser != "undefined") {
+                    xmldom = (new DOMParser()).parseFromString(xml, "text/xml");
+
+                    var errors = xmldom.getElementsByTagName("parsererror");
+                    if (errors.length) {
+                        throw new Error("XML parsing error: " + errors[0].textContent);
+                    }
+                } else if (typeof ActiveXObject != "undefined") {
+                    xmldom = createDocument();
+                    xmldom.loadXML(xml);
+                    if (xmldom.parseError != 0) {
+                        throw new Error("XML parsing error: " + xmldom.parseError.reason);
+                    }
+                } else {
+                    throw new Error("No XML parser available.");
+                }
+
+                return xmldom;
+            }
+
+            var xmldom = null;
+
+            try {
+                xmldom = parseXml("<\root><\child><\/root>");
+            } catch (ex) {
+                alert(ex.message);
+            }
+            //进一步处理
+        </code></pre>
+        <p>对序列化 XML 而言,也可以按照同样的方式编写一个能够在四大浏览器中运行的函数。</p>
+        <p class="extp"><span>CrossBrowserXmlExample02.htm</span></p>
+        <pre><code>
+            function serializeXml(xmldom) {
+                if (typeof XMLSerializer != "undefined") {
+                    return (new XMLSerializer()).serializeToString(xmldom);
+                } else if (typeof xmldom.xml != "undefined") {
+                    return xmldom.xml;
+                } else {
+                    throw new Error("Could not serialize XML DOM.");
+                }
+            }
+        </code></pre>
+        <br>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "chapter18/base.html" %}
+{% block chapter_no %}18{% endblock %}
+{% block exercise_no %}0{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>小结</h3>
+        <p>JavaScript 对 XML 及其相关技术有相当大的支持。然而,由于缺乏规范,共同的功能却存在一些不
+同的实现。DOM2 级提供了创建空 XML 文档的 API,但没有涉及解析和序列化。</p>
+        <p>与 XML 相关的最后一种技术是 XSLT,没有公开发布的标准针对这种技术的功能定义相应的 API。
+Firefox 为通过 JavaScript 处理转换创建了 XSLTProcessor 类型;此后不久,Safari、Chrome、和 Opera
+也都实现了同样的类型。IE 则针对 XSLT 提供了自己的方案,一个是简单的 transformNode() 方法,
+另一个是较为复杂的模板/处理器手段。</p>
+        <p>目前,IE、Firefox、Chrome 和 Opera 都能够较好地支持 XML.虽然IE实现与其他浏览器相比差异比较大,但仍然还是有较多的公共功能可供我们实现跨浏览器的方案。</p>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "chapter09/base.html" %}
+{% block chapter_no %}09{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="0">
+        <h3>3. 用户代理检测</h3>
+        <p>我们在前面已经强调过了,用户代理检测是客户端检测的最后一个选择。只要可能,都应该优先采
+用能力检测和怪癖检测。用户代理检测一般适用于下列情形。</p>
+        <ul style="font-size: 18px;">
+            <li>不能直接准确地使用能力检测或怪癖检测。</li>
+            <li>同一款浏览器在不同平台下具备不同的能力。</li>
+            <li>为了跟踪分析等目的需要知道确切的浏览器。</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

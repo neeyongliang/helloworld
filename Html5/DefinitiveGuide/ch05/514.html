@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>514</title>
+</head>
+<body>
+    <script>
+    var myData = {
+      name: "Adam",
+      weather: "sunny",
+      printMessage: function(){
+      document.writeln("hello " + this.name+".");
+      document.writeln("Today is " + this.weather + ".");
+      }
+  };
+
+  for(var prop in myData) {
+    document.writeln("Name: " + prop + "Value:" + myData[prop]);
+  }
+  </script>
+</body>
+</html>

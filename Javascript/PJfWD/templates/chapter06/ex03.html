@@ -1,0 +1,140 @@
+{% extends "chapter06/base.html" %}
+{% block chapter_no %}06{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+  <div class="right">
+    <div id="0">
+        <h3>3. 继承</h3>
+        <p>继承是OO语言中的一个最为人津津乐道的概念.许多OO语言都支持两种继承方式: 接口继承和实现继承.</p>
+        <p>接口继承只继承方法签名,而实现继承则继承实际的方法.由于函数名没没有签名,在ECMAScript中无法实现接口继承.ECMAScript只支持实现继承,而实现继承主要依靠原型链来实现.</p>
+    </div>
+    <div id="1">
+        <h4>3.1 原型链</h4>
+        <p>原型链的基本思想是利用原型让一个引用类型继承另一个引用类型的属性和方法.原型链有一种基本模式,其代码大致如下:</p>
+        <div><span class="ext">PrototypeChainingExample01.html</span></div>
+        <pre><code>
+            function SuperType() {
+                this.property = true;
+            }
+
+            SuperType.prototype.getSuperValue = function() {
+                return this.property;
+            }
+
+            function SubType() {
+                this.subproperty = false;
+            }
+
+            //继承了 SuperType()
+            SubType.protoType = new SuperType();
+
+            SubType.prototype.getSubValue = function() {
+                return this.subproperty;
+            }
+
+            var instance = new SubType();
+            instance.getSuperValue(); //true
+        </code></pre>
+        <p>调用instance.getSuperValue()会经历三个搜索步骤:</p>
+        <ol>
+            <li>实例搜索;</li>
+            <li>搜索SubType.prototype;</li>
+            <li>搜索SuperType.prototype,最后一步找到该方法;</li>
+            <li>如果找不到属性或者方法的情况下,搜索过程总要一环一环的前行到原型链末端才会停止.</li>
+        </ol>
+        <p><span class="dsp">提醒</span>:在通过原型链实现继承时,不能使用对象字面量创建原型方法。因为这
+样做就会重写原型链.</p>
+        <br>
+    </div>
+    <div id="2">
+        <h4>3.2 借用构造函数<h4>
+        <p>借用构造函数(constructor stealing)的思想非常简单:即在子类型构造函数的内部调用超类型构造函数.</p>
+        <br>
+    </div>
+    <div id="3">
+        <h4>3.3 组合继承</h4>
+        <p>思路是使用原型链实现对原型属性和方法的继承,而通过借用构造函数来实现对实例属性的继承。</p>
+        <div><span class="ext">CombinationInheritanceExample01.html</span></div>
+        <pre><code>
+            function SuperType(name) {
+                this.name = name;
+                this.colors = ["red", "blue", "green"];
+            }
+
+            SuperType.prototype.sayName = function() {
+                alert(this.name);
+            }
+
+            function SubType(name, age) {
+
+                //继承属性
+                SuperType.call(this, name);
+
+                this.age = age;
+            }
+
+            //继承方法
+            SubType.prototype = new SuperType();
+            SubType.prototype.constructor = SubType;
+            SubType.prototype.sayAge = function() {
+                alert(this.age);
+            };
+
+            var instance1 = new SubType("Nicholas", 29);
+            instance1.colors.push("black");
+            alert(instance1.colors); //"red,blue,green,black"
+            instance1.sayName(); //"Nicholas"
+            instance1.sayAge(); //29
+
+            var instance2 = new SubType("Greg", 27);
+            instance2.colors; //"red,blue,green"
+            instance2.sayName(); //"Greg"
+            instance2.sayAge(); //27
+        </code></pre>
+        <br>
+    </div>
+    <div id="4">
+        <h4>3.4 原型式继承</h4>
+        <p>ECMAScript 5 通过新增 Object.create() 方法规范化了原型式继承.这个方法接收两个参数:</p>
+        <p>在传入一个参数的情况下,Object.create() 与 object() 方法的行为相同.</p>
+        <p>Object.create() 方法的第二个参数与 Object.defineProperties() 方法的第二个参数格式相同.</p>
+        <br>
+    </div>
+    <div id="5">
+        <h4>3.5 寄生式继承</h4>
+        <br>
+    </div>
+    <div id="6">
+        <h4>3.6 寄生组合式继承</h4>
+         <div><span class="ext">ParasiticCombinationInheritanceExample01.htm</span></div>
+        <pre><code>
+            function SuperType(name) {
+                this.name = name;
+                this.colors = ["red", "blue", "green"];
+            }
+
+            SuperType.prototype.sayName = function() {
+                alert(this.name);
+            };
+
+            function SubType(name, age) {
+                SuperType.call(this, name);
+
+                this.age = age;
+            }
+
+            inheritPrototype(SubType, SuperType);
+
+            SubType.prototype.sayAge = function() {
+                alert(this.age);
+            }
+        </code></pre>
+        <br>
+    </div>
+  </div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

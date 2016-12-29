@@ -1,0 +1,36 @@
+{% extends "chapter16/base.html" %}
+{% block chapter_no %}16{% endblock %}
+{% block exercise_no %}0{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>历史状态管理</h3>
+        <p>历史状态管理是现代 Web 应用开发中的一个难点。在现代 Web 应用中,用户的每次操作不一定会
+打开一个全新的页面,因此“后退”和“前进”按钮也就失去了作用,导致用户很难在不同状态间切换。</p>
+        <p>通过 hashchange 事件,可以知道 URL 的参数什么时候发生了变化,即什么时候该有所反应。而通过状态管理API,能够在不加载新页面的情况下改变浏览器的URL.为此,需要使用history.pushState() 方法,该方法可以接收三个参数:状态对象、新状态的标题和可选的相对 URL.</p>
+        <pre><code>
+            EventUtil.addHandler(window, "popstate", function(event) {
+                var state = event.state;
+                if (state) {
+                    //第一个页面加载时,state变为空
+                    processState(state);
+                }
+            })
+        </code></pre>
+        <p><span class="epd">记住</span>,浏览器加载的第一个页面没有状态,因此单击“后退”按钮返回浏览器加载的第一个页面时, event.state 值为 null 。要更新当前状态,可以调用 replaceState() ,传入的参数与 pushState() 的前两个参数相同。</p>
+        <p>要更新当前状态,可以调用 replaceState() ,传入的参数与 pushState() 的前两个参数相同。
+调用这个方法不会在历史状态栈中创建新状态,只会重写当前状态。</p>
+    <pre><code>
+        history.replaceState({name:"Greg"}, "Greg's page");
+    </code></pre>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}

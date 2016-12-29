@@ -1,0 +1,20 @@
+{% extends "chapter20/base.html" %}
+{% block chapter_no %}20{% endblock %}
+{% block exercise_no %}03{% endblock %}
+{% block mycss %}{% endblock %}
+{% block content %}
+<div class="right">
+    <div id="title">
+        <h3>小结</h3>
+        <p>JSON 是一个轻量级的数据格式,可以简化表示复杂数据结构的工作量。JSON 使用 JavaScript 语法的子集表示对象、数组、字符串、数值、布尔值和null。即使XML也能表示同样复杂的数据结果,但JSON 没有那么烦琐,而且在 JavaScript 中使用更便利。</p>
+        <p>ECMAScript 5 定义了一个原生的 JSON 对象,可以用来将对象序列化为 JSON 字符串或者将 JSON数据解析为 JavaScript 对象。 JSON.stringify() 和 JSON.parse() 方法分别用来实现上述两项功能。这两个方法都有一些选项,通过它们可以改变过滤的方式,或者改变序列化的过程。</p>
+    </div>
+    <div id="footer">
+        <p><a href="#title">返回顶端</a></p>
+    </div>
+</div>
+{% endblock %}
+{% block myjs %}
+  <script>
+  </script>
+{% endblock %}
