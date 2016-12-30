@@ -7,6 +7,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 project(GoogleCppEducation)
 
-set(EXAMPLE_LIST example02-1.cpp)
+set(EXAMPLE_LIST example09.cpp)
 
 add_executable(Demo ${EXAMPLE_LIST})
