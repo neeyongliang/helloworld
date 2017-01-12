@@ -1,6 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="MathFunctions" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$/math" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Demo3" TARGET_NAME="MathFunctions" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Demo3" RUN_TARGET_NAME="Demo">
-    <envs />
-    <method />
-  </configuration>
-</component>
