@@ -5,7 +5,7 @@
 #	calculate
 #History:
 #2015/xx/xx  wikinee First release
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin/:~/bin
+
 export PATH
 
 echo -e "You SHOULD input 2 numbers,i will cross them! \n"
