@@ -33,6 +33,9 @@ Begin Again 再次出发
 3. GithubManual
 4. README
 
+## Go
+1. Official Tour
+
 ## Html5
 1. The Definitive Guide to HTML5
 
