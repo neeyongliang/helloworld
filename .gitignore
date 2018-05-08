@@ -66,3 +66,7 @@ target/
 *.swp
 .idea
 .vscode
+
+# git
+!.gitkeep
+cmake-build-debug/

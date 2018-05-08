@@ -8,30 +8,35 @@ Begin Again 再次出发
 
 - All the notes, code are get from Internet./所有笔记,代码来自网络。
 
-### CMake
+## C
+1. Clutter
+2. Gtk
+
+## CMake
 1. HaHack
 2. CMakePractice
 
-### CodeStyleGuide
+## CodeStyleGuide
 1. AlloyTeam
 2. Google JSON Style Guide
 
-### Cpp
+## Cpp
 1. Google C++ Education
+2. EffectiveCpp
 
-### DataBase
+## DataBase
 1. mysql
 
-### Git
+## Git
 1. AboutAfterFork
 2. Branch
 3. GithubManual
 4. README
 
-### Html5
+## Html5
 1. The Definitive Guide to HTML5
 
-### Javascript
+## Javascript
 1. PJfWD
     - professional javascript for web developers
      《javascript高级程序设计》
@@ -44,16 +49,52 @@ Begin Again 再次出发
 
 4. React
 
-### Python
+## Python
 1. core python programming《python核心编程》
 2. Learn Code The Hard Way:python 《本办法学编程：python》
 3. liaoxuefeng's Python lessons.
+4. pygobject 《Gobject的Python绑定》
+5. pymotw3 —— Python 3 moudle of the week
+6. single-file
 
-### ShellScript
+### PyGobject Docs(devhelp):
+
+```shell
+git clone https://github.com/lazka/pgi-docs-devhelp.git ~/.local/share/devhelp/books
+
+```
+
+### Python Standard Library(devhelp)
+
+```shell
+sudo apt-get install python-doc python3-doc
+```
+
+### Python Books
+
+- [Python 3 Module of the Week](https://pymotw.com/3/)
+- [Python GTK+ 3 Tutorial](http://python-gtk-3-tutorial.readthedocs.io)
+- [Python Guide](http://docs.python-guide.org/en/latest/)
+
+### Python Project
+
+- [Howdoi](https://github.com/gleitz/howdoi)
+- [Flask](https://github.com/pallets/flask)
+- [Diamond](https://github.com/python-diamond/Diamond)
+- [Werkzeug](https://github.com/pallets/werkzeug)
+- [Requestes](https://github.com/requests/requests)
+- [Tablib](https://github.com/kennethreitz/tablib)
+
+## Qt
+
+1. test-qfont-database
+2. test-qfont-dialog
+
+## ShellScript
 1. 鸟哥 VBird
 2. MOOC网
 
-### Vim
+## Vim
 1. Learning the vi and Vim Editors《学习vi和Vim编辑器》
     - Primary 初级篇
     - Senior 进阶篇
