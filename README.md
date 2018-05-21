@@ -35,6 +35,7 @@ Begin Again 再次出发
 
 ## Go
 1. Official Tutorial
+2. Go by Example
 
 ## Html5
 1. The Definitive Guide to HTML5
