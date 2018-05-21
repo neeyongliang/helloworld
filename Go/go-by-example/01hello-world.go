@@ -6,5 +6,5 @@ package main
 import "fmt"
 
 func main() {
-    fmt.Println("hello, world.\ngo by example!")
+	fmt.Println("hello, world.\ngo by example!")
 }
