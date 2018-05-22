@@ -16,10 +16,11 @@
     Go by Example is a hands-on introduction to Go using annotated example programs.
 
 ## Books
+1. [The Go Programming Language](http://www.gopl.io/) ， 《[中文版](https://yar999.gitbooks.io/gopl-zh/)》
 
-1. [the way to go](https://github.com/Unknwon/the-way-to-go_ZH_CN)《go入门指南》
+2. [the way to go](https://github.com/Unknwon/the-way-to-go_ZH_CN)， 《go入门指南》
 
-2. [build web application with golang](https://github.com/astaxie/build-web-application-with-golang)《Go网络编程》
+3. [build web application with golang](https://github.com/astaxie/build-web-application-with-golang)， 《Go网络编程》
 
 ## Develop Source
 
