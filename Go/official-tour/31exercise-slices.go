@@ -7,12 +7,12 @@ func Pic(dx, dy int) [][]uint8 {
 	for y := 0; y < dy; y++ {
 		pixels[y] = make([]uint8, dx)
 		for x := 0; x < dx; x++ {
-			pixels[y][x] = uint8(x*y)
+			pixels[y][x] = uint8(x * y)
 		}
 	}
 	return pixels
 }
 
-func main()  {
+func main() {
 	pic.Show(Pic)
 }

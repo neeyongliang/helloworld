@@ -12,7 +12,7 @@ func for_1() {
 
 func for_2() {
 	sum := 1
-	for ; sum < 1000; {
+	for sum < 1000 {
 		sum += sum
 	}
 	fmt.Println(sum)

@@ -18,6 +18,6 @@ func multating_maps() {
 	fmt.Println("The value:", v, "Present?", ok)
 }
 
-func main()  {
+func main() {
 	multating_maps()
 }

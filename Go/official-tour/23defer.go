@@ -11,7 +11,7 @@ func defer_example() {
 func defer_multi() {
 	fmt.Println("counting")
 
-	for i := 0; i < 10; i ++ {
+	for i := 0; i < 10; i++ {
 		defer fmt.Println(i)
 	}
 

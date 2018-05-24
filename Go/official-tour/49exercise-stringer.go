@@ -11,7 +11,7 @@ func (ip IPAddr) String() string {
 
 func main() {
 	hosts := map[string]IPAddr{
-		"loopback": {127, 0, 0, 1},
+		"loopback":  {127, 0, 0, 1},
 		"googleDNS": {8, 8, 8, 8},
 	}
 

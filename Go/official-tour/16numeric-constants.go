@@ -11,7 +11,7 @@ const (
 )
 
 func needInt(x int) int {
-	return x * 10 + 1
+	return x*10 + 1
 }
 
 func needFloat(x float64) float64 {
