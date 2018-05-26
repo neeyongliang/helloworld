@@ -11,6 +11,8 @@
 
 3. [Go by example](https://gobyexample.com)
 
+    [中文版](https://gobyexample.xgwang.me)
+
     Go is an open source programming language designed for building simple, fast, and reliable software.
 
     Go by Example is a hands-on introduction to Go using annotated example programs.
