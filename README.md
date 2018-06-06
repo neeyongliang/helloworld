@@ -76,11 +76,12 @@ All the notes, code are get from Internet./所有笔记,代码来自网络。
 - [Offical Tutorial](http://mesonbuild.com/Tutorial.html)
 
 ## Python
-- core python programming《python核心编程》
-- Learn Code The Hard Way:python 《本办法学编程：python》
-- liaoxuefeng's Python lessons.
-- pygobject 《Gobject的Python绑定》
-- pymotw3 —— Python 3 moudle of the week
+- core python programming 《python核心编程》
+- Intermediate Python. 《[Python 进阶](https://github.com/eastlakeside/interpy-zh)》
+- Learn Code The Hard Way:python. 《笨办法学编程：python》
+- Liaoxuefeng's Python lessons.
+- pygobject. 《Gobject的Python绑定》
+- pymotw3. 《Python 3 moudle of the week》
 - single-file
 
 ### PyGobject Docs(devhelp):
