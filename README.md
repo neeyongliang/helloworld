@@ -83,6 +83,7 @@ All the notes, code are get from Internet./所有笔记,代码来自网络。
 - pygobject. 《Gobject的Python绑定》
 - pymotw3. 《Python 3 moudle of the week》
 - single-file
+- python3 cookbook. 《[Python3 Cookbook 中文版](https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html)》
 
 ### PyGobject Docs(devhelp):
 

@@ -1,7 +1,7 @@
-#!/usr/bin/python3
 """
 test Debug
 """
+#!/usr/bin/python3
 from datetime import datetime
 
 

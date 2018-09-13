@@ -1,8 +1,7 @@
-#!/usr/bin/python3
 """
 Test libAccountsService
 """
-
+#!/usr/bin/python3
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('AccountsService', '1.0')

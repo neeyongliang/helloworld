@@ -1,8 +1,8 @@
-#!/usr/bin/python3
-# -*- coding:utf-8 -*-
 """Test Encoding
 Test encoding transfer in Python3
 """
+#!/usr/bin/python3
+# -*- coding:utf-8 -*-
 
 import gi
 

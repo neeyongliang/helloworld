@@ -1,8 +1,8 @@
-#! /usr/bin/python2
-# -*- coding:utf-8 -*-
 """
 test User wxpython
 """
+#! /usr/bin/python2
+# -*- coding:utf-8 -*-
 
 import wx
 

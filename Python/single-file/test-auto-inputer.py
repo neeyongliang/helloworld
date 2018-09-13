@@ -1,8 +1,8 @@
-#! /usr/bin/python3
-# -*- coding:utf-8 -*-
 """
 test User Input
 """
+#! /usr/bin/python3
+# -*- coding:utf-8 -*-
 import time
 import unittest
 import random

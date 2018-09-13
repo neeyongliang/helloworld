@@ -1,8 +1,7 @@
-#!/usr/bin/python3
 """
 Test
 """
-
+#!/usr/bin/python3
 
 import pexpect
 import gi
