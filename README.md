@@ -1,56 +1,57 @@
-<h1>Begin Again 再次出发</h1>
+<h1>Begin Again</h1>
 
-
-This branch is for the review and exercises./本分支为了复习和练习。
-
-All the notes, code are get from Internet./所有笔记,代码来自网络。
+<h3>All examples get from internet.</h3>
 
 ## C
-- Clutter
-- Gtk
+1. Clutter
+2. GLib
+3. Gtk
 
 ## CMake
-1. HaHack
-2. CMakePractice
+1. CMakePractice
+2. HaHack
+3. Other
 
 ## CodeStyleGuide
-- AlloyTeam
-- Google JSON Style Guide
+1. [Web by AlloyTeam](https://alloyteam.github.io)
+2. [Google Style Guide](https://github.com/google/styleguide)
+3. Python by pep8
+4. Java by [Google](https://github.com/google/styleguide) or [Alibaba](https://github.com/alibaba/p3c)
 
 ## Cpp
-- Google C++ Education
-- EffectiveCpp
+1. EffectiveCpp
+2. Google C++ Education
 
 ## DataBase
 - mysql
 
+## Debian
+- Packaging Tutorial Note
+
 ## Git
-- About After Fork
-- Branch
-- Github Manual
-- README
+1. Git Open Book List
+2. Git Command
+3. Github Empty Guide
 
 ## Go
-
-### Excise
-- official tour
-- go-by-example
-- gopl
+1. Golang Official Tour
+2. Go by example
+3. The Go Programming Language(gopl, only chapter1)
 
 ### Official Guide
 
-- [How to programming with Go](https://go-zh.org/doc/code.html)
+1. [How to programming with Go](https://go-zh.org/doc/code.html)
 
-- [Golang standard](https://go-zh.org/ref/spec)
+2. [Golang standard](https://go-zh.org/ref/spec)
 
-- [Go by example](https://gobyexample.com), [中文版](https://gobyexample.xgwang.me)
+3. [Go by example](https://gobyexample.com), [中文版](https://gobyexample.xgwang.me)
 
 ### Books
-- [The Go Programming Language](http://www.gopl.io/) ， 《[Go语言编程（中文版）](https://yar999.gitbooks.io/gopl-zh/)》
+1. [The Go Programming Language](http://www.gopl.io/) ， 《[Go语言编程（中文版）](https://yar999.gitbooks.io/gopl-zh/)》
 
-- [the way to go](https://github.com/Unknwon/the-way-to-go_ZH_CN)， 《Go入门指南》
+2. [the way to go](https://github.com/Unknwon/the-way-to-go_ZH_CN)， 《Go入门指南》
 
-- [build web application with golang](https://github.com/astaxie/build-web-application-with-golang)， 《Go网络编程》
+3. [build web application with golang](https://github.com/astaxie/build-web-application-with-golang)， 《Go网络编程》
 
 ### Develop Source
 
@@ -60,30 +61,25 @@ All the notes, code are get from Internet./所有笔记,代码来自网络。
 - The Definitive Guide to HTML5
 
 ## Javascript
-- PJfWD
+1. PJfWD
     - professional javascript for web developers
      《javascript高级程序设计》
 
-- jQuery
+2. jQuery
     - jQuery 用法(w3school)
     - jQuery 源码
 
-- NodeJS
-
-- React
-
 ## Meson Build
-- [Offical Tutorial](http://mesonbuild.com/Tutorial.html)
+1. [Offical Tutorial](http://mesonbuild.com/Tutorial.html)
+2. examples
 
 ## Python
-- core python programming 《python核心编程》
-- Intermediate Python. 《[Python 进阶](https://github.com/eastlakeside/interpy-zh)》
-- Learn Code The Hard Way:python. 《笨办法学编程：python》
-- Liaoxuefeng's Python lessons.
-- pygobject. 《Gobject的Python绑定》
-- pymotw3. 《Python 3 moudle of the week》
-- single-file
-- python3 cookbook. 《[Python3 Cookbook 中文版](https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html)》
+1. core python programming 《python核心编程》
+2. Intermediate Python. 《[Python 进阶](https://github.com/eastlakeside/interpy-zh)》
+3. Learn Code The Hard Way:python. 《笨办法学编程：python》
+4. pygobject. 《Gobject的Python绑定》
+5. pymotw3. 《Python 3 moudle of the week》
+6. single-file
 
 ### PyGobject Docs(devhelp):
 
@@ -100,11 +96,13 @@ sudo apt-get install python-doc python3-doc
 
 ### Python Books
 
-- [Python 3 Module of the Week](https://pymotw.com/3/)
-- [Python GTK+ 3 Tutorial](http://python-gtk-3-tutorial.readthedocs.io)
-- [Python Guide](http://docs.python-guide.org/en/latest/)
+1. [Python 3 Module of the Week](https://pymotw.com/3/)
+2. [Python GTK+ 3 Tutorial](http://python-gtk-3-tutorial.readthedocs.io)
+3. [Python Guide](http://docs.python-guide.org/en/latest/)
+4. python3 cookbook. 《[Python3 Cookbook 中文版](https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html)》
 
-### Python Project
+
+### Python Greate Project
 
 - [Howdoi](https://github.com/gleitz/howdoi)
 - [Flask](https://github.com/pallets/flask)
@@ -114,9 +112,8 @@ sudo apt-get install python-doc python3-doc
 - [Tablib](https://github.com/kennethreitz/tablib)
 
 ## Qt
-
-- test-qfont-database
-- test-qfont-dialog
+1. test-qfont-database
+2. test-qfont-dialog
 
 ## ShellScript
 - 鸟哥 VBird
