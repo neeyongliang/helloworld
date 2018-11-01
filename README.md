@@ -80,6 +80,7 @@
 4. pygobject. 《Gobject的Python绑定》
 5. pymotw3. 《Python 3 moudle of the week》
 6. single-file
+7. effect python: 提高Python质量的59个有效方法
 
 ### PyGobject Docs(devhelp):
 

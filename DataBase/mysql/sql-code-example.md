@@ -1,4 +1,7 @@
-#3-2
+3-2
+------
+
+```SQL
 CREATE TABLE users1(
 	id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	username VARCHAR(18) NOT NULL
@@ -7,3 +10,4 @@ CREATE TABLE users1(
 )
 
 INSERT provinces(pname) VALUES('A');
+```

@@ -12,22 +12,21 @@
 > :vsplit ==>> 垂直分割窗口(后面不加filename就不同时编辑一个文件)
 
 #### 分割窗口选项
-> :[n]split [++opt] [+cmd] [file]
-
-```
-    说明:
-        n: vim指定在新窗口显示行数,新窗口位于前面
-        opt:传递vim选项信息给新的窗口会话(必须加上两个加号)
-        cmd:欲在新窗口中执行的命令
-        file:指定打开的文件
+```shell
+:[n]split [++opt] [+cmd] [file]
+说明:
+n: vim指定在新窗口显示行数,新窗口位于前面
+opt:传递vim选项信息给新的窗口会话(必须加上两个加号)
+cmd:欲在新窗口中执行的命令
+file:指定打开的文件
 ```
 
 #### 游走在窗口间
-> :set mouse=a ==>> 激活鼠标
-
-> CTRL + W ==>> 切换窗口
-
-> :topleft ==>> 左上角
+```shell
+:set mouse=a ==>> 激活鼠标
+CTRL + W ==>> 切换窗口
+:topleft ==>> 左上角
+```
 
 ## 窗口移动命令概要
 #### 窗口交换
@@ -80,7 +79,7 @@ winminwidth|定义最小窗口的宽度||
 ## vim脚本
 #### 配色
 
-```
+```vimrc
     " progressively check highter values... fall out on first "true"
     " (note addition of zero... this guarantees return from function is numeric)
     if strftime("%H") < 6 + 0

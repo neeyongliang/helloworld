@@ -17,28 +17,29 @@ NodeJS就是一个用来解释JS等等解析器, 用途就是操作磁盘文件�
 
 下载源码包, 保证g++在6.4以上, python在2.6以上.
 
-> $ ./configure
-> 
-> $ make
-> 
-> $ sudo make install
+```shell
+$ ./configure
+$ make
+$ sudo make install
+```
 
 ## 如何运行
 
 简单交互代码可以在命令行输入node运行, 复杂的代码可以是node + filename
-
-> $ node
-> 
-> $ node hello.js
+```shell
+$ node
+$ node hello.js
+```
 
 #### 权限问题
 
 Linux系统下, 使用NodeJS监控80或者443端口需要root权限.有下面两种方式:
 
-> $ sudo node server.js(推荐)
-> 
-> $ sudo chown root /usr/local/bin/node
-> $ sudo chmod +s /usr/local/bin/node(不推荐)
+```shell
+$ sudo node server.js(推荐)
+$ sudo chown root /usr/local/bin/node
+$ sudo chmod +s /usr/local/bin/node(不推荐)
+```
 
 ##模块
 
@@ -48,7 +49,8 @@ NodeJS允许自定义模块,编写每个模块都有require, exports, module三�
 
 require用于加载和使用别的模块, .js文件可以忽略文件名, 相对路径或者绝对路径都可以
 
-```
+
+```js
 var foo1 = require('./foo');
 var foo2 = require('./foo.js');
 var foo3 = require('/home/user/foo');
@@ -87,7 +89,7 @@ module.exports = function() {
 
 #### 完整示例
 
-```
+```js
 //目录结构
 - /home/user/hello
     - util/
