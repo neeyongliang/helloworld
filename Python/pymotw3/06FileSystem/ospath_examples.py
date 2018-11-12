@@ -8,10 +8,20 @@ import os.path
 import os
 import time
 
+"""
+b : 二进制
+d ：十进制
+o ：八进制
+x ：十六进制
+!s ：将对象格式化转换成字符串
+!a ：将对象格式化转换成ASCII
+!r ：将对象格式化转换成repr
+"""
+
 print('--- ospath_split.py ---')
 PATHS = [
-    '/one/two/three',
-    '/one/two/three/',
+    '/one/two/three呵呵',
+    '/one/two/three哈哈/',
     '/',
     '.',
     '',
