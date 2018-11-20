@@ -9,4 +9,25 @@
 import fnmatch
 import os
 
+# Case-sensitive
 print("\n===== file: fnmatch_fnmatch.py =====")
+
+pattern = 'fnmatch_*.py'
+print('Pattern :', pattern)
+print()
+
+files = os.listdir('.')
+for name in sorted(files):
+    print('Filename: {:<55} {}'.format(
+        name, fnmatch.fnmatch(name, pattern)))
+
+print("\n===== file: fnmatch_fnmatchcase.py =====")
+
+pattern = 'FNMATCH_*.PY'
+print('Pattern2 :', pattern)
+print()
+
+files = os.listdir('.')
+for name in sorted(files):
+    print('Filename: {:<55} {}'.format(
+        name, fnmatch.fnmatchcase(name, pattern)))
