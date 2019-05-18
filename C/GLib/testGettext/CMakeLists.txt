@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(testGregex)
+project(testGettext)
 
 # test support for C++11
 include(CheckCXXCompilerFlag)
@@ -14,9 +14,9 @@ else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
     message("Please use a different C++ compiler.")
 endif()
-set(SOURCE_FILES main.c)
+set(SOURCE_FILES config.h main.c)
 
-add_executable(testGregex ${SOURCE_FILES})
+add_executable(testGettext ${SOURCE_FILES})
 # add gtk3 support
 # pkg name can run follow command to check
 # pkg-config --list-all | grep YOU_WANT_CHECK
