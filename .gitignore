@@ -71,3 +71,6 @@ target/
 !.gitkeep
 cmake-build-debug/
 builddir/
+
+# MacOS
+.DS_Store
