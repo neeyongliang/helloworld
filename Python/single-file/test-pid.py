@@ -9,7 +9,7 @@ def get_cmd_name(pid_str):
     cmd_name = subprocess.check_output(cmd, stderr=subprocess.STDOUT, encoding='utf-8', shell=True)
     return cmd_name
 
-if __name__ == '__main__':
+def test_cmd_name():
     try:
         res = get_cmd_name('1000')
     except subprocess.CalledProcessError as e:
@@ -17,3 +17,7 @@ if __name__ == '__main__':
         print("returncode: %d" % e.returncode)
     else:
         print("res: %s" % res)
+
+
+if __name__ == '__main__':
+    test_cmd_name()
