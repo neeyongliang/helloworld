@@ -9,7 +9,7 @@ while True:
     try:
         os.kill(int(session_pid), 0)
     except ProcessLookupError:
-        print('Stop with cdos-session-binary')
+        print('Stop with gnome-session-binary')
         os.kill(os.getpid(), signal.SIGTERM)
     else:
         print("wait..........")

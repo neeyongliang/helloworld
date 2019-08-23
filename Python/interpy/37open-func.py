@@ -17,7 +17,7 @@ import io
 # a: append to end
 try:
 
-    with open('/home/cdos/Pictures/test.jpg', 'rb') as inf:
+    with open('/home/user/Pictures/test.jpg', 'rb') as inf:
         jpgdata = inf.read()
 
     if jpgdata.startswith(b'\xff\xd8'):

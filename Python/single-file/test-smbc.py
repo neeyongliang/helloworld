@@ -9,11 +9,11 @@ import time
 import shutil
 
 WORKGROUP = "WORKGROUP"
-SERVER = "192.168.0.10"
-SHARE = "MyTest"
-USERNAME = "apple"
-PASSWORD = "123456"
+SERVER = "172.30.13.105"
+SHARE = "share02"
 DESTDIR = "test"
+USERNAME = "nsy"
+PASSWORD = "nsy123"
 
 BASE_URI = "smb://" + SERVER + '/' + SHARE
 DEST_URI = BASE_URI + '/' + "ubuntu-18.04.1-desktop-amd64.iso"
