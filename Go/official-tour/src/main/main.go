@@ -2,11 +2,15 @@ package main
 
 import (
 	"basics"
-	"flowcontrol"
 	"fmt"
+	"welcome"
+)
+
+import (
+	"concurrency"
+	"flowcontrol"
 	"methods"
 	"moretypes"
-	"welcome"
 )
 
 func main() {
@@ -141,10 +145,49 @@ func main() {
 	fmt.Println("example065")
 	methods.TestInterfaces()
 	fmt.Println("example066")
+	methods.TestInterfacesSatisfiedImplicitly()
 	fmt.Println("example067")
+	methods.TestInterfacesValues()
 	fmt.Println("example068")
+	methods.TestInterfaceValueWithNil()
 	fmt.Println("example069")
-	fmt.Println("example07")
-	fmt.Println("example08")
-	fmt.Println("example09")
+	methods.TestEmptyInterface()
+	fmt.Println("example070")
+	methods.TestTypeAssertions()
+	fmt.Println("example071")
+	methods.TestTypeSwitches()
+	fmt.Println("example072")
+	methods.TestStringer()
+	fmt.Println("example073")
+	methods.ExerciseStringer()
+	fmt.Println("example074")
+	methods.TestError()
+	fmt.Println("example075")
+	methods.ExerciseError()
+	fmt.Println("example076")
+	methods.TestReader()
+	fmt.Println("example077")
+	methods.ExerciseReader()
+	fmt.Println("example078")
+	methods.ExerciseRot13Reader()
+	fmt.Println("example079")
+	methods.ExerciseImages()
+	fmt.Println("example080")
+	concurrency.TestGoroutines()
+	fmt.Println("example081")
+	concurrency.TestChannels()
+	fmt.Println("example082")
+	concurrency.TestBufferedChannels()
+	fmt.Println("example083")
+	concurrency.TestRangeAndClose()
+	fmt.Println("example084")
+	concurrency.TestSelect()
+	fmt.Println("example085")
+	concurrency.TestDefaultSelection()
+	fmt.Println("example086")
+	concurrency.ExerciseEqBinaryTree()
+	fmt.Println("example087")
+	concurrency.TestMutexCounter()
+	fmt.Println("example088")
+	concurrency.ExerciseWebCrawler()
 }
