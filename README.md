@@ -37,6 +37,7 @@
 1. Golang Official Tour
 2. Go by example
 3. The Go Programming Language(gopl, only chapter1)
+4. 《Go语音从入门到进阶实战》
 
 ### Official Guide
 
