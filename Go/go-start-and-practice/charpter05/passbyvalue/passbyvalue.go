@@ -6,9 +6,9 @@ import (
 
 // 用于测试值传递的结构体
 type Data struct {
-	complax []int
+	complax  []int
 	instance InnerData
-	ptr *InnerData
+	ptr      *InnerData
 }
 
 // 代表各种结构体的字段
@@ -19,7 +19,7 @@ type InnerData struct {
 // 值传递测试函数
 func passByValue(inFunc Data) Data {
 	// 输出参数成员
-	fmt.Printf("inFunc value: %+v\n", inFunc);
+	fmt.Printf("inFunc value: %+v\n", inFunc)
 
 	// 打印 inFunc 的指针
 	fmt.Printf("inFunc ptr: %p\n", &inFunc)
@@ -30,7 +30,7 @@ func passByValue(inFunc Data) Data {
 func main() {
 	in := Data{
 		complax: []int{1, 2, 3},
-		instance: InnerData {
+		instance: InnerData{
 			5,
 		},
 		ptr: &InnerData{1},
