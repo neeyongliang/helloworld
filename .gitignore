@@ -74,3 +74,7 @@ builddir/
 
 # MacOS
 .DS_Store
+
+# golang
+bin/
+pkg/
