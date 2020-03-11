@@ -1,5 +1,6 @@
 {
     "workbench.colorCustomizations": {
         "activityBar.background": "#67c23a"
-    }
+    },
+    "go.gopath": "/Users/yongliang/Github/practice/Go/go-start-and-practice"
 }
