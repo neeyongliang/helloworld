@@ -4,6 +4,9 @@ import (
 	"fmt"
 )
 
+// 往关闭的通道里发送数据就会宕机
+// 从关闭的通道里读取数据不再阻塞
+
 func main() {
 	ch := make(chan int)
 	close(ch)
