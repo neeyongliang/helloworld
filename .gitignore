@@ -78,3 +78,9 @@ builddir/
 # golang
 bin/
 pkg/
+
+# meson
+builddir/
+
+# cmake
+build/

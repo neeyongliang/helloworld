@@ -1,5 +1,0 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
-
-SET(SRC_LIST main.cpp hello.h hello.cpp)
-
-ADD_EXECUTABLE(mfunc ${SRC_LIST})
