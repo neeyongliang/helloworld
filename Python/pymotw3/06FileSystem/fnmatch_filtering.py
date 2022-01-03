@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """fnmatch_filtering
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 @Date: Nov.15 2018
 """

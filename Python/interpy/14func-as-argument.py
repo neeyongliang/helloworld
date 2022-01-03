@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """14func_as_argument
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

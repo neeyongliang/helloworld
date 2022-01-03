@@ -1,5 +1,5 @@
 # coding: utf-8
-# __author__ = 'wikinee'
+# __author__ = 'yongliang'
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 

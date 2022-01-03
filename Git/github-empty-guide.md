@@ -1,8 +1,8 @@
 原始文档
---- 
+---
 - or create a new repository on the command line
 
-        $ echo # wikinee.github.io >> README.md
+        $ echo # yongliang.github.io >> README.md
         $ git init
         $ git add README.md
         $ git commit -m "first commit"

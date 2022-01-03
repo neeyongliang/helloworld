@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """15your_first_decorator
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 from functools import wraps

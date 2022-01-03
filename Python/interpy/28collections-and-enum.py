@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """28collections-enum
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

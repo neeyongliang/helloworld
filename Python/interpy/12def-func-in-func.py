@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """12def_func_in_func
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

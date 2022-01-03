@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """33excepiton-try-else
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

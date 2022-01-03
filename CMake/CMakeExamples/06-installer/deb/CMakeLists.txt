@@ -33,7 +33,7 @@ install (FILES cmake-examples.conf
     DESTINATION etc)
 
 set(CPACK_GENERATOR "DEB")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "wikinee")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "yongliang")
 set(CPACK_PACKAGE_VERSION ${deb_example_VERSION})
 
 include(CPack)

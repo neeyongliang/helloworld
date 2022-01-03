@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """re_simple_examples
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 @Message: Not Completely! check pymotw.com/3/re/index.html
 """

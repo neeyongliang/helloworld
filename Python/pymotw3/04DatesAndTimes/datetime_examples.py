@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """datetime_examples
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 import datetime

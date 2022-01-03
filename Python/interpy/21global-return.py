@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """21global-return
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

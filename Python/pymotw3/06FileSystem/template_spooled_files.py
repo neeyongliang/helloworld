@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """template_spooled_files
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 @Date: Nov.20 2018
 """

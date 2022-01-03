@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """contextlib_exitstack_pop_all
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

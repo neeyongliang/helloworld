@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """heapq_showtree
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

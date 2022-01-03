@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """19nest_deco_in_func
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

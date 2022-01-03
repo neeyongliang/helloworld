@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """colections_counter_examples
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

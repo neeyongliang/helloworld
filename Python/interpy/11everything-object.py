@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """11everything_object
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

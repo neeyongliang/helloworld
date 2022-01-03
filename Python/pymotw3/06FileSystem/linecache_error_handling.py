@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """linecache_error_handling
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 @Date: Nov.15 2018
 """

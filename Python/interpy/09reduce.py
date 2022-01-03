@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """09reduce
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

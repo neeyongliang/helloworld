@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """23__slots_magic
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

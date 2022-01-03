@@ -1,7 +1,7 @@
 #! /usr/bin/python2
 # *-* coding: utf-8 *-*
 """40fibonacci-python2
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 from functools import wraps

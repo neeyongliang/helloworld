@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """39func_caching
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 from functools import lru_cache

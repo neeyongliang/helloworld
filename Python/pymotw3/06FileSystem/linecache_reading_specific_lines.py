@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """linecache_reading_specific_lines
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 @Date: Nov.15 2018
 """

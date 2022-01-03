@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """contextlib_contextmanager_decorator
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

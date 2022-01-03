@@ -1,7 +1,7 @@
 Git Command
 ------
 
-- 这是一个说明文件，来自wikinee，记录我的Git学习。下面所说的均有图形和命令行两种操作方式，图形略。
+- 这是一个说明文件，来自yongliang，记录我的Git学习。下面所说的均有图形和命令行两种操作方式，图形略。
 
 ##day01
 - Git 分布式版本控制系统，linus
@@ -12,7 +12,7 @@ Git Command
 - git add readme1.txt
 - ...
 - git add readmen.txt
-- git commit -m "worote a README file" 
+- git commit -m "worote a README file"
 - //最好写上注释，防止被遗忘。
 
 ###02.要随时掌握工作区的状态
@@ -30,10 +30,10 @@ Git Command
 - git rm
 
 ###05.连接
-- git remote add origin https://github.com/wikinee/repo-name.git(除了http格式，还可以使用邮箱格式，git@github.com:wikinee/repo-name.git)
+- git remote add origin https://github.com/yongliang/repo-name.git(除了http格式，还可以使用邮箱格式，git@github.com:yongliang/repo-name.git)
 
 ###06.克隆
-- git clone https://github.com/wikinee/repo-name.git(除了http格式，还可以使用邮箱格式，git@github.com:wikinee/repo-name.git)
+- git clone https://github.com/yongliang/repo-name.git(除了http格式，还可以使用邮箱格式，git@github.com:yongliang/repo-name.git)
 
 ###07.分支
 - git branch 查看
@@ -105,7 +105,7 @@ Git Command
 - git tag -d <tagname> 可以删除一个本地标签
 - git push origin:refs/tags/<tagname>可以远程删除一个标签
 - git push -u origin master
- 
+
 ###17.使用github
 - 如何参与故意开源项目？
 - Fork it；

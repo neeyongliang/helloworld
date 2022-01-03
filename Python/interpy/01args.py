@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """01args.py
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """time_timezon_strptime
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

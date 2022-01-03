@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """07map
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

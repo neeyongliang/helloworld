@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """37open-func
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

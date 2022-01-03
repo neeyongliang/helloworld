@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """pathlib_permissions
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 @Date: Nov.14 2018
 """

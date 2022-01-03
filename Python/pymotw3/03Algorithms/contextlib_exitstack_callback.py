@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """contextlib_exitstack_callback
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

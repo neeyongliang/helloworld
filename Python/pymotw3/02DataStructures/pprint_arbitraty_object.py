@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """pprint_arbitraty_object
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 from pprint import pprint

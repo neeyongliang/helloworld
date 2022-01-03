@@ -1,6 +1,6 @@
 Code Style Guide
 ------
-> Dec.24, 2015 by wikinee first release
+> Dec.24, 2015 by yongliang first release
 
 > Update Oct.31 2018
 
@@ -23,7 +23,7 @@ Code Style Guide
 ```
 clang-format -std=Google -i xxx.c
 ```
-## 
+##
 
 ## Python
 

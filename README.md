@@ -129,4 +129,4 @@ sudo apt-get install python-doc python3-doc
     - Special 程序员篇
 - [VIM.png](http://sheet.shiar.nl/vi)
 
-![vi/vim cheat sheet](https://wikinee.coding.net/p/practice/d/practice/git/blob/master/Vim/VIM.png)
+![vi/vim cheat sheet](https://yongliang.coding.net/p/practice/d/practice/git/blob/master/Vim/VIM.png)

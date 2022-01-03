@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """36for-else
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 fruits = ['apple', 'banana', 'mango']

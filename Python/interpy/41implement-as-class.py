@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """41implement-as-class
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 

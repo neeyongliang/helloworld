@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # *-* coding: utf-8 *-*
 """27collections-namedtuple
-@Author: wikinee
+@Author: yongliang
 @License: MIT
 """
 
